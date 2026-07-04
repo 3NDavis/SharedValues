@@ -1,3 +1,4 @@
+#if ENABLE_INPUTSYSTEM
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,3 +17,4 @@ namespace SharedValues
 
     }
 }
+#endif
