@@ -1,0 +1,25 @@
+{
+  "name": "com.endavis.sharedvalues",
+  "version": "1.0.0",
+  "displayName": "Shared Values",
+  "description": "An inspector based dependency injection framework",
+  "unity": "6000.0",
+  "documentationUrl": "N/A",
+  "licensesUrl": "N/A",
+  "license": "See LICENSE.txt file",
+  "keywords": [
+    "Shared",
+    "Values",
+    "Value",
+    "Dependency Injection",
+    "Dependency",
+    "Injection"
+  ],
+  "author": {
+    "name": "3NDavis"
+  },
+  "dependencies": {
+    "com.unity.inputsystem": "1.14.2",
+    "com.dbrizov.naughtyattributes": "2.1.4"
+  }
+}
