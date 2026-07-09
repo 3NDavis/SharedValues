@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NaughtyAttributes;
+
 using UnityEngine;
 
 namespace SharedValues.Upgradable
@@ -10,7 +10,7 @@ namespace SharedValues.Upgradable
         [SerializeField] private M[] applicableModifiers;
 
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField] private T lastCalculatedValue;
         
         /// <summary>

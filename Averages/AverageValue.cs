@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NaughtyAttributes;
+
 using UnityEngine;
 
 namespace SharedValues.Averages
@@ -8,7 +8,7 @@ namespace SharedValues.Averages
     public abstract class AverageValue<T, S> : ScriptableObject , ISerializationCallbackReceiver
     where T : SharedValueReference<S> where S : struct
     {
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField]
         private S average;
         public S Average {get {return average;} protected set {average = value; onAverageRecalculated?.Invoke(value);}}

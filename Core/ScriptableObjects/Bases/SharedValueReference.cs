@@ -1,5 +1,5 @@
 using System;
-using NaughtyAttributes;
+
 using UnityEngine;
 
 namespace SharedValues
@@ -19,22 +19,22 @@ namespace SharedValues
 
     public class SharedValueReference<T> : SharedValueReference
     {
-        [AllowNesting, ShowIf(nameof(_ReferenceType), ReferenceType.value)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.value)]
         [SerializeField] T variableValue;
         private T VariableValue { get { return variableValue; } set { variableValue = value; onVariableValueChange?.Invoke(variableValue); } }
         public event Action<T> onVariableValueChange;
         
-        [AllowNesting, Expandable, HideIf(nameof(_ReferenceType), ReferenceType.value)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.value, true)]
         [SerializeField] private SharedValue<T> sharedReference;
         protected internal SharedValue<T> _SharedReference => sharedReference;
 
-        [AllowNesting, ShowIf(nameof(_ReferenceType), ReferenceType.groupedInstance)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
         protected ScriptableObjectInstancer _instanceGroup => instanceGroup;
 
 #if UNITY_EDITOR
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField] private T actualValue;
 #endif
 
@@ -87,18 +87,23 @@ namespace SharedValues
                 switch (_ReferenceType)
                 {
                     case ReferenceType.value:
+                        actualValue = VariableValue;
                         return (T)VariableValue;
                     case ReferenceType.superGlobal:
+                        actualValue = sharedReference.value;
                         return (T)sharedReference.value;
                     case ReferenceType.groupedInstance:
                         if (Application.isPlaying)
                         {
                             SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
+                            actualValue = castSharedVal.value;
                             return castSharedVal.value;
                         }
+                        actualValue = sharedReference.value;
                         return sharedReference.value;
 
                     default:
+                        actualValue = variableValue;
                         return (T)VariableValue;
                 }
             }

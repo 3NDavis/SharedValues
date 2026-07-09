@@ -1,5 +1,5 @@
 using UnityEngine;
-using NaughtyAttributes;
+
 using System;
 
 
@@ -21,7 +21,7 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T> evt;
 
-        [AllowNesting, ShowIf(nameof(_ReferenceType), ReferenceType.groupedInstance)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
 
         public void AddListener(Action<T> action)
@@ -74,7 +74,7 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T1, T2> evt;
 
-        [AllowNesting, ShowIf(nameof(_ReferenceType), ReferenceType.groupedInstance)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
 
         public void AddListener(Action<T1, T2> action)
@@ -127,7 +127,7 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T1, T2, T3> evt;
 
-        [AllowNesting, ShowIf(nameof(_ReferenceType), ReferenceType.groupedInstance)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
 
         public void AddListener(Action<T1, T2, T3> action)

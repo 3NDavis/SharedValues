@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using NaughtyAttributes;
+
 
 namespace SharedValues.Events
 {
@@ -41,7 +41,7 @@ namespace SharedValues.Events
     {
         [SerializeField] SharedVoidEvent evt;
 
-        [AllowNesting, ShowIf("referenceType", ReferenceType.groupedInstance)]
+        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
 
         public void AddListener(Action action)

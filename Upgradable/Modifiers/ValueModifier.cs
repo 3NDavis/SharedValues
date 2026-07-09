@@ -1,6 +1,4 @@
 using UnityEngine;
-using Toolbox;
-using NaughtyAttributes;
 
 //To see a visual representation of the values go here:
 //https://www.desmos.com/calculator/qhvwgqb3bf
@@ -10,10 +8,6 @@ namespace SharedValues.Upgradable
     [CreateAssetMenu(menuName = "Shared Values/Upgradable/Value Modifer/Float", fileName = "SharedValMod_Float_Name")]
     public class ValueModifier : ScriptableObject
     {
-        [Header("Tooltip")]
-        [SerializeField] private Tooltip tooltip;
-        public Tooltip Tooltip => tooltip;
-
         public enum PriorityGroup
         {
             //order from apply first at top, to apply last at bottom
@@ -23,15 +17,14 @@ namespace SharedValues.Upgradable
         }
 
         [Space]
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField] private float lastDomainUsed;
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField] private float lastValueIn;
-        [AllowNesting, ReadOnly]
+        [ReadOnly]
         [SerializeField] private float lastValueOut;
 
         [Header("Parameters")]
-        [AllowNesting, InfoBox("For visual curves see: https://www.desmos.com/calculator/qhvwgqb3bf")]
         [SerializeField] private float minValue = 0;
         public float MinValue => minValue;
         [SerializeField] private float maxValue = 2;
@@ -50,10 +43,10 @@ namespace SharedValues.Upgradable
         [SerializeField] private ModificationType modificationType = ModificationType.additive;
 
         bool showSCurve => modificationType == ModificationType.sCurve || modificationType == ModificationType.zCurve;
-        [ShowIf("showSCurve")]
+        [Visibility(nameof(showSCurve), true)]
         [SerializeField] private float sCurveSlope = 10;
 
-        [ShowIf("modificationType", ModificationType.customCurve)]
+        [Visibility(nameof(modificationType), ModificationType.customCurve)]
         [SerializeField] private AnimationCurve curve;
 
         public bool CheckLastDomain(float newValueIn, float newDomain, out float lastValueOut)

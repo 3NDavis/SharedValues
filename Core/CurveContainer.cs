@@ -1,5 +1,5 @@
 using UnityEngine;
-using NaughtyAttributes;
+
 
 namespace SharedValues
 {
@@ -9,18 +9,19 @@ namespace SharedValues
         [SerializeField] private CurveType curveType;
         bool useConstant => curveType == CurveType.Constant || curveType == CurveType.ConstantAccelerated;
 
-        [AllowNesting, ShowIf("useConstant")]
+        [Visibility(nameof(useConstant), true)]
         [SerializeField] private float constant;
 
-        [AllowNesting, ShowIf("curveType", CurveType.ConstantAccelerated)]
+        [Visibility(nameof(curveType), CurveType.ConstantAccelerated)]
         [SerializeField] private float acceleration;
 
 
-        [AllowNesting, ShowIf("curveType", CurveType.Curve), CurveRange(0, -20, 20, 20, EColor.Green)]
+        //[CurveRange(0, -20, 20, 20, EColor.Green)]
+        [Visibility(nameof(curveType), CurveType.Curve)]
         [SerializeField] private AnimationCurve curve;
 
         bool showSCurve => curveType == CurveType.sCurve || curveType == CurveType.zCurve;
-        [AllowNesting, ShowIf("showSCurve")]
+        [Visibility(nameof(showSCurve), true)]
         [SerializeField] private SCurve sCurve;
 
         enum CurveType
