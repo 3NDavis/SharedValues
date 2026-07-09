@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using SharedValues.Attributes;
 
 namespace SharedValues
 {
@@ -16,7 +16,7 @@ namespace SharedValues
         [SerializeField] private float acceleration;
 
 
-        //[CurveRange(0, -20, 20, 20, EColor.Green)]
+        [CurveRange(0, -20, 20, 20)]
         [Visibility(nameof(curveType), CurveType.Curve)]
         [SerializeField] private AnimationCurve curve;
 

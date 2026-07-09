@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace SharedValues
+namespace SharedValues.Attributes
 {
     /// <summary>
     /// Sets a criteria for the visibility of a property in the inspector

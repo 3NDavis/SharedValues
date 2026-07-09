@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SharedValues
+namespace SharedValues.Attributes
 {
     public class ReadOnly : PropertyAttribute { }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using SharedValues.Attributes;
 
 //To see a visual representation of the values go here:
 //https://www.desmos.com/calculator/qhvwgqb3bf

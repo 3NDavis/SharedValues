@@ -1,5 +1,5 @@
+using SharedValues.Attributes;
 using System;
-
 using UnityEngine;
 
 namespace SharedValues

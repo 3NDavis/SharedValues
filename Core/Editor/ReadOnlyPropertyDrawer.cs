@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEditor;
-
+using SharedValues.Attributes;
 
 namespace SharedValues.Editor
 {
     [CustomPropertyDrawer(typeof(ReadOnly))]
-    public class ReadOnlyDrawer : PropertyDrawer {
-
+    public class ReadOnlyDrawer : PropertyDrawer 
+    {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
             return EditorGUI.GetPropertyHeight(property, label, true);
         }

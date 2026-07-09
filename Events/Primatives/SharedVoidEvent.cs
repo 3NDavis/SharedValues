@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using SharedValues.Attributes;
 
 namespace SharedValues.Events
 {
