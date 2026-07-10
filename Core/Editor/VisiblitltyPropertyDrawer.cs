@@ -1,20 +1,20 @@
 using System;
 using System.IO;
-using SharedValues.Attributes;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Visibility = SharedValues.Attributes.Visibility;
 
 namespace SharedValues.Editor
 {
 #if UNITY_2022_3_OR_NEWER
-    [CustomPropertyDrawer(typeof(VisibilityAttribute))]
+    [CustomPropertyDrawer(typeof(Visibility))]
     class VisibilityPropertyDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var visibility = attribute as VisibilityAttribute;
+            var visibility = attribute as Visibility;
             var path = GetPropertyPath(visibility.PropertyName, property.propertyPath);
             var target = property.serializedObject.FindProperty(path);
 
@@ -26,9 +26,9 @@ namespace SharedValues.Editor
 
         void UpdateVisibility(VisualElement element, SerializedProperty target)
         {
-            var visibility = attribute as VisibilityAttribute;
+            var visibility = attribute as Visibility;
             var visible = target != null && IsConditionMet(target, visibility);
-            visible = visibility.InvertResult ? !visible : visible;
+            visible = visibility.Hide ? !visible : visible;
             element.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
@@ -37,7 +37,7 @@ namespace SharedValues.Editor
             return propertyPath.Contains(".") ? Path.ChangeExtension(propertyPath, propertyName) : propertyName;
         }
 
-        bool IsConditionMet(SerializedProperty target, VisibilityAttribute visibility)
+        bool IsConditionMet(SerializedProperty target, Visibility visibility)
         {
             switch (target.propertyType)
             {

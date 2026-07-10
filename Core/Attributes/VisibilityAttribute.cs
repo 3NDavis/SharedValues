@@ -8,7 +8,7 @@ namespace SharedValues.Attributes
     /// Sets a criteria for the visibility of a property in the inspector
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class VisibilityAttribute : PropertyAttribute
+    public class Visibility : PropertyAttribute
     {
         /// <summary>
         /// The property name to validate against
@@ -24,7 +24,7 @@ namespace SharedValues.Attributes
         /// <summary>
         /// Inverts the result of the visibility check
         /// </summary>
-        public bool InvertResult {get; private set;}
+        public bool Hide {get; private set;}
 
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace SharedValues.Attributes
         /// </summary>
         /// <param name="propertyName">The property name to validate against</param>
         /// <param name="value">The value to compare to</param>
-        public VisibilityAttribute(string propertyName, object value, bool invertResult = false)
+        public Visibility(string propertyName, object value, bool hide = false)
         {
             PropertyName = propertyName;
             Value = value;
-            InvertResult = invertResult;
+            Hide = hide;
         }
     }
 }
