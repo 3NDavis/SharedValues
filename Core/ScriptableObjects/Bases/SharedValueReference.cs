@@ -9,8 +9,8 @@ namespace SharedValues
         protected enum ReferenceType
         {
             value,
-            superGlobal,
-            groupedInstance,
+            global,
+            instanced,
         }
 
         [SerializeField] private ReferenceType referenceType;
@@ -34,7 +34,6 @@ namespace SharedValues
 
 #if UNITY_EDITOR
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
-        [ReadOnly]
         [SerializeField] private T actualValue;
 #endif
 
@@ -46,10 +45,10 @@ namespace SharedValues
                 case ReferenceType.value:
                     this.variableValue = value;
                     break;
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     sharedReference.SetValueWithoutNotify(value);
                     break;
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
                     castSharedVal.SetValueWithoutNotify(value);
                     break;
@@ -89,10 +88,10 @@ namespace SharedValues
                     case ReferenceType.value:
                         actualValue = VariableValue;
                         return (T)VariableValue;
-                    case ReferenceType.superGlobal:
+                    case ReferenceType.global:
                         actualValue = sharedReference.value;
                         return (T)sharedReference.value;
-                    case ReferenceType.groupedInstance:
+                    case ReferenceType.instanced:
                         if (Application.isPlaying)
                         {
                             SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
@@ -114,10 +113,10 @@ namespace SharedValues
                     case ReferenceType.value:
                         VariableValue = value;
                         break;
-                    case ReferenceType.superGlobal:
+                    case ReferenceType.global:
                         sharedReference.SetValue(value);
                         break;
-                    case ReferenceType.groupedInstance:
+                    case ReferenceType.instanced:
                         SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
                         castSharedVal.SetValue(value);
                         break;
@@ -138,10 +137,10 @@ namespace SharedValues
                     onVariableValueChange += action;
                     break;
 
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     sharedReference.onValueChange += action;
                     break;
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                     //if(instanceGroup.sharedValueInstances == null)
                     //  Debug.Log($"The {instanceGroup.gameObject.name} does not have a shared value instance, this is likely because you are trying to subscribe in OnEnable.");
@@ -163,10 +162,10 @@ namespace SharedValues
                 case ReferenceType.value:
                     onVariableValueChange -= action;
                     break;
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     sharedReference.onValueChange -= action;
                     break;
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
                     castSharedVal.onValueChange -= action;
                     break;

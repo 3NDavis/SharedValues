@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SharedValues.Attributes;
 using UnityEngine;
 
 namespace SharedValues.Upgradable
@@ -10,8 +9,7 @@ namespace SharedValues.Upgradable
         [SerializeField] private M[] applicableModifiers;
 
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
-        [ReadOnly]
-        [SerializeField] private T lastCalculatedValue;
+        private T lastCalculatedValue;
         
         /// <summary>
         /// Applys all of the modifications to the value in and stores and returns them in the post modification value
@@ -25,6 +23,14 @@ namespace SharedValues.Upgradable
             #if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.Log("Should Check if any modifications have changed in order to not do calculations resulting in the same value");
             #endif
+
+            if(modificationsDomains == null)
+                return baseValue;
+
+            if(applicableModifiers.Length == 0)
+            {
+                return baseValue;
+            }
 
             for (int i = 0; i < applicableModifiers.Length; i++)
             {

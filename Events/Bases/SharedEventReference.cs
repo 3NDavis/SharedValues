@@ -1,5 +1,4 @@
 using UnityEngine;
-using SharedValues.Attributes;
 using System;
 
 
@@ -15,14 +14,14 @@ namespace SharedValues.Events
 
         [SerializeField] private ReferenceType referenceType;
         protected ReferenceType _ReferenceType => referenceType;
+        [SerializeField] private ScriptableObjectInstancer instanceGroup;
+        protected ScriptableObjectInstancer InstanceGroup;
     }
 
     public abstract class SharedEventReference<T> : SharedEventReference
     {
         [SerializeField] private SharedEvent<T> evt;
 
-        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
-        [SerializeField] private ScriptableObjectInstancer instanceGroup;
 
         public void AddListener(Action<T> action)
         {
@@ -33,7 +32,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt += action;
+                    InstanceGroup.GetInstance(evt).evt += action;
                     break;
             }
         }
@@ -47,7 +46,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt -= action;
+                    InstanceGroup.GetInstance(evt).evt -= action;
                     break;
             }
         }
@@ -60,7 +59,7 @@ namespace SharedValues.Events
                     evt.BroadcastEvent(value);
                     break;
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).BroadcastEvent(value);
+                    InstanceGroup.GetInstance(evt).BroadcastEvent(value);
                     break;
 
                 default:
@@ -74,9 +73,6 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T1, T2> evt;
 
-        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
-        [SerializeField] private ScriptableObjectInstancer instanceGroup;
-
         public void AddListener(Action<T1, T2> action)
         {
             switch(_ReferenceType)
@@ -86,7 +82,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt += action;
+                    InstanceGroup.GetInstance(evt).evt += action;
                     break;
             }
         }
@@ -100,7 +96,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt -= action;
+                    InstanceGroup.GetInstance(evt).evt -= action;
                     break;
             }
         }
@@ -113,7 +109,7 @@ namespace SharedValues.Events
                     evt.BroadcastEvent(value1, value2);
                     break;
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).BroadcastEvent(value1, value2);
+                    InstanceGroup.GetInstance(evt).BroadcastEvent(value1, value2);
                     break;
 
                 default:
@@ -127,9 +123,6 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T1, T2, T3> evt;
 
-        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
-        [SerializeField] private ScriptableObjectInstancer instanceGroup;
-
         public void AddListener(Action<T1, T2, T3> action)
         {
             switch(_ReferenceType)
@@ -139,7 +132,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt += action;
+                    InstanceGroup.GetInstance(evt).evt += action;
                     break;
             }
         }
@@ -153,7 +146,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt -= action;
+                    InstanceGroup.GetInstance(evt).evt -= action;
                     break;
             }
         }
@@ -166,7 +159,7 @@ namespace SharedValues.Events
                     evt.BroadcastEvent(value1, value2, value3);
                     break;
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).BroadcastEvent(value1, value2, value3);
+                    InstanceGroup.GetInstance(evt).BroadcastEvent(value1, value2, value3);
                     break;
 
                 default:

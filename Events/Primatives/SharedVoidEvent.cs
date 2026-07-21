@@ -41,9 +41,6 @@ namespace SharedValues.Events
     {
         [SerializeField] SharedVoidEvent evt;
 
-        [Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
-        [SerializeField] private ScriptableObjectInstancer instanceGroup;
-
         public void AddListener(Action action)
         {
             switch(_ReferenceType)
@@ -53,12 +50,12 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt += action;
+                    InstanceGroup.GetInstance(evt).evt += action;
                     break;
             }
         }
 
-        public void RemvoeListener(Action action)
+        public void RemoveListener(Action action)
         {
             switch(_ReferenceType)
             {
@@ -67,7 +64,7 @@ namespace SharedValues.Events
                     break;
 
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).evt -= action;
+                    InstanceGroup.GetInstance(evt).evt -= action;
                     break;
             }
         }
@@ -80,7 +77,7 @@ namespace SharedValues.Events
                     evt.BroadcastEvent();
                     break;
                 case ReferenceType.groupedInstance:
-                    instanceGroup.GetInstance(evt).BroadcastEvent();
+                    InstanceGroup.GetInstance(evt).BroadcastEvent();
                     break;
 
                 default:

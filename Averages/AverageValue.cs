@@ -8,8 +8,6 @@ namespace SharedValues.Averages
     public abstract class AverageValue<T, S> : ScriptableObject , ISerializationCallbackReceiver
     where T : SharedValueReference<S> where S : struct
     {
-        [ReadOnly]
-        [SerializeField]
         private S average;
         public S Average {get {return average;} protected set {average = value; onAverageRecalculated?.Invoke(value);}}
         

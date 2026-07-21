@@ -5,6 +5,7 @@ namespace SharedValues.Enumerators
     public abstract class SharedEnumerator<TEnumerator, TItem, TOutItem, TIndexer> : SharedValue<TEnumerator>
     where TEnumerator : ICollection, IEnumerable
     {
+        public int Count(){return value.Count;}
         public abstract void AddToEnumerator(TItem item);
         public abstract void RemoveFromEnumerator(TItem item);
         public abstract void SetEnumeratorValue(TIndexer index, TItem value);
@@ -15,6 +16,7 @@ namespace SharedValues.Enumerators
     public abstract class SharedEnumeratorReference<TEnumerator, TItem, TOutItem, TIndexer> : SharedValueReference<TEnumerator>
     where TEnumerator : ICollection, IEnumerable
     {
+        public int Count(){return Value.Count;}
         public abstract void AddToEnumerator(TItem item);
         public abstract void AddToEnumeratorWithoutNotify(TItem item);
 
@@ -32,10 +34,10 @@ namespace SharedValues.Enumerators
         {
             switch (_ReferenceType)
             {
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     _SharedReference.BroadcastValueChange();
                     break;
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     SharedValue<TEnumerator> castSharedVal = (SharedValue<TEnumerator>)_instanceGroup.GetInstance(_SharedReference);
                     castSharedVal.BroadcastValueChange();
                     break;

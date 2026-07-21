@@ -11,7 +11,8 @@ namespace SharedValues
         public ScriptableObjectInstancer passthroughInstancer;
 
         /// <summary> The dictionary that returns the instances of the inputted Scriptable Objects </summary>
-        private Dictionary<ScriptableObject, ScriptableObject> globalToGroupInstanceMap = new();
+        private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap = new();
+        public Dictionary<ScriptableObject, ScriptableObject> GlobalToInstanceMap => globalToInstanceMap;
         #if UNITY_EDITOR
         private List<ScriptableObject> instances = new();
         #endif
@@ -21,25 +22,25 @@ namespace SharedValues
             passthroughInstancer = newPassthroughInstancer;
         }
 
-        public void MergeIntoInstancer(Dictionary<ScriptableObject, ScriptableObject> sourceInstances, bool overrideDuplicates)
+        public void MergeInstancesIntoThisInstancer(Dictionary<ScriptableObject, ScriptableObject> sourceInstances, bool newInstancesOverrideOld)
         {
             foreach(var key in sourceInstances.Keys)
             {
-                if (globalToGroupInstanceMap.ContainsKey(key))
+                if (globalToInstanceMap.ContainsKey(key))
                 {
-                    if (overrideDuplicates)
+                    if (newInstancesOverrideOld)
                     {
                         #if UNITY_EDITOR || DEVELOPMENT_BUILD
-                        instances.Remove(globalToGroupInstanceMap[key]);
+                        instances.Remove(globalToInstanceMap[key]);
                         instances.Add(sourceInstances[key]);
                         #endif
-                        Destroy(globalToGroupInstanceMap[key]);
-                        globalToGroupInstanceMap[key] = sourceInstances[key];
+                        Destroy(globalToInstanceMap[key]);
+                        globalToInstanceMap[key] = sourceInstances[key];
                     }
                     continue;
                 }
 
-                globalToGroupInstanceMap.Add(key, sourceInstances[key]);
+                globalToInstanceMap.Add(key, sourceInstances[key]);
             }
         }
 
@@ -55,9 +56,9 @@ namespace SharedValues
                 return passthroughInstancer.GetInstance(sharedValue);
             }
 
-            if (globalToGroupInstanceMap.ContainsKey(sharedValue))
+            if (globalToInstanceMap.ContainsKey(sharedValue))
             {
-                return globalToGroupInstanceMap[sharedValue];
+                return globalToInstanceMap[sharedValue];
             }
             else
             {
@@ -80,9 +81,9 @@ namespace SharedValues
 
             if(sharedValue == null)
                 return null;
-            if (globalToGroupInstanceMap.ContainsKey(sharedValue))
+            if (globalToInstanceMap.ContainsKey(sharedValue))
             {
-                return (T)globalToGroupInstanceMap[sharedValue];
+                return (T)globalToInstanceMap[sharedValue];
             }
             else
             {
@@ -104,9 +105,9 @@ namespace SharedValues
                 return passthroughInstancer.TryGetInstance(sharedValue, out instance);
             }
 
-            if (globalToGroupInstanceMap.ContainsKey(sharedValue))
+            if (globalToInstanceMap.ContainsKey(sharedValue))
             {
-                instance = globalToGroupInstanceMap[sharedValue];
+                instance = globalToInstanceMap[sharedValue];
                 return true;
             }
             instance = null;
@@ -126,9 +127,9 @@ namespace SharedValues
                 return passthroughInstancer.TryGetInstance<T>(sharedValue, out instance);
             }
 
-            if (globalToGroupInstanceMap.ContainsKey(sharedValue))
+            if (globalToInstanceMap.ContainsKey(sharedValue))
             {
-                instance = (T)globalToGroupInstanceMap[sharedValue];
+                instance = (T)globalToInstanceMap[sharedValue];
                 return true;
             }
             instance = null;
@@ -150,15 +151,15 @@ namespace SharedValues
             }
 
             //if there is already an instance
-            if(globalToGroupInstanceMap.ContainsKey(sharedValue))
+            if(globalToInstanceMap.ContainsKey(sharedValue))
             {
                 //if the current instance should be overriden
                 if (overrideCurrentInstance)
                 {
 
                     //destroy the old instance
-                    Destroy(globalToGroupInstanceMap[sharedValue]);
-                    globalToGroupInstanceMap.Remove(sharedValue);
+                    Destroy(globalToInstanceMap[sharedValue]);
+                    globalToInstanceMap.Remove(sharedValue);
 
                     CreateInstance(sharedValue);
                 }
@@ -185,7 +186,7 @@ namespace SharedValues
             //create the instance
             ScriptableObject newInstance = Instantiate(sharedValue);
             //add the new instance to the dictionary
-            globalToGroupInstanceMap.Add(sharedValue, newInstance);
+            globalToInstanceMap.Add(sharedValue, newInstance);
 #if UNITY_EDITOR
             instances.Add(newInstance);
 #endif
@@ -197,9 +198,9 @@ namespace SharedValues
         private void OnDestroy()
         {
             //destroy all instances when the instancer is destroyed
-            foreach(var key in globalToGroupInstanceMap.Keys)
+            foreach(var key in globalToInstanceMap.Keys)
             {
-                Destroy(globalToGroupInstanceMap[key]);
+                Destroy(globalToInstanceMap[key]);
             }
 #if UNITY_EDITOR
             instances.Clear();

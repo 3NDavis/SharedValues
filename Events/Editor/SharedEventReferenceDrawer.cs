@@ -2,17 +2,17 @@ using System;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using SharedValues.Events;
 
 namespace SharedValues.Editor
 {
-    [CustomPropertyDrawer(typeof(SharedValueReference), true)]
-    public class SharedValueReferenceDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SharedEventReference), true)]
+    public class SharedEventReferenceDrawer : PropertyDrawer
     {
         public VisualTreeAsset propertyUXML;
 
         SerializedProperty referenceTypeProperty;
 
-        PropertyField valueProp;
         PropertyField sharedProp;
         PropertyField instanceProp;
 
@@ -36,8 +36,7 @@ namespace SharedValues.Editor
 
             var outVarProp = uxmlContent.Q<PropertyField>("OutVar");
 
-            valueProp = uxmlContent.Q<PropertyField>("Value");
-            sharedProp = uxmlContent.Q<PropertyField>("SharedValue");
+            sharedProp = uxmlContent.Q<PropertyField>("SharedEvent");
             instanceProp = uxmlContent.Q<PropertyField>("Instancer");
             var refProp = uxmlContent.Q<EnumField>("ReferenceType");
             refProp.RegisterCallback<ChangeEvent<Enum>>(SetReferenceType);
@@ -56,9 +55,7 @@ namespace SharedValues.Editor
 
         private void SetReferenceType()
         {
-            valueProp.style.display = referenceTypeProperty.enumValueIndex == 0 ? DisplayStyle.Flex : DisplayStyle.None;
-            sharedProp.style.display = referenceTypeProperty.enumValueIndex > 0 ? DisplayStyle.Flex : DisplayStyle.None;
-            instanceProp.style.display = referenceTypeProperty.enumValueIndex == 2 ? DisplayStyle.Flex : DisplayStyle.None;
+            instanceProp.style.display = referenceTypeProperty.enumValueIndex == 1 ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

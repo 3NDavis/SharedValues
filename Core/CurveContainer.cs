@@ -9,19 +9,19 @@ namespace SharedValues
         [SerializeField] private CurveType curveType;
         bool useConstant => curveType == CurveType.Constant || curveType == CurveType.ConstantAccelerated;
 
-        [Visibility(nameof(useConstant), true)]
+        //[Visibility(nameof(useConstant), true)]
         [SerializeField] private float constant;
 
-        [Visibility(nameof(curveType), CurveType.ConstantAccelerated)]
+        //[Visibility(nameof(curveType), CurveType.ConstantAccelerated)]
         [SerializeField] private float acceleration;
 
 
         [CurveRange(0, -20, 20, 20)]
-        [Visibility(nameof(curveType), CurveType.Curve)]
+        //[Visibility(nameof(curveType), CurveType.Curve)]
         [SerializeField] private AnimationCurve curve;
 
         bool showSCurve => curveType == CurveType.sCurve || curveType == CurveType.zCurve;
-        [Visibility(nameof(showSCurve), true)]
+        //[Visibility(nameof(showSCurve), true)]
         [SerializeField] private SCurve sCurve;
 
         enum CurveType

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(77, 77, 77); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-top-right-radius: 4px; border-top-width: 6px; border-left-width: 6px; border-bottom-width: 6px; border-right-width: 6px;">
+        <uie:PropertyField name="BaseValue" label="Base Value" binding-path="baseValue"/>
+        <uie:PropertyField name="PostModValue" label="Post Mods Value" enabled="false" binding-path="postModificationValue"/>
+        <uie:PropertyField name="ValueModifiers" label="Modifiers" view-data-key="" binding-path="modifiers"/>
+    </ui:VisualElement>
+</ui:UXML>

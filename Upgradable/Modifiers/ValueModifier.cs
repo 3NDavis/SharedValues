@@ -18,12 +18,9 @@ namespace SharedValues.Upgradable
         }
 
         [Space]
-        [ReadOnly]
-        [SerializeField] private float lastDomainUsed;
-        [ReadOnly]
-        [SerializeField] private float lastValueIn;
-        [ReadOnly]
-        [SerializeField] private float lastValueOut;
+        private float lastDomainUsed;
+        private float lastValueIn;
+        private float lastValueOut;
 
         [Header("Parameters")]
         [SerializeField] private float minValue = 0;
@@ -44,10 +41,8 @@ namespace SharedValues.Upgradable
         [SerializeField] private ModificationType modificationType = ModificationType.additive;
 
         bool showSCurve => modificationType == ModificationType.sCurve || modificationType == ModificationType.zCurve;
-        [Visibility(nameof(showSCurve), true)]
         [SerializeField] private float sCurveSlope = 10;
 
-        [Visibility(nameof(modificationType), ModificationType.customCurve)]
         [SerializeField] private AnimationCurve curve;
 
         public bool CheckLastDomain(float newValueIn, float newDomain, out float lastValueOut)
