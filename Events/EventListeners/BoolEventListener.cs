@@ -1,4 +1,4 @@
 namespace SharedValues.Events
 {
-    public class BoolEventListener : ValueEventListener<bool>{}
+    public class BoolEventListener : ValueEventListener<bool, SharedBoolEventReference>{}
 }

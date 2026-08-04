@@ -3,9 +3,10 @@ using UnityEngine.Events;
 
 namespace SharedValues.Events
 {
-    public class ValueEventListener<T> : MonoBehaviour
+    public class ValueEventListener<T, R> : MonoBehaviour
+    where R : SharedEventReference<T>
     {
-        [SerializeField] private SharedEventReference<T> eventToListenTo;
+        [SerializeField] private R eventToListenTo;
 
         [SerializeField] UnityEvent<T> onEventHeard;
 

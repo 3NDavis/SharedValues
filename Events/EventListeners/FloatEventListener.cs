@@ -1,4 +1,4 @@
 namespace SharedValues.Events
 {
-    public class FloatEventListener : ValueEventListener<float>{}
+    public class FloatEventListener : ValueEventListener<float, SharedFloatEventReference>{}
 }
