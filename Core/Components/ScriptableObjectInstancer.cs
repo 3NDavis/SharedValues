@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace SharedValues
 {
+    public interface IMergeScriptableObjectInstacer
+    {
+        public void MergeInstancer(ScriptableObjectInstancer instancer);
+    }
+
     /// <summary>
     /// A scriptable object instatiation and connection manager
     /// </summary>
