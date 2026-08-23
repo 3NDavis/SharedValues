@@ -6,22 +6,17 @@ using UnityEngine;
 
 namespace SharedValues.Fishnetworked
 {
-    public class SharedNetBool : SharedNetValue<bool, SharedBoolReference>
+    public class SharedNetColor : SharedNetValue<Color, SharedColorReference>
     {
-        private readonly SyncVar<bool> networkValue = new SyncVar<bool>();
+        private readonly SyncVar<Color> networkValue = new SyncVar<Color>();
 
-#if Fishy
+
         [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
-#endif
-        protected override void SetNetworkValue(bool value)
+        protected override void SetNetworkValue(Color value)
         {
             //this causes the subscription in OnEnable to trigger
             networkValue.Value = value;
-            #if UNITY_EDITOR
-            Debug.Log($"the sync value of {this.name} was set to {value}");
-            #endif
         }
-
         void OnEnable()
         {
             networkValue.OnChange += SetLocalValue;
@@ -32,7 +27,7 @@ namespace SharedValues.Fishnetworked
             networkValue.OnChange -= SetLocalValue;
         }
 
-        protected override void SetLocalValue(bool prev, bool next, bool asServer)
+        protected override void SetLocalValue(Color prev, Color next, bool asServer)
         {
             SetLocalValue(next);
         }

@@ -1,17 +1,10 @@
-#if Fishy
 using System;
 using FishNet.Object;
-#endif
 using UnityEngine;
 
 namespace SharedValues.Fishnetworked
 {
-    public abstract class SharedNetValue<T, R> : 
-#if Fishy
-    NetworkBehaviour
-#else
-    MonoBehaviour
-#endif
+    public abstract class SharedNetValue<T, R> : NetworkBehaviour
     where R : SharedValueReference<T>
     {
 #if UNITY_EDITOR
@@ -19,16 +12,13 @@ namespace SharedValues.Fishnetworked
 #endif
         [SerializeField] private bool setNetVarOnInit;
 
-#if Fishy //other networking protocols here
         [SerializeField] private bool checkForOwnership;
-#endif        
 
         [SerializeField] private R localValue;
         protected R LocalValue => localValue;
 
         public T Value {get { return localValue.Value; } set { localValue.Value = value; }}
 
-#if Fishy
         public override void OnStartNetwork()
         {
             base.OnStartNetwork();
@@ -38,7 +28,6 @@ namespace SharedValues.Fishnetworked
                 SetValue(localValue.Value);
             }
         }
-#endif
 
         public void SetValue(T value)
         {
@@ -48,9 +37,7 @@ namespace SharedValues.Fishnetworked
         }
 
         protected abstract void SetNetworkValue(T value);
-#if Fishy
         protected abstract void SetLocalValue(T previousValue, T nextValue, bool asServer);
-#endif
         protected void SetLocalValue(T value)
         {
             #if UNITY_EDITOR

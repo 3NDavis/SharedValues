@@ -2,20 +2,22 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 #endif
+using UnityEngine;
 
 namespace SharedValues.Fishnetworked
 {
-    public class SharedNetInt : SharedNetValue<int, SharedIntReference>
+    public class SharedNetBool : SharedNetValue<bool, SharedBoolReference>
     {
-        private readonly SyncVar<int> networkValue = new SyncVar<int>();
-        
-#if Fishy
+        private readonly SyncVar<bool> networkValue = new SyncVar<bool>();
+
         [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
-#endif
-        protected override void SetNetworkValue(int value)
+        protected override void SetNetworkValue(bool value)
         {
             //this causes the subscription in OnEnable to trigger
             networkValue.Value = value;
+            #if UNITY_EDITOR
+            Debug.Log($"the sync value of {this.name} was set to {value}");
+            #endif
         }
 
         void OnEnable()
@@ -28,9 +30,9 @@ namespace SharedValues.Fishnetworked
             networkValue.OnChange -= SetLocalValue;
         }
 
-        protected override void SetLocalValue(int prev, int next, bool asServer)
+        protected override void SetLocalValue(bool prev, bool next, bool asServer)
         {
-            SetValue(next);
+            SetLocalValue(next);
         }
     }
 }

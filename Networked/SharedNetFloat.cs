@@ -2,23 +2,20 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 #endif
-using UnityEngine;
 
 namespace SharedValues.Fishnetworked
 {
-    public class SharedNetColor : SharedNetValue<Color, SharedColorReference>
+    public class SharedNetFloat : SharedNetValue<float, SharedFloatReference>
     {
-        private readonly SyncVar<Color> networkValue = new SyncVar<Color>();
+        private readonly SyncVar<float> networkValue = new SyncVar<float>();
 
-
-#if Fishy
         [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
-#endif
-        protected override void SetNetworkValue(Color value)
+        protected override void SetNetworkValue(float value)
         {
             //this causes the subscription in OnEnable to trigger
             networkValue.Value = value;
         }
+
         void OnEnable()
         {
             networkValue.OnChange += SetLocalValue;
@@ -29,7 +26,7 @@ namespace SharedValues.Fishnetworked
             networkValue.OnChange -= SetLocalValue;
         }
 
-        protected override void SetLocalValue(Color prev, Color next, bool asServer)
+        protected override void SetLocalValue(float prev, float next, bool asServer)
         {
             SetLocalValue(next);
         }

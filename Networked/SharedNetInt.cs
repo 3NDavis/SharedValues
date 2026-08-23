@@ -5,14 +5,12 @@ using FishNet.Object.Synchronizing;
 
 namespace SharedValues.Fishnetworked
 {
-    public class SharedNetFloat : SharedNetValue<float, SharedFloatReference>
+    public class SharedNetInt : SharedNetValue<int, SharedIntReference>
     {
-        private readonly SyncVar<float> networkValue = new SyncVar<float>();
-
-#if Fishy
+        private readonly SyncVar<int> networkValue = new SyncVar<int>();
+        
         [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
-#endif
-        protected override void SetNetworkValue(float value)
+        protected override void SetNetworkValue(int value)
         {
             //this causes the subscription in OnEnable to trigger
             networkValue.Value = value;
@@ -28,7 +26,7 @@ namespace SharedValues.Fishnetworked
             networkValue.OnChange -= SetLocalValue;
         }
 
-        protected override void SetLocalValue(float prev, float next, bool asServer)
+        protected override void SetLocalValue(int prev, int next, bool asServer)
         {
             SetLocalValue(next);
         }

@@ -1,6 +1,6 @@
 {
-    "name": "SharedValues.Fishnetworked",
-    "rootNamespace": "SharedValues.Fishnetworked",
+    "name": "SharedValues.Networked",
+    "rootNamespace": "SharedValues.Networked",
     "references": [
         "GUID:0fdaeab5b1d741f4d8cbf7e2e7d4ceb4",
         "GUID:7c88a4a7926ee5145ad2dfa06f454c67"
