@@ -3,7 +3,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 #endif
 
-namespace SharedValues.Fishnetworked
+namespace SharedValues.Networked
 {
     public class SharedNetInt : SharedNetValue<int, SharedIntReference>
     {

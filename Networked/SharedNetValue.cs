@@ -2,7 +2,7 @@ using System;
 using FishNet.Object;
 using UnityEngine;
 
-namespace SharedValues.Fishnetworked
+namespace SharedValues.Networked
 {
     public abstract class SharedNetValue<T, R> : NetworkBehaviour
     where R : SharedValueReference<T>

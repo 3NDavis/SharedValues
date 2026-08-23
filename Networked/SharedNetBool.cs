@@ -4,7 +4,7 @@ using FishNet.Object.Synchronizing;
 #endif
 using UnityEngine;
 
-namespace SharedValues.Fishnetworked
+namespace SharedValues.Networked
 {
     public class SharedNetBool : SharedNetValue<bool, SharedBoolReference>
     {
