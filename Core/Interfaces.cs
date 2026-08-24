@@ -2,9 +2,19 @@ using System;
 
 namespace SharedValues
 {
-    internal interface IValueListener<T>
+    public interface IValueEventHandler<T>
+    {
+        public void AddListener(Action<T> action);
+        public void RemoveListener(Action<T> action);
+    }
+
+    public interface IValueSetter<T>
     {
         public T Value {get; set;}
+    }
+
+    public interface IValueSpecialSetter<T> : IValueSetter<T>
+    {
         public void SetValueWithoutNotify(T value);
         public void SetValueWithoutNotify(SharedValue<T> value)
         {
@@ -21,7 +31,5 @@ namespace SharedValues
         {
             SetValueWithBroadcastIfChange(value.Value);
         }
-        public void AddListener(Action<T> action);
-        public void RemoveListener(Action<T> action);
     }
 }

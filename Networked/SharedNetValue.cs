@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SharedValues.Networked
 {
-    public abstract class SharedNetValue<T, R> : NetworkBehaviour
+    public abstract class SharedNetValue<T, R> : NetworkBehaviour, IValueSetter<T>, IValueEventHandler<T>
     where R : SharedValueReference<T>
     {
 #if UNITY_EDITOR

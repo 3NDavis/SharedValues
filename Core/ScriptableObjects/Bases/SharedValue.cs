@@ -8,7 +8,7 @@ namespace SharedValues
         public abstract void BroadcastValueChange();
     }
 
-    public abstract class SharedValue<T> : SharedValue, IValueListener<T>
+    public abstract class SharedValue<T> : SharedValue, IValueSpecialSetter<T>, IValueEventHandler<T>
     {
         [SerializeField] private T value;
         public T Value { get => value; set => SetValue(value); }
