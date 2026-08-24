@@ -89,17 +89,17 @@ namespace SharedValues
                         actualValue = VariableValue;
                         return (T)VariableValue;
                     case ReferenceType.global:
-                        actualValue = sharedReference.value;
-                        return (T)sharedReference.value;
+                        actualValue = sharedReference.Value;
+                        return (T)sharedReference.Value;
                     case ReferenceType.instanced:
                         if (Application.isPlaying)
                         {
                             SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
-                            actualValue = castSharedVal.value;
-                            return castSharedVal.value;
+                            actualValue = castSharedVal.Value;
+                            return castSharedVal.Value;
                         }
-                        actualValue = sharedReference.value;
-                        return sharedReference.value;
+                        actualValue = sharedReference.Value;
+                        return sharedReference.Value;
 
                     default:
                         actualValue = variableValue;
@@ -114,11 +114,11 @@ namespace SharedValues
                         VariableValue = value;
                         break;
                     case ReferenceType.global:
-                        sharedReference.SetValue(value);
+                        sharedReference.Value = value;
                         break;
                     case ReferenceType.instanced:
                         SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
-                        castSharedVal.SetValue(value);
+                        castSharedVal.Value = value;
                         break;
 
                     default:

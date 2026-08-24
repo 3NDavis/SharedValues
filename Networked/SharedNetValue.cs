@@ -15,9 +15,7 @@ namespace SharedValues.Networked
         [SerializeField] private bool checkForOwnership;
 
         [SerializeField] private R localValue;
-        protected R LocalValue => localValue;
-
-        public T Value {get { return localValue.Value; } set { localValue.Value = value; }}
+        public T Value {get { return localValue.Value; } set { SetValue(value); }}
 
         public override void OnStartNetwork()
         {
@@ -29,7 +27,7 @@ namespace SharedValues.Networked
             }
         }
 
-        public void SetValue(T value)
+        protected void SetValue(T value)
         {
             if(checkForOwnership & !IsOwner) return;
 
@@ -56,12 +54,20 @@ namespace SharedValues.Networked
             setNetVarOnInit = true;
         }
 
-        public void AddLocalListener(Action<T> action)
+        /// <summary>
+        /// Add listener to changes in the local value
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddListener(Action<T> action)
         {
             localValue.AddListener(action);
         }
 
-        public void RemoveLocalListener(Action<T> action)
+        /// <summary>
+        /// Removes listener to changes in the local value
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveListener(Action<T> action)
         {
             localValue.RemoveListener(action);
         }

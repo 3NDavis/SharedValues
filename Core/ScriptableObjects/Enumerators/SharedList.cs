@@ -6,66 +6,66 @@ namespace SharedValues.Enumerators
     {
         public override void ResetEnumerator()
         {
-            if(value == null)
+            if(Value == null)
             {
-                SetValue(new List<TItem>());
+                Value = new List<TItem>();
             }
             else
             {
-                value.Clear();
+                Value.Clear();
             }
         }
 
-        public override void AddToEnumerator(TItem item)
+        public override void AddToEnumerator(TItem value)
         {
-           value.Add(item);
+           Value.Add(value);
         }
 
-        public override void RemoveFromEnumerator(TItem item)
+        public override void RemoveFromEnumerator(TItem value)
         {
-            value.Remove(item);
+            Value.Remove(value);
         }
 
-        public override void SetEnumeratorValue(int index, TItem item)
+        public override void SetEnumeratorValue(int index, TItem value)
         {
-            value[index] = item;
+            Value[index] = value;
         }
 
         public override bool TryGetEnumeratedValue(int index, out TItem value)
         {
-            if(index >= this.value.Count)
+            if(index >= this.Value.Count)
             {
                 value = default;
                 return false;
             }
 
-            value = this.value[index];
+            value = this.Value[index];
             return true;
         }
     }
 
     public class SharedListReference<T> : SharedEnumeratorReference<List<T>, T, T, int>
     {
-        public override void AddToEnumerator(T item)
+        public override void AddToEnumerator(T value)
         {
-            AddToEnumeratorWithoutNotify(item);
+            AddToEnumeratorWithoutNotify(value);
             BroadcastToReference();
         }
 
-        public override void AddToEnumeratorWithoutNotify(T item)
+        public override void AddToEnumeratorWithoutNotify(T value)
         {
-            Value.Add(item);
+            Value.Add(value);
         }
 
-        public override void RemoveFromEnumerator(T item)
+        public override void RemoveFromEnumerator(T value)
         {
-            RemoveFromEnumeratorWithoutNotify(item);
+            RemoveFromEnumeratorWithoutNotify(value);
             BroadcastToReference();
         }
 
-        public override void RemoveFromEnumeratorWithoutNotify(T item)
+        public override void RemoveFromEnumeratorWithoutNotify(T value)
         {
-            Value.Remove(item);
+            Value.Remove(value);
         }
 
         public override void ResetEnumerator()

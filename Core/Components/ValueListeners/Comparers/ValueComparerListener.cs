@@ -11,7 +11,7 @@ namespace SharedValues
         [Tooltip("The value that is listened to to invoke the event")]
         [SerializeField] private R value;
 
-        [SerializeField] private T valueToCompareTo;
+        [SerializeField] private R valueToCompareTo;
 
         [SerializeField] private CompareType compareType;
         protected CompareType p_compareType => compareType;
@@ -25,8 +25,8 @@ namespace SharedValues
             less = 8
         }
 
-        [SerializeField] private UnityEvent onValueChangedConditionMet;
-        [SerializeField] private UnityEvent onValueChangedConditionFail;
+        [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
+        [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
         
         void OnEnable()
         {
@@ -46,27 +46,26 @@ namespace SharedValues
         private void BroadcastIsConditionMet(T newValue)
         {
             bool met = Compare(newValue);
-            if (met)
-            {
-                onValueChangedConditionMet?.Invoke();
-            }
-            else
-            {
-                onValueChangedConditionFail?.Invoke();
-            }
+            onValueChangedConditionMet?.Invoke(met);
+            onValueChangedConditionNotMet?.Invoke(!met);
+        }
+
+        public void BroadcastIsConditionMet()
+        {
+            BroadcastIsConditionMet(value.Value);
         }
 
         private bool Compare(T newValue)
         {
             if((compareType & CompareType.equals) == CompareType.equals)
             {
-                return newValue.Equals(valueToCompareTo);
+                return newValue.Equals(valueToCompareTo.Value);
             }
             if((compareType & CompareType.notEquals) == CompareType.notEquals)
             {
-                return !newValue.Equals(valueToCompareTo);
+                return !newValue.Equals(valueToCompareTo.Value);
             }
-            return ComplexCompare(newValue, valueToCompareTo);
+            return ComplexCompare(newValue, valueToCompareTo.Value);
         }
 
         protected abstract bool ComplexCompare(T newValue, T compareValue);

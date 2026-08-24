@@ -12,36 +12,36 @@ namespace SharedValues.Enumerators
     {
         public override void ResetEnumerator()
         {
-            if(value == null)
+            if(Value == null)
             {
-                SetValue(new Dictionary<TKey, TValue>());
+                Value = new Dictionary<TKey, TValue>();
             }
             else
             {
-                value.Clear();
+                Value.Clear();
             }
         }
 
-        public override void AddToEnumerator(KeyValuePair<TKey, TValue> item)
+        public override void AddToEnumerator(KeyValuePair<TKey, TValue> value)
         {
-            value.Add(item.key, item.value);
+            Value.Add(value.key, value.value);
         }
 
-        public override void RemoveFromEnumerator(KeyValuePair<TKey, TValue> item)
+        public override void RemoveFromEnumerator(KeyValuePair<TKey, TValue> value)
         {
-            value.Remove(item.key);
+            Value.Remove(value.key);
         }
 
         public override void SetEnumeratorValue(TKey index, KeyValuePair<TKey, TValue> value)
         {
-            this.value[index] = value.value;
+            this.Value[index] = value.value;
         }
 
         public override bool TryGetEnumeratedValue(TKey index, out TValue value)
         {
-            if (this.value.ContainsKey(index))
+            if (this.Value.ContainsKey(index))
             {
-                value = this.value[index];
+                value = this.Value[index];
                 return true;
             }
             else
@@ -55,32 +55,32 @@ namespace SharedValues.Enumerators
 
     public class SharedDictionaryReference<TKey, TValue> : SharedEnumeratorReference<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TValue, TKey>
     {
-        public override void AddToEnumerator(KeyValuePair<TKey, TValue> item)
+        public override void AddToEnumerator(KeyValuePair<TKey, TValue> value)
         {
-            Value.TryAdd(item.key, item.value);
+            Value.TryAdd(value.key, value.value);
             BroadcastToReference();
         }
 
-        public override void AddToEnumeratorWithoutNotify(KeyValuePair<TKey, TValue> item)
+        public override void AddToEnumeratorWithoutNotify(KeyValuePair<TKey, TValue> value)
         {
-            Value.TryAdd(item.key, item.value);
+            Value.TryAdd(value.key, value.value);
 
         }
 
-        public override void RemoveFromEnumerator(KeyValuePair<TKey, TValue> item)
+        public override void RemoveFromEnumerator(KeyValuePair<TKey, TValue> value)
         {
-            if (Value.ContainsKey(item.key))
+            if (Value.ContainsKey(value.key))
             {
-                Value.Remove(item.key);
+                Value.Remove(value.key);
             }
             BroadcastToReference();
         }
 
-        public override void RemoveFromEnumeratorWithoutNotify(KeyValuePair<TKey, TValue> item)
+        public override void RemoveFromEnumeratorWithoutNotify(KeyValuePair<TKey, TValue> value)
         {
-            if (Value.ContainsKey(item.key))
+            if (Value.ContainsKey(value.key))
             {
-                Value.Remove(item.key);
+                Value.Remove(value.key);
             }
         }
 

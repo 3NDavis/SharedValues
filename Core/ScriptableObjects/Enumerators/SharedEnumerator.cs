@@ -5,7 +5,7 @@ namespace SharedValues.Enumerators
     public abstract class SharedEnumerator<TEnumerator, TItem, TOutItem, TIndexer> : SharedValue<TEnumerator>
     where TEnumerator : ICollection, IEnumerable
     {
-        public int Count(){return value.Count;}
+        public int Count(){return Value.Count;}
         public abstract void AddToEnumerator(TItem item);
         public abstract void RemoveFromEnumerator(TItem item);
         public abstract void SetEnumeratorValue(TIndexer index, TItem value);

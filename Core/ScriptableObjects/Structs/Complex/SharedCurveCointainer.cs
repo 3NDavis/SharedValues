@@ -8,7 +8,7 @@ namespace SharedValues
     {
         public float Evaluate(float t)
         {
-            return value.Evaluate(t);
+            return Value.Evaluate(t);
         }
     }
 
