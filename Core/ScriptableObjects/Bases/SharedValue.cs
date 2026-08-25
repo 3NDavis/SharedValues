@@ -14,6 +14,7 @@ namespace SharedValues
         public T Value { get => value; set => SetValue(value); }
         private void SetValue(T newValue) { value = newValue; onValueChange?.Invoke(newValue); }
         public void SetValue(SharedValue<T> newValue) {SetValue(newValue.value);}
+        public void SetToDefault(){Value = default;}
         public void SetValueWithoutNotify(T newValue) { value = newValue; }
         public void SetValueWithoutNotify(SharedValue<T> newValue) { SetValueWithoutNotify(newValue.value); }
         public event Action<T> onValueChange;
