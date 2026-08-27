@@ -8,10 +8,13 @@ namespace SharedValues
     {
         [SerializeField] private R value;
         [SerializeField] private UnityEvent<T> onValueChanged;
+        [SerializeField] private bool broadcastOnEnable;
 
         void OnEnable()
         {
             value.AddListener(BroadcastEvent);
+            if(broadcastOnEnable)
+                BroadcastEvent(value.Value);
         }
 
         void OnDisable()
@@ -19,7 +22,7 @@ namespace SharedValues
             value.RemoveListener(BroadcastEvent);
         }
 
-        private void BroadcastEvent(T newValue)
+        protected virtual void BroadcastEvent(T newValue)
         {
             onValueChanged?.Invoke(newValue);
         }

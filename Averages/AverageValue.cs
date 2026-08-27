@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SharedValues.Attributes;
 using UnityEngine;
 
 namespace SharedValues.Averages

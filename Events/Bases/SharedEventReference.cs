@@ -22,6 +22,10 @@ namespace SharedValues.Events
     {
         [SerializeField] private SharedEvent<T> evt;
 
+        public bool HasEvent()
+        {
+            return evt != null;
+        }
 
         public void AddListener(Action<T> action)
         {

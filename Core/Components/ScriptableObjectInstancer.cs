@@ -49,6 +49,21 @@ namespace SharedValues
             }
         }
 
+        public static void ApplyValueToInstancer<TValue,TReference>(ScriptableObjectInstancer instancer, TValue value, TReference sharedValue)
+        where TValue : struct where TReference : SharedValue<TValue>
+        {
+            if (instancer)
+                instancer.GetInstance(sharedValue).Value = value;
+            else
+                sharedValue.Value = value;
+        }
+
+        public void ApplyValueToInstancer<TValue,TReference>(TValue value, TReference sharedValue)
+        where TValue : struct where TReference : SharedValue<TValue>
+        {
+            ApplyValueToInstancer(this, value, sharedValue);
+        }
+
 /// <summary>
 /// Gets the instanced scriptable object, will create one if there isn't one
 /// </summary>
