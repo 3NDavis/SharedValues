@@ -1,5 +1,4 @@
 using UnityEngine;
-using SharedValues.Attributes;
 
 //To see a visual representation of the values go here:
 //https://www.desmos.com/calculator/qhvwgqb3bf
@@ -130,7 +129,7 @@ namespace SharedValues.Upgradable
         /// 
 //To see a visual representation of the modifications go here:
 //https://www.desmos.com/calculator/qhvwgqb3bf
-        private enum ModificationType
+        public enum ModificationType
         {
             /// <summary>
             /// Adds the modification value to the target value

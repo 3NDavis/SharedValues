@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace RightAsRain
+namespace SharedValues.Upgradable.Editor
 {
     [CustomPropertyDrawer(typeof(UpgradableSharedValue), true)]
     public class UpgradableSharedValueDrawer : PropertyDrawer
