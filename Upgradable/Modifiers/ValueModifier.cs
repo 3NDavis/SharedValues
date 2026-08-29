@@ -12,6 +12,11 @@ namespace SharedValues.Upgradable
         [NonSerialized] private float lastDomainUsed;
         [NonSerialized] private float lastValueIn;
         [NonSerialized] private float lastValueOut;
+        #if UNITY_EDITOR
+        [SerializeField] private float lastDomain;
+        [SerializeField] private float lastValue;
+        [SerializeField] private float lastOut;
+        #endif
 
         [Header("Parameters")]
         [SerializeField] private float minDomain = 0;
@@ -62,6 +67,13 @@ namespace SharedValues.Upgradable
             lastValueOut = DoFunctionWithDomain(baseValue, modificationDomain);
             lastValueIn = baseValue;
             lastDomainUsed = modificationDomain;
+
+            #if UNITY_EDITOR
+            lastOut = lastValueOut;
+            lastValue = lastValueIn;
+            lastDomain = lastDomainUsed;
+            #endif
+
             return lastValueOut;
         }
 
