@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 //To see a visual representation of the values go here:
@@ -8,38 +9,29 @@ namespace SharedValues.Upgradable
     [CreateAssetMenu(menuName = "Shared Values/Upgradable/Value Modifer/Float", fileName = "SharedValMod_Float_Name")]
     public class ValueModifier : ScriptableObject
     {
-        public enum PriorityGroup
-        {
-            //order from apply first at top, to apply last at bottom
-            levelUp ,
-            pickup,
-            phenomenon
-        }
-
-        [Space]
-        private float lastDomainUsed;
-        private float lastValueIn;
-        private float lastValueOut;
+        [NonSerialized] private float lastDomainUsed;
+        [NonSerialized] private float lastValueIn;
+        [NonSerialized] private float lastValueOut;
 
         [Header("Parameters")]
-        [SerializeField] private float minValue = 0;
-        public float MinValue => minValue;
-        [SerializeField] private float maxValue = 2;
-        public float MaxValue => maxValue;
+        [SerializeField] private float minDomain = 0;
+        public float MinDomain => minDomain;
+        [SerializeField] private float maxDomain = 2;
+        public float MaxDomain => maxDomain;
 
         /// <summary> The default value of the modification, for bools 0 is false, 1 is true </summary>
         [SerializeField] private float defaultDomainValue = 1;
         public float DefaultValue => defaultDomainValue;
-        /// <summary> The default value of the slider, for bools 0 is false, 1 is true </summary>
+
         /// <summary>
         /// The ammount a slider with a custom step will move the slider on navigate
         /// </summary>
+        [Tooltip("The ammount a slider with a custom step will move the slider on navigate")]
         [SerializeField] private float stepValue = 0.1f;
         public float StepValue => stepValue; 
 
-        [SerializeField] private ModificationType modificationType = ModificationType.additive;
+        [SerializeField] private ModificationType modificationType = ModificationType.addDomain;
 
-        bool showSCurve => modificationType == ModificationType.sCurve || modificationType == ModificationType.zCurve;
         [SerializeField] private float sCurveSlope = 10;
 
         [SerializeField] private AnimationCurve curve;
@@ -77,32 +69,32 @@ namespace SharedValues.Upgradable
         {
             switch (modificationType)
             {
-                case ModificationType.additive:
+                case ModificationType.addDomain:
                     return baseValue + modificationDomain;
 
-                case ModificationType.multiplicative:
+                case ModificationType.multiplyDomain:
                     return baseValue * modificationDomain;
 
-                case ModificationType.exponential:
+                case ModificationType.inPowerOfDomain:
                     return Mathf.Pow(baseValue, modificationDomain);
 
-                case ModificationType.inverseExponential:
+                case ModificationType.domainPowerOfIn:
                     return Mathf.Pow(modificationDomain, baseValue);
 
-                case ModificationType.logarithmic:
+                case ModificationType.inLogOfDomain:
                     return Mathf.Log(baseValue, modificationDomain);
 
-                case ModificationType.inverseLogarithmic:
+                case ModificationType.domainLogOfIn:
                     return Mathf.Log(modificationDomain, baseValue);
 
-                case ModificationType.replace:
+                case ModificationType.replaceWithDomain:
                     return modificationDomain;
 
                 case ModificationType.sCurve:
-                    return SCurve.Evaluate(minValue, maxValue, baseValue, modificationDomain, sCurveSlope);
+                    return SCurve.Evaluate(minDomain, maxDomain, baseValue, modificationDomain, sCurveSlope);
 
                 case ModificationType.zCurve:
-                    return SCurve.Evaluate(minValue, maxValue, baseValue, modificationDomain, sCurveSlope, true);
+                    return SCurve.Evaluate(minDomain, maxDomain, baseValue, modificationDomain, sCurveSlope, true);
 
                 case ModificationType.customCurve:
                     return curve.Evaluate(modificationDomain);
@@ -129,32 +121,32 @@ namespace SharedValues.Upgradable
         /// 
 //To see a visual representation of the modifications go here:
 //https://www.desmos.com/calculator/qhvwgqb3bf
-        public enum ModificationType
+        private enum ModificationType
         {
             /// <summary>
             /// Adds the modification value to the target value
             /// </summary>
-            additive,
+            addDomain,
             /// <summary>
             /// Multiplies the modification value to the target value
             /// </summary>
-            multiplicative,
+            multiplyDomain,
             /// <summary>
             /// Raises the target value to the power of the modification value
             /// </summary>
-            exponential,
+            inPowerOfDomain,
             /// <summary>
             /// Raises the modification value to the power of the target value
             /// </summary>
-            inverseExponential,
+            domainPowerOfIn,
             /// <summary>
             /// Performs a logarithm using the modification's value as the base to the target value
             /// </summary>
-            logarithmic,
+            inLogOfDomain,
             /// <summary>
             /// Performs a logarithm using the target's value as the base to the modification value
             /// </summary>
-            inverseLogarithmic,
+            domainLogOfIn,
             /// <summary>
             /// Performs a calculation starting exponential which turns logarithmic at the target value 
             /// </summary>
@@ -170,7 +162,7 @@ namespace SharedValues.Upgradable
             /// <summary>
             /// Replaces the target value with the modification's value
             /// </summary>
-            replace,
+            replaceWithDomain,
         }
     }
 }
