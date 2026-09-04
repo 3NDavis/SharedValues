@@ -9,3 +9,12 @@ An inspector based dependency injection system framework for Unity
 4. Follow Unity's instructions from there
 
 ## See the wiki for documentation
+
+
+## Todos
+- string SharedValues and SharedValue References
+- value to string converter components
+
+- Shared Enumerator Icons (list, dictionary)
+
+- Documentation
