@@ -1,3 +1,6 @@
+### Unity
+*.meta
+
 ### C#
 # Build results
 [Bb]in/
