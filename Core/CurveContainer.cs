@@ -6,25 +6,24 @@ namespace SharedValues
     [System.Serializable]
     public struct CurveContainer
     {
-        [SerializeField] private CurveType curveType;
+        [SerializeField] public CurveType curveType;
         bool useConstant => curveType == CurveType.Constant || curveType == CurveType.ConstantAccelerated;
 
         //[Visibility(nameof(useConstant), true)]
-        [SerializeField] private float constant;
+        [SerializeField] public float constant;
 
         //[Visibility(nameof(curveType), CurveType.ConstantAccelerated)]
-        [SerializeField] private float acceleration;
+        [SerializeField] public float acceleration;
 
 
         [CurveRange(0, -20, 20, 20)]
         //[Visibility(nameof(curveType), CurveType.Curve)]
-        [SerializeField] private AnimationCurve curve;
+        [SerializeField] public AnimationCurve curve;
 
-        bool showSCurve => curveType == CurveType.sCurve || curveType == CurveType.zCurve;
         //[Visibility(nameof(showSCurve), true)]
-        [SerializeField] private SCurve sCurve;
+        [SerializeField] public SCurve sCurve;
 
-        enum CurveType
+        public enum CurveType
         {
             None,
             Constant,

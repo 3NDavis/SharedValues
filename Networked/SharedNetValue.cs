@@ -39,7 +39,7 @@ namespace SharedValues.Networked
         protected void SetLocalValue(T value)
         {
             #if UNITY_EDITOR
-            Debug.Log($"the local value of {this.name} was set to {value}");
+            Debug.Log($"the local value of {this.name}'s {Note} was set to {value}");
             #endif
             localValue.Value = value;
         }
@@ -71,5 +71,12 @@ namespace SharedValues.Networked
         {
             localValue.RemoveListener(action);
         }
+
+#if UNITY_EDITOR
+        void Update()
+        {
+            var value = localValue.Value;
+        }
+#endif
     }
 }
