@@ -41,6 +41,9 @@ namespace SharedValues
             less = 8
         }
 
+        [Tooltip("Will broadcast only the oppropriate message for IsOwner. Otherwise, both are brodcasted")]
+        [SerializeField] private bool broadcastConditionally;
+
         [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
         [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
         
@@ -62,8 +65,22 @@ namespace SharedValues
         private void BroadcastIsConditionMet(T newValue)
         {
             bool met = Compare(newValue);
-            onValueChangedConditionMet?.Invoke(met);
-            onValueChangedConditionNotMet?.Invoke(!met);
+            if (broadcastConditionally)
+            {
+                if (met)
+                {
+                    onValueChangedConditionMet?.Invoke(met);
+                }
+                else
+                {
+                    onValueChangedConditionNotMet?.Invoke(!met);
+                }
+            }
+            else
+            {
+                onValueChangedConditionMet?.Invoke(met);
+                onValueChangedConditionNotMet?.Invoke(!met);
+            }
         }
 
         public void BroadcastIsConditionMet()
