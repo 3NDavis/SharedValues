@@ -15,4 +15,6 @@ An inspector based dependency injection system framework for Unity
 - Shared Enumerator Icons (list, dictionary)
 - Shared string icons
 
+- Icons setting on creation
+
 - Documentation
