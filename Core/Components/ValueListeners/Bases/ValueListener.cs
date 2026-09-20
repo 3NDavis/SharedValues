@@ -22,12 +22,21 @@ namespace SharedValues
     public class ValueListener<T, R> : MonoBehaviour
     where R : SharedValueReference<T>
     {
+        private enum UnsubscribeTime
+        {
+            Disable,
+            Destroy,
+            Both,
+        }
+
+        [SerializeField] private UnsubscribeTime unsubscribeTime;
         [SerializeField] private R value;
-        [SerializeField] private UnityEvent<T> onValueChanged;
         [SerializeField] private bool broadcastOnEnable;
+        [SerializeField] private UnityEvent<T> onValueChanged;
 
         void OnEnable()
         {
+            value.RemoveListener(BroadcastEvent);
             value.AddListener(BroadcastEvent);
             if(broadcastOnEnable)
                 BroadcastEvent(value.Value);
@@ -35,12 +44,26 @@ namespace SharedValues
 
         void OnDisable()
         {
-            value.RemoveListener(BroadcastEvent);
+            if(unsubscribeTime != UnsubscribeTime.Destroy)
+                value.RemoveListener(BroadcastEvent);
+        }
+
+        void OnDestroy()
+        {
+            if(unsubscribeTime != UnsubscribeTime.Disable)
+                value.RemoveListener(BroadcastEvent);
         }
 
         protected virtual void BroadcastEvent(T newValue)
         {
             onValueChanged?.Invoke(newValue);
         }
+
+#if UNITY_EDITOR
+        void Update()
+        {
+            var a = value.Value;
+        }
+#endif
     }
 }

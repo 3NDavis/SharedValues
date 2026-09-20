@@ -21,12 +21,22 @@ namespace SharedValues
 {
     public class BoolValueListener : ValueListener<bool, SharedBoolReference>
     {
-        [SerializeField] private UnityEvent<bool> onValueChangedInverted;
+        [SerializeField] private UnityEvent<bool> onValueChangeInverted;
+        [SerializeField] private UnityEvent onValueRecievedTrue;
+        [SerializeField] private UnityEvent onValueRecievedFalse;
 
         protected override void BroadcastEvent(bool newValue)
         {
             base.BroadcastEvent(newValue);
-            onValueChangedInverted?.Invoke(!newValue);
+            onValueChangeInverted?.Invoke(!newValue);
+            if (newValue)
+            {
+                onValueRecievedTrue?.Invoke();
+            }
+            else
+            {
+                onValueRecievedFalse?.Invoke();
+            }
         }
         
     }

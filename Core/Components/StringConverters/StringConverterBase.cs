@@ -37,5 +37,14 @@ namespace SharedValues
         {
             stringValue.Value = value.ToString();
         }
+
+#if UNITY_EDITOR
+        //update inspector
+        private void Update()
+        {
+            var a = value.Value;
+            var s = stringValue.Value;
+        }
+#endif
     }
 }

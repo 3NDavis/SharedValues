@@ -26,19 +26,33 @@ namespace SharedValues
         public T valueToSetTo;
         
     }
+
+    public static class ValueSetter
+    {
+        public static void UseValueSetter<VS>(GameObject attatchment, SetValuePair<VS>[] valuePairs)
+        {
+            if (attatchment.TryGetComponent<ValueSetter<VS>>(out var valueSetter))
+            {
+                valueSetter.SetValueReferences(valuePairs);
+            }
+        }
+    }
+
     public class ValueSetter<T> : MonoBehaviour
     {
-        [SerializeField] List<SharedValueReference<T>> valueReferences = new();
+        [SerializeField] List<SharedValueReference<T>> valueReferences;
         Dictionary<SharedValue<T>, SharedValueReference<T>> valueReferencePairs;
 
         void Awake()
         {
+            valueReferences = new();
+            valueReferencePairs = new(); 
+
             InitializeDictionary();
         }
 
         private void InitializeDictionary()
         {
-            valueReferencePairs = new();
             for (int i = 0; i < valueReferences.Count; i++)
             {
                 valueReferencePairs.TryAdd(valueReferences[i]._SharedReference, valueReferences[i]);

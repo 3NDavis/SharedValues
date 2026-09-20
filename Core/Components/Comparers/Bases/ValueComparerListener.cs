@@ -23,6 +23,14 @@ namespace SharedValues
     public abstract class ValueComparerListener<T, R> : MonoBehaviour
     where T : struct, IComparable where R : SharedValueReference<T>
     {
+        private enum UnsubscribeTime
+        {
+            Disable,
+            Destroy,
+            Both,
+        }
+
+        [SerializeField] private UnsubscribeTime unsubscribeTime;
         ///<summary>The value that is listened to to invoke the event</summary>
         [Tooltip("The value that is listened to to invoke the event")]
         [SerializeField] private R value;
@@ -41,7 +49,7 @@ namespace SharedValues
             less = 8
         }
 
-        [Tooltip("Will broadcast only the oppropriate message for IsOwner. Otherwise, both are brodcasted")]
+        [Tooltip("Will broadcast only the oppropriate message for the condition. Otherwise, both are brodcasted")]
         [SerializeField] private bool broadcastConditionally;
 
         [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
@@ -49,6 +57,7 @@ namespace SharedValues
         
         void OnEnable()
         {
+            value.RemoveListener(BroadcastIsConditionMet);
             value.AddListener(BroadcastIsConditionMet);
         }
 
@@ -59,7 +68,14 @@ namespace SharedValues
 
         void OnDisable()
         {
-            value.RemoveListener(BroadcastIsConditionMet);
+            if(unsubscribeTime != UnsubscribeTime.Destroy)
+                value.RemoveListener(BroadcastIsConditionMet);
+        }
+
+        void OnDestroy()
+        {
+            if(unsubscribeTime != UnsubscribeTime.Disable)
+                value.RemoveListener(BroadcastIsConditionMet);
         }
 
         private void BroadcastIsConditionMet(T newValue)
@@ -102,6 +118,15 @@ namespace SharedValues
         }
 
         protected abstract bool ComplexCompare(T newValue, T compareValue);
+
+#if UNITY_EDITOR
+        //update inspector
+        private void Update()
+        {
+            var a = value.Value;
+            var b = valueToCompareTo.Value;
+        }
+#endif
     }
 }
 

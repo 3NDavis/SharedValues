@@ -16,6 +16,9 @@
    
 using UnityEngine;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using System.Linq;
+#endif
 
 namespace SharedValues
 {
@@ -32,17 +35,79 @@ namespace SharedValues
         public ScriptableObjectInstancer passthroughInstancer;
 
         /// <summary> The dictionary that returns the instances of the inputted Scriptable Objects </summary>
-        private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap = new();
+        private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap;
         public Dictionary<ScriptableObject, ScriptableObject> GlobalToInstanceMap => globalToInstanceMap;
-        #if UNITY_EDITOR
-        private List<ScriptableObject> instances = new();
-        #endif
+#if UNITY_EDITOR
+        private List<SOValuePair> instances;
+        [System.Serializable]
+        private class SOValuePair
+        {
+            public SOValuePair(ScriptableObject so, string val)
+            {
+                this.name = so.name;
+                this.value = val;
+            }
+            [HideInInspector]
+            public string name;
+            public string value;
+        }
 
+        void Update()
+        {
+            //show the current instances in the editor
+            if (passthroughInstancer)
+            {
+                instances = GetPairs(passthroughInstancer.GlobalToInstanceMap.Values.ToList());
+            }
+            else
+            {
+               instances = GetPairs(globalToInstanceMap.Values.ToList());
+            }
+        }
+
+        List<SOValuePair> GetPairs(List<ScriptableObject> SOvalues)
+        {
+            List<SOValuePair> pairs = new();
+            for (int i = 0; i < SOvalues.Count; i++)
+            {
+                string value = "na";
+                if(SOvalues[i] is SharedValue)
+                {
+                    var sharedVal = (SharedValue)SOvalues[i];
+                    var objVal = sharedVal.objValue;
+                    if(objVal != null)
+                    {
+                        value = objVal.ToString();
+                    }
+                }
+                pairs.Add(new SOValuePair(SOvalues[i], value));
+            }
+            return pairs;
+        }
+#endif
+
+        void Awake()
+        {
+            globalToInstanceMap = new();
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            instances = new();
+            #endif
+        }
+
+        /// <summary>
+        /// Sets the passtrhough instancer allowing for different instance groups at runtime
+        /// </summary>
+        /// <param name="newPassthroughInstancer"></param>
         public void SetPassthroughInstancer(ScriptableObjectInstancer newPassthroughInstancer)
         {
             passthroughInstancer = newPassthroughInstancer;
         }
 
+/// <summary>
+/// Combines the instances from the source into this instancer.
+/// </summary>
+/// <param name="sourceInstances">The instances to add to the Instancers list</param>
+/// <param name="newInstancesOverrideOld">Should new instances replace the current instances</param>
         public void MergeInstancesIntoThisInstancer(Dictionary<ScriptableObject, ScriptableObject> sourceInstances, bool newInstancesOverrideOld)
         {
             foreach(var key in sourceInstances.Keys)
@@ -51,10 +116,6 @@ namespace SharedValues
                 {
                     if (newInstancesOverrideOld)
                     {
-                        #if UNITY_EDITOR || DEVELOPMENT_BUILD
-                        instances.Remove(globalToInstanceMap[key]);
-                        instances.Add(sourceInstances[key]);
-                        #endif
                         Destroy(globalToInstanceMap[key]);
                         globalToInstanceMap[key] = sourceInstances[key];
                     }
@@ -65,19 +126,34 @@ namespace SharedValues
             }
         }
 
-        public static void ApplyValueToInstancer<TValue,TReference>(ScriptableObjectInstancer instancer, TValue value, TReference sharedValue)
-        where TValue : struct where TReference : SharedValue<TValue>
+/// <summary>
+/// Sets an instanced <paramref name="globalSharedValue"/> to the value: <paramref name="valueToApply"/>
+/// </summary>
+/// <typeparam name="TValue">The type of value</typeparam>
+/// <typeparam name="TReference">The globalSharedValue of type TValue</typeparam>
+/// <param name="instancer">The instancer to get the instance from</param>
+/// <param name="valueToApply">the value to apply to the instance</param>
+/// <param name="globalSharedValue">the global shared value SO to apply the new value to</param>
+        public static void SetInstancedValue<TValue,TReference>(ScriptableObjectInstancer instancer, TValue valueToApply, TReference globalSharedValue)
+        where TReference : SharedValue<TValue>
         {
             if (instancer)
-                instancer.GetInstance(sharedValue).Value = value;
+                instancer.GetInstance(globalSharedValue).Value = valueToApply;
             else
-                sharedValue.Value = value;
+                globalSharedValue.Value = valueToApply;
         }
 
-        public void ApplyValueToInstancer<TValue,TReference>(TValue value, TReference sharedValue)
-        where TValue : struct where TReference : SharedValue<TValue>
+/// <summary>
+/// Sets an instanced <paramref name="globalSharedValue"/> to the value: <paramref name="valueToApply"/>
+/// </summary>
+/// <typeparam name="TValue">The type of value</typeparam>
+/// <typeparam name="TReference">The globalSharedValue of type TValue</typeparam>
+/// <param name="valueToApply">the value to apply to the instance</param>
+/// <param name="globalSharedValue">the global shared value SO to apply the new value to</param>
+        public void SetInstancedValue<TValue,TReference>(TValue valueToApply, TReference globalSharedValue)
+        where TReference : SharedValue<TValue>
         {
-            ApplyValueToInstancer(this, value, sharedValue);
+            SetInstancedValue(this, valueToApply, globalSharedValue);
         }
 
 /// <summary>
@@ -223,9 +299,6 @@ namespace SharedValues
             ScriptableObject newInstance = Instantiate(sharedValue);
             //add the new instance to the dictionary
             globalToInstanceMap.Add(sharedValue, newInstance);
-#if UNITY_EDITOR
-            instances.Add(newInstance);
-#endif
             
             return newInstance;
         }
