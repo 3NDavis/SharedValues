@@ -101,23 +101,33 @@ namespace SharedValues
                 switch (_ReferenceType)
                 {
                     case ReferenceType.value:
+                    #if UNITY_EDITOR
                         actualValue = VariableValue;
+                    #endif
                         return (T)VariableValue;
                     case ReferenceType.global:
+                    #if UNITY_EDITOR
                         actualValue = sharedReference.Value;
+                    #endif
                         return (T)sharedReference.Value;
                     case ReferenceType.instanced:
                         if (Application.isPlaying)
                         {
                             SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedReference);
+                    #if UNITY_EDITOR
                             actualValue = castSharedVal.Value;
+                    #endif
                             return castSharedVal.Value;
                         }
+                    #if UNITY_EDITOR
                         actualValue = sharedReference.Value;
+                    #endif
                         return sharedReference.Value;
 
                     default:
+                    #if UNITY_EDITOR
                         actualValue = variableValue;
+                    #endif
                         return (T)VariableValue;
                 }
             }

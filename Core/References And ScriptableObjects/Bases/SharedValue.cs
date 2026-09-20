@@ -21,6 +21,7 @@ namespace SharedValues
 {
     public abstract class SharedValue : SharedSOBase
     {
+        public abstract object objValue{get;}
         public abstract void BroadcastValueChange();
 
         protected override string GetFilePath()
@@ -31,13 +32,14 @@ namespace SharedValues
 
     public abstract class SharedValue<T> : SharedValue, IValueSpecialSetter<T>, IValueEventHandler<T>
     {
+#if UNITY_EDITOR
+        public override object objValue => value;
+#endif
         [SerializeField] private T value;
         public T Value { get => value; set => SetValue(value); }
         private void SetValue(T newValue) { value = newValue; onValueChange?.Invoke(newValue); }
-        public void SetValue(SharedValue<T> newValue) {SetValue(newValue.value);}
         public void SetToDefault(){Value = default;}
         public void SetValueWithoutNotify(T newValue) { value = newValue; }
-        public void SetValueWithoutNotify(SharedValue<T> newValue) { SetValueWithoutNotify(newValue.value); }
         public event Action<T> onValueChange;
 
         //primarily for editor usage

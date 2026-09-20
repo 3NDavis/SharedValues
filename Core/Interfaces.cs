@@ -32,20 +32,12 @@ namespace SharedValues
     public interface IValueSpecialSetter<T> : IValueSetter<T>
     {
         public void SetValueWithoutNotify(T value);
-        public void SetValueWithoutNotify(SharedValue<T> value)
-        {
-            SetValueWithoutNotify(value.Value);
-        }
         public void SetValueWithBroadcastIfChange(T value)
         {
             if(!value.Equals(Value))
             {
                 Value = value;
             }
-        }
-        public void SetValueWithBroadcastIfChange(SharedValue<T> value)
-        {
-            SetValueWithBroadcastIfChange(value.Value);
         }
     }
 }
