@@ -23,9 +23,10 @@ namespace SharedValues.Networked
 {
     public class SharedNetFloat : SharedNetValue<float, SharedFloatReference>
     {
-        private readonly SyncVar<float> networkValue = new SyncVar<float>();
+        private readonly SyncVar<float> networkValue = new SyncVar<float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized));
 
-        [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
+        //require ownership is false since that check is already done in SetValue();
+        [ServerRpc(RequireOwnership = false, RunLocally = true)] 
         protected override void SetNetworkValue(float value)
         {
             //this causes the subscription in OnEnable to trigger
@@ -40,11 +41,6 @@ namespace SharedValues.Networked
         void OnDisable()
         {
             networkValue.OnChange -= SetLocalValue;
-        }
-
-        protected override void SetLocalValue(float prev, float next, bool asServer)
-        {
-            SetLocalValue(next);
         }
     }
 }

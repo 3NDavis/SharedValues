@@ -16,9 +16,11 @@
    
 using System;
 using UnityEditor;
-using UnityEditor.UIElements;
+
 using UnityEngine.UIElements;
 using SharedValues.Events;
+using UnityEditor.UIElements;
+
 
 namespace SharedValues.Editor
 {

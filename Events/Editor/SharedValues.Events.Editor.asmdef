@@ -1,0 +1,19 @@
+{
+    "name": "SharedValues.Events.Editor",
+    "rootNamespace": "SharedValues.Editor",
+    "references": [
+        "GUID:0fdaeab5b1d741f4d8cbf7e2e7d4ceb4",
+        "GUID:3dea97251e68fee48a35d61169f24524"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -24,10 +24,10 @@ namespace SharedValues.Networked
 {
     public class SharedNetColor : SharedNetValue<Color, SharedColorReference>
     {
-        private readonly SyncVar<Color> networkValue = new SyncVar<Color>();
+        private readonly SyncVar<Color> networkValue = new SyncVar<Color>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
-
-        [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
+        //require ownership is false since that check is already done in SetValue();
+        [ServerRpc(RequireOwnership = false, RunLocally = true)] 
         protected override void SetNetworkValue(Color value)
         {
             //this causes the subscription in OnEnable to trigger
@@ -41,11 +41,6 @@ namespace SharedValues.Networked
         void OnDisable()
         {
             networkValue.OnChange -= SetLocalValue;
-        }
-
-        protected override void SetLocalValue(Color prev, Color next, bool asServer)
-        {
-            SetLocalValue(next);
         }
     }
 }

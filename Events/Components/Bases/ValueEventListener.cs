@@ -22,6 +22,15 @@ namespace SharedValues.Events
     public class ValueEventListener<T, R> : MonoBehaviour
     where R : SharedEventReference<T>
     {
+        private enum UnsubscribeTime
+        {
+            Disable,
+            Destroy,
+            Both,
+        }
+
+        [SerializeField] private UnsubscribeTime unsubscribeTime;
+
         [SerializeField] private R eventToListenTo;
 
         [SerializeField] UnityEvent<T> onEventHeard;
@@ -29,17 +38,25 @@ namespace SharedValues.Events
 
         void OnEnable()
         {
-            eventToListenTo.AddListener(PlayEffect);
+            eventToListenTo.RemoveListener(OnEventHeard);
+            eventToListenTo.AddListener(OnEventHeard);
         }
 
-        private void PlayEffect(T value)
+        protected virtual void OnEventHeard(T value)
         {
             onEventHeard?.Invoke(value);
         }
 
         void OnDisable()
         {
-            eventToListenTo.RemoveListener(PlayEffect);
+            if(unsubscribeTime != UnsubscribeTime.Destroy)
+                eventToListenTo.RemoveListener(OnEventHeard);
+        }
+
+        void OnDestroy()
+        {
+            if(unsubscribeTime != UnsubscribeTime.Disable)
+                eventToListenTo.RemoveListener(OnEventHeard);
         }
     }
 }

@@ -15,6 +15,7 @@
    
    
 using System;
+using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
@@ -24,50 +25,71 @@ namespace SharedValues.Networked
     where R : SharedValueReference<T>
     {
 #if UNITY_EDITOR
-        [SerializeField] private string Note;
+        [SerializeField] protected string Note;
+        [SerializeField] private bool debugLog;
 #endif
-        [SerializeField] private bool setNetVarOnInit;
-
         [SerializeField] private bool checkForOwnership;
 
+        [SerializeField] private bool setValueOnStart;
+        [SerializeField] private T startingValue;
         [SerializeField] private R localValue;
+        
         public T Value {get { return localValue.Value; } set { SetValue(value); }}
+
+        bool isInitialized;
 
         public override void OnStartNetwork()
         {
             base.OnStartNetwork();
-
-            if(setNetVarOnInit)
-            {
-                SetValue(localValue.Value);
-            }
+            isInitialized = true;
         }
 
+        [Server(Logging = FishNet.Managing.Logging.LoggingType.Off)]
         protected void SetValue(T value)
         {
             if(checkForOwnership & !IsOwner) return;
 
+            if (!isInitialized)
+            {
+                StopAllCoroutines();
+                StartCoroutine(WaitForInitialized(value));
+            }
+
+#if UNITY_EDITOR
+            if(debugLog)
+                Debug.Log($"Trying to set Netvalue {Note} to {value}");
+#endif
+
+            SetLocalValue(value);
             SetNetworkValue(value);
         }
 
+        private IEnumerator WaitForInitialized(T value)
+        {
+            //wait 1 frame after initialized
+            yield return new WaitUntil(() => isInitialized);
+            yield return new();
+
+            SetValue(value);
+        }
+
+        // This attribute needs to be above SetNetworkValue(T) after it has been spcified
+        
+        // require ownership is false since that check is already done in SetValue();
+        // [ServerRpc(RequireOwnership = false, RunLocally = true)] 
         protected abstract void SetNetworkValue(T value);
-        protected abstract void SetLocalValue(T previousValue, T nextValue, bool asServer);
-        protected void SetLocalValue(T value)
+        public void SetLocalValue(T value)
         {
             #if UNITY_EDITOR
-            Debug.Log($"the local value of {this.name}'s {Note} was set to {value}");
+            if(debugLog)
+                Debug.Log($"the local value of {this.name}'s {Note} was set to {value}");
             #endif
             localValue.Value = value;
         }
 
-        /// <summary>
-        /// Will set the netvar the next time the network object is initialized
-        /// </summary>
-        /// <param name="value"></param>
-        public void PrimeOnStartNetwork(T value)
+        protected void SetLocalValue(T prev, T next, bool asServer)
         {
-            localValue.Value = value;
-            setNetVarOnInit = true;
+            SetLocalValue(next);
         }
 
         /// <summary>
@@ -89,6 +111,7 @@ namespace SharedValues.Networked
         }
 
 #if UNITY_EDITOR
+        //update inspector
         void Update()
         {
             var value = localValue.Value;

@@ -28,11 +28,6 @@ namespace SharedValues.Events
             evt?.Invoke(value);
         }
 
-        public void BroadcastEvent(SharedValueReference<T> reference)
-        {
-            evt?.Invoke(reference.Value);
-        }
-
         public void AddListener(Action<T> action)
         {
             evt += action;

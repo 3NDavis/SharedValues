@@ -36,9 +36,9 @@ namespace SharedValues.Upgradable
         {
             T trackedValue = baseValue;
 
-            #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            Debug.Log("Should Check if any modifications have changed in order to not do calculations resulting in the same value");
-            #endif
+            // #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // Debug.Log("Should Check if any modifications have changed in order to not do calculations resulting in the same value");
+            // #endif
 
             if(modificationsDomains == null)
                 return baseValue;

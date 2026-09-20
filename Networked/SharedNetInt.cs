@@ -23,9 +23,10 @@ namespace SharedValues.Networked
 {
     public class SharedNetInt : SharedNetValue<int, SharedIntReference>
     {
-        private readonly SyncVar<int> networkValue = new SyncVar<int>();
+        private readonly SyncVar<int> networkValue = new SyncVar<int>(new SyncTypeSettings(WritePermission.ClientUnsynchronized));
         
-        [ServerRpc(RunLocally = true, RequireOwnership = false)] //require ownership is false since that check is already done in SetValue();
+        //require ownership is false since that check is already done in SetValue();
+        [ServerRpc(RequireOwnership = false, RunLocally = true)] 
         protected override void SetNetworkValue(int value)
         {
             //this causes the subscription in OnEnable to trigger
@@ -40,11 +41,6 @@ namespace SharedValues.Networked
         void OnDisable()
         {
             networkValue.OnChange -= SetLocalValue;
-        }
-
-        protected override void SetLocalValue(int prev, int next, bool asServer)
-        {
-            SetLocalValue(next);
         }
     }
 }

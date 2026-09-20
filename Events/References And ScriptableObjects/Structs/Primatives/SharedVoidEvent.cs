@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Events
 {
     [CreateAssetMenu(menuName = "Shared Values/Events/Void", fileName = "SharedEvt_Void_Name")]
-    public sealed class SharedVoidEvent : SharedSOBase
+    public sealed class SharedVoidEvent : SharedEventSOBase
     {
         protected override string GetTextureName()
         {
