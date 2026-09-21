@@ -22,16 +22,13 @@ using System.Linq;
 
 namespace SharedValues
 {
-    public interface IMergeScriptableObjectInstacer
-    {
-        public void MergeInstancer(ScriptableObjectInstancer instancer);
-    }
-
     /// <summary>
     /// A scriptable object instatiation and connection manager
     /// </summary>
     public sealed class ScriptableObjectInstancer : MonoBehaviour
     {
+        ///<summary>The instancer that should be used instead of this one</summary>
+        [Tooltip("The instancer that should be used instead of this one")]
         public ScriptableObjectInstancer passthroughInstancer;
 
         /// <summary> The dictionary that returns the instances of the inputted Scriptable Objects </summary>
@@ -88,8 +85,11 @@ namespace SharedValues
 
         void Awake()
         {
+            //initialize the globalToInstanceMap for immediate playmode purposes
             globalToInstanceMap = new();
-            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+            #if UNITY_EDITOR
+            //initialize the instances for debugging
             instances = new();
             #endif
         }
@@ -311,6 +311,9 @@ namespace SharedValues
             {
                 Destroy(globalToInstanceMap[key]);
             }
+
+            //reset collections
+            globalToInstanceMap.Clear();
 #if UNITY_EDITOR
             instances.Clear();
 #endif

@@ -19,23 +19,25 @@ using UnityEngine.Events;
 
 namespace SharedValues
 {
-    public class BoolValueListener : ValueListener<bool, SharedBoolReference>
+    public class BoolValueListener : ValueListenerToUnityEvent<bool, SharedBoolReference>
     {
+        [Tooltip("Will broadcast only the oppropriate message for the condition. Otherwise, both are brodcasted")]
+        [SerializeField] private bool broadcastConditionally;
         [SerializeField] private UnityEvent<bool> onValueChangeInverted;
-        [SerializeField] private UnityEvent onValueRecievedTrue;
-        [SerializeField] private UnityEvent onValueRecievedFalse;
 
         protected override void BroadcastEvent(bool newValue)
         {
-            base.BroadcastEvent(newValue);
-            onValueChangeInverted?.Invoke(!newValue);
-            if (newValue)
+            if (broadcastConditionally)
             {
-                onValueRecievedTrue?.Invoke();
+                if(newValue)
+                    base.BroadcastEvent(newValue);
+                else
+                    onValueChangeInverted?.Invoke(true);
             }
             else
             {
-                onValueRecievedFalse?.Invoke();
+                base.BroadcastEvent(newValue);
+                onValueChangeInverted?.Invoke(!newValue);
             }
         }
         
