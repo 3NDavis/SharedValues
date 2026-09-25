@@ -19,7 +19,7 @@ using System;
 namespace SharedValues.Upgradable
 {
     [Serializable]
-    public class UpgradableSharedFloat : UpgradableSharedValue<float, ValueModifier, FloatValueModifications>
+    public class UpgradableSharedFloat : UpgradableSharedValue<float, SharedFloatReference, ValueModifier, FloatValueModifications>
     {
     }
     [Serializable]

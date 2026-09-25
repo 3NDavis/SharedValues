@@ -24,10 +24,10 @@ namespace SharedValues.Upgradable
     /// <summary>
     /// A shared value that has modifiers applied to it
     /// </summary>
-    public abstract class UpgradableSharedValue<T,M,V> : UpgradableSharedValue
-    where T : struct where M : ValueModifier where V : ValueModifications<T,M>
+    public abstract class UpgradableSharedValue<T,SVR, M,V> : UpgradableSharedValue
+    where T : struct where SVR : SharedValueReference<T> where M : ValueModifier where V : ValueModifications<T,M>
     {
-        [SerializeField] private T baseValue;
+        [SerializeField] private SVR baseValue;
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
         [SerializeField] private T postModificationValue;
 
@@ -35,7 +35,7 @@ namespace SharedValues.Upgradable
 
         public T GetValue(Dictionary<ValueModifier, float> modificationsDomains)
         {
-            postModificationValue = modifiers.ApplyModifications(baseValue, modificationsDomains);
+            postModificationValue = modifiers.ApplyModifications(baseValue.Value, modificationsDomains);
             return postModificationValue;
         }
     }

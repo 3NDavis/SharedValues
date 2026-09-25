@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Upgradable
 {
     [Serializable]
-    public class UpgradableSharedVector : UpgradableSharedValue<Vector2, VectorValueModifier, VectorValueModifications>
+    public class UpgradableSharedVector : UpgradableSharedValue<Vector2, SharedVector2Reference, VectorValueModifier, VectorValueModifications>
     {
         
     }

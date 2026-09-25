@@ -1,5 +1,5 @@
 {
-  "name": "com.endavis.sharedvalues",
+  "name": "com.3NDavis.sharedvalues",
   "version": "1.0.0",
   "displayName": "Shared Values",
   "description": "An inspector based dependency injection framework",
@@ -19,7 +19,6 @@
     "name": "3NDavis"
   },
   "dependencies": {
-    "com.unity.inputsystem": "1.14.2",
-    "com.dbrizov.naughtyattributes": "2.1.4"
+    
   }
 }
