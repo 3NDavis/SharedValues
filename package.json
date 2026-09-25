@@ -1,5 +1,5 @@
 {
-  "name": "com.3NDavis.sharedvalues",
+  "name": "com.3ndavis.sharedvalues",
   "version": "1.0.0",
   "displayName": "Shared Values",
   "description": "An inspector based dependency injection framework",
