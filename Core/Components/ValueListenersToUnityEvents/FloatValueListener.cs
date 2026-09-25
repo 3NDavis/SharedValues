@@ -14,9 +14,7 @@
    
    
    
-using UnityEngine;
-
 namespace SharedValues
 {
-    public class ColorValueListener : ValueListener<Color, SharedColorReference>{}
+    public class FloatValueListener : ValueListenerToUnityEvent<float, SharedFloatReference>{}
 }

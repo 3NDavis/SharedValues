@@ -20,21 +20,14 @@ using UnityEngine.Events;
 
 namespace SharedValues
 {
-    public abstract class ValueComparerListener<T, R> : MonoBehaviour
-    where T : struct, IComparable where R : SharedValueReference<T>
+    /// <summary>
+    /// The base class for components that compares between SharedValueReferences when the valueToListenTo broadcasts a value change
+    /// </summary>
+    /// <typeparam name="T">The type of SharedValue</typeparam>
+    /// <typeparam name="SVR">The SharedValueReference of type <typeparamref name="T"/></typeparam>
+    public abstract class ValueComparerListener<T, SVR> : ValueListener<T, SVR>
+    where T : struct, IComparable where SVR : SharedValueReference<T>
     {
-        private enum UnsubscribeTime
-        {
-            Disable,
-            Destroy,
-            Both,
-        }
-
-        [SerializeField] private UnsubscribeTime unsubscribeTime;
-        ///<summary>The value that is listened to to invoke the event</summary>
-        [Tooltip("The value that is listened to to invoke the event")]
-        [SerializeField] private R value;
-
         [SerializeField] private R valueToCompareTo;
 
         [SerializeField] private CompareType compareType;
@@ -55,30 +48,7 @@ namespace SharedValues
         [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
         [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
         
-        void OnEnable()
-        {
-            value.RemoveListener(BroadcastIsConditionMet);
-            value.AddListener(BroadcastIsConditionMet);
-        }
-
-        void Start()
-        {
-            BroadcastIsConditionMet(value.Value);
-        }
-
-        void OnDisable()
-        {
-            if(unsubscribeTime != UnsubscribeTime.Destroy)
-                value.RemoveListener(BroadcastIsConditionMet);
-        }
-
-        void OnDestroy()
-        {
-            if(unsubscribeTime != UnsubscribeTime.Disable)
-                value.RemoveListener(BroadcastIsConditionMet);
-        }
-
-        private void BroadcastIsConditionMet(T newValue)
+        private void OnValueChanged(T newValue)
         {
             bool met = Compare(newValue);
             if (broadcastConditionally)
@@ -99,11 +69,18 @@ namespace SharedValues
             }
         }
 
+        /// <summary>
+        /// Perform a comparison between the valueToListenTo and the valueToCompareTo and broadcasts the result 
+        /// </summary>
         public void BroadcastIsConditionMet()
         {
-            BroadcastIsConditionMet(value.Value);
+            BroadcastIsConditionMet(valueToListenTo.Value);
         }
 
+        /// <summary>
+        /// Compares the <paramref name="newValue"/> to the valueToCompareTo using the compareType
+        /// </summary>
+        /// <returns>The result of the comparison</returns>
         private bool Compare(T newValue)
         {
             if((compareType & CompareType.equals) == CompareType.equals)
@@ -117,13 +94,18 @@ namespace SharedValues
             return ComplexCompare(newValue, valueToCompareTo.Value);
         }
 
+        /// <summary>
+        /// Compares the to values using < or > 
+        /// </summary>
+        /// <returns></returns>
         protected abstract bool ComplexCompare(T newValue, T compareValue);
 
 #if UNITY_EDITOR
-        //update inspector
-        private void Update()
+        //this updates the inspector only value for the shared value
+        //since its inspector only, it shouldn't be compiled in builds
+        protected override void Update()
         {
-            var a = value.Value;
+            base.Update();
             var b = valueToCompareTo.Value;
         }
 #endif

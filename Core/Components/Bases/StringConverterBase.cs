@@ -13,36 +13,42 @@
    //limitations under the License.
    
    
-   using UnityEngine;
+   
+using UnityEngine;
 
 namespace SharedValues
 {
-    public abstract class StringConverterBase<T, SVR> : MonoBehaviour
+    /// <summary>
+    /// The base class for components that listen to valueToListenTo and update a string SharedValueReference
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="SVR"></typeparam>
+    public abstract class StringConverterBase<T, SVR> : ValueListener<T, SVR>
     where SVR : SharedValueReference<T>
     {
         [SerializeField] private SVR value;
         [SerializeField] private SharedStringReference stringValue;
 
-        void OnEnable()
+        protected override void OnValueChanged(T value)
         {
-            value.AddListener(ConvertToString);
+            ConvertToString(value);
         }
 
-        void OnDisable()
-        {
-            value.RemoveListener(ConvertToString);
-        }
-
+        /// <summary>
+        /// converts <paramref name="value"/> to a string and sets the stringValue
+        /// </summary>
+        /// <param name="value">the value to convert to a string</param>
         private void ConvertToString(T value)
         {
             stringValue.Value = value.ToString();
         }
 
 #if UNITY_EDITOR
-        //update inspector
-        private void Update()
+        //this updates the inspector only value for the shared value
+        //since its inspector only, it shouldn't be compiled in builds
+        protected override void Update()
         {
-            var a = value.Value;
+            base.Update();
             var s = stringValue.Value;
         }
 #endif
