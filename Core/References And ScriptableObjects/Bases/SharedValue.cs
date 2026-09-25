@@ -46,6 +46,16 @@ namespace SharedValues
         public void SetValueWithoutNotify(T newValue) { value = newValue; }
         public event Action<T> onValueChange;
 
+        /// <summary>
+        /// Allows the shared value to be used in the place of a value.
+        /// Ex sharedInt += 1 instead of sharedInt.Value += 1
+        /// </summary>
+        /// <param name="sharedValue"></param>
+		public static implicit operator T( SharedValue<T> sharedValue )
+		{
+			return sharedValue.Value;
+		}
+
         //primarily for editor usage
         public override void BroadcastValueChange()
         {

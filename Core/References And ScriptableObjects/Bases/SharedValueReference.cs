@@ -44,6 +44,16 @@ namespace SharedValues
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
         protected ScriptableObjectInstancer _instanceGroup => instanceGroup;
 
+        /// <summary>
+        /// Allows the shared value to be used in the place of a value.
+        /// Ex sharedIntReference += 1 instead of sharedIntReference.Value += 1
+        /// </summary>
+        /// <param name="reference"></param>
+		public static implicit operator T( SharedValueReference<T> reference )
+		{
+			return reference.Value;
+		}
+
 #if UNITY_EDITOR
         [Tooltip("<b>Playmode Only!</b> The value that the shared value reference is using, only updates when accessed.")]
         [SerializeField] private T actualValue;
