@@ -1,0 +1,7 @@
+To Do:
+
+Core Samples
+Average Samples
+Upgradable Samples
+Networked Samples
+Event Samples
