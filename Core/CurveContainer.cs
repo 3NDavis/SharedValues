@@ -15,7 +15,6 @@
    
    
 using UnityEngine;
-using SharedValues.Attributes;
 
 namespace SharedValues
 {
@@ -28,8 +27,6 @@ namespace SharedValues
 
         [SerializeField] public float acceleration;
 
-
-        [CurveRange(0, -20, 20, 20)]
         [SerializeField] public AnimationCurve curve;
 
         [SerializeField] public SCurve sCurve;

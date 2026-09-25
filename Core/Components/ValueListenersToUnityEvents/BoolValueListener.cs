@@ -25,18 +25,18 @@ namespace SharedValues
         [SerializeField] private bool broadcastConditionally;
         [SerializeField] private UnityEvent<bool> onValueChangeInverted;
 
-        protected override void BroadcastEvent(bool newValue)
+        protected override void OnValueChanged(bool newValue)
         {
             if (broadcastConditionally)
             {
                 if(newValue)
-                    base.BroadcastEvent(newValue);
+                    base.OnValueChanged(newValue);
                 else
                     onValueChangeInverted?.Invoke(true);
             }
             else
             {
-                base.BroadcastEvent(newValue);
+                base.OnValueChanged(newValue);
                 onValueChangeInverted?.Invoke(!newValue);
             }
         }

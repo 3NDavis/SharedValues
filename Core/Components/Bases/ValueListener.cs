@@ -41,7 +41,7 @@ namespace SharedValues
 
         ///<summary>The value to listen to</summary>
         [Tooltip("The value to listen to")]
-        [SerializeField] private R valueToListenTo;
+        [SerializeField] protected SVR valueToListenTo;
 
         ///<summary>Should this componnent do its logic to broadcast onEnable</summary>
         [Tooltip("Should this componnent do its logic to broadcast onEnable")]

@@ -28,7 +28,7 @@ namespace SharedValues
     public abstract class ValueComparerListener<T, SVR> : ValueListener<T, SVR>
     where T : struct, IComparable where SVR : SharedValueReference<T>
     {
-        [SerializeField] private R valueToCompareTo;
+        [SerializeField] private SVR valueToCompareTo;
 
         [SerializeField] private CompareType compareType;
         protected CompareType p_compareType => compareType;
@@ -48,7 +48,7 @@ namespace SharedValues
         [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
         [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
         
-        private void OnValueChanged(T newValue)
+        protected override void OnValueChanged(T newValue)
         {
             bool met = Compare(newValue);
             if (broadcastConditionally)
@@ -74,7 +74,7 @@ namespace SharedValues
         /// </summary>
         public void BroadcastIsConditionMet()
         {
-            BroadcastIsConditionMet(valueToListenTo.Value);
+            OnValueChanged(valueToListenTo.Value);
         }
 
         /// <summary>
