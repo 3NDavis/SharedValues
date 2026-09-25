@@ -23,20 +23,15 @@ namespace SharedValues
     public struct CurveContainer
     {
         [SerializeField] public CurveType curveType;
-        bool useConstant => curveType == CurveType.Constant || curveType == CurveType.ConstantAccelerated;
 
-        //[Visibility(nameof(useConstant), true)]
         [SerializeField] public float constant;
 
-        //[Visibility(nameof(curveType), CurveType.ConstantAccelerated)]
         [SerializeField] public float acceleration;
 
 
         [CurveRange(0, -20, 20, 20)]
-        //[Visibility(nameof(curveType), CurveType.Curve)]
         [SerializeField] public AnimationCurve curve;
 
-        //[Visibility(nameof(showSCurve), true)]
         [SerializeField] public SCurve sCurve;
 
         public enum CurveType

@@ -34,16 +34,13 @@ namespace SharedValues
 
     public class SharedValueReference<T> : SharedValueReference
     {
-        //[Visibility(nameof(_ReferenceType), ReferenceType.value)]
         [SerializeField] private T variableValue;
         private T VariableValue { get { return variableValue; } set { this.variableValue = value; onVariableValueChange?.Invoke(this.variableValue); } }
         public event Action<T> onVariableValueChange;
         
-        //[Visibility(nameof(_ReferenceType), ReferenceType.value, true)]
         [SerializeField] private SharedValue<T> sharedReference;
         protected internal SharedValue<T> _SharedReference => sharedReference;
 
-        //[Visibility(nameof(_ReferenceType), ReferenceType.groupedInstance)]
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
         protected ScriptableObjectInstancer _instanceGroup => instanceGroup;
 
@@ -58,7 +55,7 @@ namespace SharedValues
             switch (_ReferenceType)
             {
                 case ReferenceType.value:
-                    this.variableValue = value;
+                    this.VariableValue = value;
                     break;
                 case ReferenceType.global:
                     sharedReference.SetValueWithoutNotify(value);
@@ -69,7 +66,7 @@ namespace SharedValues
                     break;
 
                 default:
-                    this.variableValue = value;
+                    this.VariableValue = value;
                     break;
             }
             SetActualValue();

@@ -32,7 +32,7 @@ namespace SharedValues
     /// </summary>
     public sealed class ScriptableObjectInstancer : MonoBehaviour
     {
-        public ScriptableObjectInstancer passthroughInstancer;
+        public ScriptableObjectInstancer passthroughInstancer {get; private set;}
 
         /// <summary> The dictionary that returns the instances of the inputted Scriptable Objects </summary>
         private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap;

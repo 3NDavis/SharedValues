@@ -25,6 +25,13 @@ namespace SharedValues.Enumerators
             return "List";
         }
 
+        // Indexer declaration
+        public override TItem this[int index]
+        {
+            get => Value[index];
+            set => Value[index] = value;
+        }
+
         public override void ResetEnumerator()
         {
             if(Value == null)
@@ -67,6 +74,13 @@ namespace SharedValues.Enumerators
 
     public class SharedListReference<T> : SharedEnumeratorReference<List<T>, T, T, int>
     {
+        // Indexer declaration
+        public override T this[int key]
+        {
+            get => Value[key];
+            set => Value[key] = value;
+        }
+
         public override void AddToEnumerator(T value)
         {
             AddToEnumeratorWithoutNotify(value);

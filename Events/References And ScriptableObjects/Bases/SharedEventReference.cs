@@ -188,4 +188,54 @@ namespace SharedValues.Events
             }
         }
     }
+
+    public abstract class SharedEventReference<T1, T2, T3, T4> : SharedEventReference
+    {
+        [SerializeField] private SharedEvent<T1, T2, T3, T4> evt;
+
+        public void AddListener(Action<T1, T2, T3, T4> action)
+        {
+            switch(_ReferenceType)
+            {
+                case ReferenceType.superGlobal:
+                    evt.evt += action;
+                    break;
+
+                case ReferenceType.groupedInstance:
+                    InstanceGroup.GetInstance(evt).evt += action;
+                    break;
+            }
+        }
+
+        public void RemvoeListener(Action<T1, T2, T3, T4> action)
+        {
+            switch(_ReferenceType)
+            {
+                case ReferenceType.superGlobal:
+                    evt.evt -= action;
+                    break;
+
+                case ReferenceType.groupedInstance:
+                    InstanceGroup.GetInstance(evt).evt -= action;
+                    break;
+            }
+        }
+
+        public void BroadcastEvent(T1 value1, T2 value2, T3 value3, T4 value4)
+        {
+            switch (_ReferenceType)
+            {
+                case ReferenceType.superGlobal:
+                    evt.BroadcastEvent(value1, value2, value3, value4);
+                    break;
+                case ReferenceType.groupedInstance:
+                    InstanceGroup.GetInstance(evt).BroadcastEvent(value1, value2, value3, value4);
+                    break;
+
+                default:
+                    evt.BroadcastEvent(value1, value2, value3, value4);
+                    break;
+            }
+        }
+    }
 }

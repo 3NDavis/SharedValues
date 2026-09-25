@@ -124,4 +124,41 @@ namespace SharedValues.Events
             }
         }
     }
+
+    public abstract class SharedEvent<T1, T2, T3, T4> : ScriptableObject
+    {
+        public Action<T1, T2, T3, T4> evt;
+
+        public void BroadcastEvent(T1 value1, T2 value2, T3 value3, T4 value4)
+        {
+            evt?.Invoke(value1, value2, value3, value4);
+        }
+
+        public void BroadcastEvent(SharedValueReference<T1> reference1, SharedValueReference<T2> reference2, SharedValueReference<T3> reference3, SharedValueReference<T4> reference4)
+        {
+            evt?.Invoke(reference1.Value, reference2.Value, reference3.Value, reference4.Value);
+        }
+
+        public void AddListener(Action<T1, T2, T3, T4> action)
+        {
+            evt += action;
+        }
+
+        public void RemoveListener(Action<T1, T2, T3, T4> action)
+        {
+            evt -= action;
+        }
+
+        void OnDestroy()
+        {
+            if (evt != null)
+            {
+                var invocationList = evt.GetInvocationList();
+                foreach (var invocation in invocationList)
+                {
+                    evt -= (Action<T1, T2, T3, T4>)invocation;
+                }
+            }
+        }
+    }
 }

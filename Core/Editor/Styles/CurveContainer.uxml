@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Foldout text="Foldout" name="Label" binding-path="a" view-data-key="a">
+        <ui:EnumField label="Curve Type" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" binding-path="curveType" name="CurveType"/>
+        <ui:FloatField label="Constant&#x9;" value="42.2" binding-path="constant" name="Constant"/>
+        <ui:FloatField label="Acceleration" value="42.2" name="Acceleration" binding-path="acceleration"/>
+        <uie:CurveField label="Curve" value="{0,0,0,0,0,0,Free,Free,False,None};{5,8,0,0,0,0,Free,Free,False,None};{10,4,0,0,0,0,Free,Free,False,None}+(ClampForever,ClampForever)" binding-path="curve" name="Curve"/>
+        <uie:PropertyField binding-path="sCurve" label="SCurve" name="SCurve"/>
+    </ui:Foldout>
+</ui:UXML>

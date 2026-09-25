@@ -31,6 +31,10 @@ namespace SharedValues
     }
 
     public abstract class SharedValue<T> : SharedValue, IValueSpecialSetter<T>, IValueEventHandler<T>
+#if UNITY_EDITOR
+    , ISerializationCallbackReceiver
+#endif
+
     {
 #if UNITY_EDITOR
         public override object objValue => value;
@@ -62,12 +66,29 @@ namespace SharedValues
 
         public void AddListener(Action<T> action)
         {
-            throw new NotImplementedException();
+            onValueChange += action;
         }
 
         public void RemoveListener(Action<T> action)
         {
-            throw new NotImplementedException();
+            onValueChange -= action;
         }
+
+#if UNITY_EDITOR
+        [Header("Editor")]
+        [SerializeField] private bool resetToValueOnSerialize;
+        [SerializeField] private T valueToResetTo;
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if (resetToValueOnSerialize)
+            {
+                value = valueToResetTo;
+            }
+        }
+#endif
     }
 }

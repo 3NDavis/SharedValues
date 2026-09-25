@@ -21,6 +21,13 @@ namespace SharedValues.Enumerators
     public abstract class SharedEnumerator<TEnumerator, TItem, TOutItem, TIndexer> : SharedValue<TEnumerator>
     where TEnumerator : ICollection, IEnumerable
     {
+        // Indexer declaration
+        public abstract TOutItem this[TIndexer key]
+        {
+            get;
+            set;
+        }
+        
         public int Count(){return Value.Count;}
         public abstract void AddToEnumerator(TItem item);
         public abstract void RemoveFromEnumerator(TItem item);
@@ -29,18 +36,25 @@ namespace SharedValues.Enumerators
         public abstract void ResetEnumerator();
     }
 
-    public abstract class SharedEnumeratorReference<TEnumerator, TItem, TOutItem, TIndexer> : SharedValueReference<TEnumerator>
+    public abstract class SharedEnumeratorReference<TEnumerator, TCollectionItem, TOutItem, TIndexer> : SharedValueReference<TEnumerator>
     where TEnumerator : ICollection, IEnumerable
     {
-        public int Count(){return Value.Count;}
-        public abstract void AddToEnumerator(TItem item);
-        public abstract void AddToEnumeratorWithoutNotify(TItem item);
+        // Indexer declaration
+        public abstract TOutItem this[TIndexer key]
+        {
+            get;
+            set;
+        }
 
-        public abstract void RemoveFromEnumerator(TItem item);
-        public abstract void RemoveFromEnumeratorWithoutNotify(TItem item);
+        public int Count(){return Value.Count;}
+        public abstract void AddToEnumerator(TCollectionItem item);
+        public abstract void AddToEnumeratorWithoutNotify(TCollectionItem item);
+
+        public abstract void RemoveFromEnumerator(TCollectionItem item);
+        public abstract void RemoveFromEnumeratorWithoutNotify(TCollectionItem item);
 
         public abstract void SetEnumeratedValue(TIndexer index, TOutItem value);
-        public abstract void SetEnumeratorValueWithoutNotify(TIndexer index, TItem value);
+        public abstract void SetEnumeratorValueWithoutNotify(TIndexer index, TCollectionItem value);
 
         public abstract bool TryGetEnumeratatedValue(TIndexer index, out TOutItem value);
 

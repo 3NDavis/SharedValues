@@ -1,19 +1,20 @@
 
-   //Copyright 2026 Ethan Davis
+//Copyright 2026 Ethan Davis
 
-   //Licensed under the Apache License, Version 2.0 (the "License");
-   //you may not use this file except in compliance with the License.
-   //You may obtain a copy of the License at
-   //  http://www.apache.org/licenses/LICENSE-2.0
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//  http://www.apache.org/licenses/LICENSE-2.0
 
-   //Unless required by applicable law or agreed to in writing, software
-   //distributed under the License is distributed on an "AS IS" BASIS,
-   //WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   //See the License for the specific language governing permissions and
-   //limitations under the License.
-   
-   
-   
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SharedValues.Enumerators
@@ -26,9 +27,16 @@ namespace SharedValues.Enumerators
 
     public class SharedDictionary<TKey, TValue> : SharedEnumerator<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TValue, TKey>
     {
+
         protected override string GetTextureName()
         {
             return "Dictionary";
+        }
+
+        public override TValue this[TKey key] 
+        { 
+            get {return Value[key];}
+            set {Value[key] = value;}
         }
 
         public override void ResetEnumerator()
@@ -76,9 +84,22 @@ namespace SharedValues.Enumerators
 
     public class SharedDictionaryReference<TKey, TValue> : SharedEnumeratorReference<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TValue, TKey>
     {
+        // Indexer declaration
+        public override TValue this[TKey key]
+        {
+            get => Value[key];
+            set => Value[key] = value;
+        }
+
         public override void AddToEnumerator(KeyValuePair<TKey, TValue> value)
         {
             Value.TryAdd(value.key, value.value);
+            BroadcastToReference();
+        }
+
+        public void AddToEnumerator(TKey key, TValue value)
+        {
+            Value.TryAdd(key, value);
             BroadcastToReference();
         }
 
