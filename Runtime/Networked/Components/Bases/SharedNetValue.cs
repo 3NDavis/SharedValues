@@ -14,7 +14,7 @@
    
    
    
-#if Fishy
+#if FISHNETWORKED
 using FishNet.Object;
 #endif
 using SharedValues.Core;

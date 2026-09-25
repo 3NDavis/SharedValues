@@ -16,7 +16,7 @@
         {
             "name": "com.firstgeargames.fishnet",
             "expression": "",
-            "define": "Fishy"
+            "define": "FISHNETWORKED"
         }
     ],
     "noEngineReferences": false

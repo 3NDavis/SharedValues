@@ -14,10 +14,9 @@
    
    
    
-#if Fishy
+#if FISHNETWORKED
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-#endif
 using SharedValues.Core;
 
 namespace SharedValues.Networked
@@ -45,3 +44,4 @@ namespace SharedValues.Networked
         }
     }
 }
+#endif
