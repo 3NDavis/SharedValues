@@ -16,7 +16,6 @@
    
 #if FISHNETWORKED
 using FishNet.Object;
-#endif
 using SharedValues.Core;
 using System;
 using System.Collections;
@@ -46,7 +45,6 @@ namespace SharedValues.Networked
             base.OnStartNetwork();
             isInitialized = true;
         }
-
         [Server(Logging = FishNet.Managing.Logging.LoggingType.Off)]
         protected void SetValue(T value)
         {
@@ -122,4 +120,4 @@ namespace SharedValues.Networked
 #endif
     }
 }
-
+#endif
