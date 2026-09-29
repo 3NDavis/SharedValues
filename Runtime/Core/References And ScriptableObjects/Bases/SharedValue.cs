@@ -21,7 +21,9 @@ namespace SharedValues.Core
 {
     public abstract class SharedValue : SharedSOBase
     {
+#if UNITY_EDITOR
         public abstract object objValue{get;}
+#endif
         public abstract void BroadcastValueChange();
 
         protected override string GetFilePath()
