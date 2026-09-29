@@ -32,7 +32,7 @@ namespace SharedValues.Events
         [SerializeField] private ReferenceType referenceType;
         protected ReferenceType _ReferenceType => referenceType;
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
-        protected ScriptableObjectInstancer InstanceGroup;
+        protected ScriptableObjectInstancer InstanceGroup => instanceGroup;
     }
 
     public abstract class SharedEventReference<T> : SharedEventReference
