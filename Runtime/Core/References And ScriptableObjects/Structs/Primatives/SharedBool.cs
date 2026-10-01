@@ -26,11 +26,29 @@ namespace SharedValues.Core
         {
             return "Bool";
         }
+
+        public void Toggle()
+        {
+            Value = !Value;
+        }
+
+        public void ToggleWithoutNotifiy()
+        {
+            SetValueWithoutNotify(!Value);
+        }
     }
 
     [Serializable]
     public class SharedBoolReference : SharedValueReference<bool>
     {
+        public void Toggle()
+        {
+            Value = !Value;
+        }
 
+        public void ToggleWithoutNotifiy()
+        {
+            SetValueWithoutNotify(!Value);
+        }
     }
 }
