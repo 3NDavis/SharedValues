@@ -38,23 +38,19 @@ namespace SharedValues.Networked
         
         public T Value {get { return localValue.Value; } set { SetValue(value); }}
 
-        bool isInitialized;
-
         public override void OnStartNetwork()
         {
             base.OnStartNetwork();
-            isInitialized = true;
+            if (setValueOnStart)
+            {
+                SetValue(startingValue);
+            }
         }
+        
         [Server(Logging = FishNet.Managing.Logging.LoggingType.Off)]
         protected void SetValue(T value)
         {
             if(checkForOwnership & !IsOwner) return;
-
-            if (!isInitialized)
-            {
-                StopAllCoroutines();
-                StartCoroutine(WaitForInitialized(value));
-            }
 
 #if UNITY_EDITOR
             if(debugLog)
@@ -63,15 +59,6 @@ namespace SharedValues.Networked
 
             SetLocalValue(value);
             SetNetworkValue(value);
-        }
-
-        private IEnumerator WaitForInitialized(T value)
-        {
-            //wait 1 frame after initialized
-            yield return new WaitUntil(() => isInitialized);
-            yield return new();
-
-            SetValue(value);
         }
 
         // This attribute needs to be above SetNetworkValue(T) after it has been spcified
