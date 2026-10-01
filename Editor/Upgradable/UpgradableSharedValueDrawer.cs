@@ -32,8 +32,8 @@ namespace SharedValues.Upgradable.Editor
             VisualElement myProperty = new VisualElement();
             VisualElement uxmlContent = propertyUXML.CloneTree();
 
-            var outLabelProp = uxmlContent.Q<PropertyField>("BaseValue");
-            outLabelProp.label = property.displayName;
+            var label = uxmlContent.Q<Label>("Label");
+            label.text = property.displayName;
 
             myProperty.Add(uxmlContent);
 
