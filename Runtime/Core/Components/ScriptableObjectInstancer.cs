@@ -37,7 +37,7 @@ namespace SharedValues.Core
         public ScriptableObjectInstancer passthroughInstancer;
 
         /// <summary> The dictionary that returns the instances of the inputted Scriptable Objects </summary>
-        private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap;
+        private Dictionary<ScriptableObject, ScriptableObject> globalToInstanceMap = new();
         public Dictionary<ScriptableObject, ScriptableObject> GlobalToInstanceMap => globalToInstanceMap;
 #if UNITY_EDITOR
         private List<SOValuePair> instances;
