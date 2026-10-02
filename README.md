@@ -11,7 +11,7 @@ In the package manager go to install via .git and paste the following:
 
 ## Todos
 - Documentation
-- 
+  - Add samples
 - Icons
--   Shared Enumerator Icons (list, dictionary)
--   Shared string icons
+  - Shared Enumerator Icons (list, dictionary)
+  - Shared string icons
