@@ -18,5 +18,5 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    public class ColorValueListener : ValueListenerToUnityEvent<Color, SharedColorReference>{}
+    public sealed class ColorValueListener : ValueListenerToUnityEvent<Color, SharedColorReference>{}
 }

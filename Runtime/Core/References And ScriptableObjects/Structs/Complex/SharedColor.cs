@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Color", fileName = "SharedVal_Color_Name")]
-    public class SharedColor : SharedStruct<Color>
+    public sealed class SharedColor : SharedStruct<Color>
     {
         protected override string GetTextureName()
         {
@@ -29,7 +29,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedColorReference : SharedValueReference<Color>
+    public sealed class SharedColorReference : SharedValueReference<Color>
     {
 
     }

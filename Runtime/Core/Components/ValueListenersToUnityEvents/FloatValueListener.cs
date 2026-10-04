@@ -16,5 +16,5 @@
    
 namespace SharedValues.Core
 {
-    public class FloatValueListener : ValueListenerToUnityEvent<float, SharedFloatReference>{}
+    public sealed class FloatValueListener : ValueListenerToUnityEvent<float, SharedFloatReference>{}
 }

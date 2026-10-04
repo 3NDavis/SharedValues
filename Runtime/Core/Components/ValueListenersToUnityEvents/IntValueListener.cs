@@ -16,5 +16,5 @@
    
 namespace SharedValues.Core
 {
-    public class IntValueListener : ValueListenerToUnityEvent<int, SharedIntReference>{}
+    public sealed class IntValueListener : ValueListenerToUnityEvent<int, SharedIntReference>{}
 }

@@ -16,7 +16,7 @@
    
 namespace SharedValues.Core
 {
-    public class FloatToStringConverter : StringConverterBase<float, SharedFloatReference>
+    public sealed class FloatToStringConverter : StringConverterBase<float, SharedFloatReference>
     {
     }
 }

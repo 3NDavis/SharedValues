@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Quaternion", fileName = "SharedVal_Qtrn_Name")]
-    public class SharedQuaternion : SharedStruct<Quaternion>
+    public sealed class SharedQuaternion : SharedStruct<Quaternion>
     {
         protected override string GetTextureName()
         {
@@ -29,7 +29,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedQuaternionReference : SharedValueReference<Quaternion>
+    public sealed class SharedQuaternionReference : SharedValueReference<Quaternion>
     {
 
     }

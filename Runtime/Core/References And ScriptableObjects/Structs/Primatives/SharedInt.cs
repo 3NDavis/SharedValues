@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Primatives/Int", fileName = "SharedVal_Int_Name")]
-    public class SharedInt : SharedStruct<int>
+    public sealed class SharedInt : SharedStruct<int>
     {
         protected override string GetTextureName()
         {
@@ -29,7 +29,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedIntReference : SharedValueReference<int>
+    public sealed class SharedIntReference : SharedValueReference<int>
     {
 
     }

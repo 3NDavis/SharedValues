@@ -16,7 +16,7 @@
    
 namespace SharedValues.Core
 {
-    public class IntToStringConverter : StringConverterBase<int, SharedIntReference>
+    public sealed class IntToStringConverter : StringConverterBase<int, SharedIntReference>
     {
     }
 }

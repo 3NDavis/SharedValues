@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/String", fileName = "SharedVal_String_Name")]
-    public class SharedString : SharedValue<string> //yes a string is not a struct, I know
+    public sealed class SharedString : SharedValue<string> //yes a string is not a struct, I know
     {
         protected override string GetTextureName()
         {
@@ -29,7 +29,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedStringReference : SharedValueReference<string>
+    public sealed class SharedStringReference : SharedValueReference<string>
     {
 
     }

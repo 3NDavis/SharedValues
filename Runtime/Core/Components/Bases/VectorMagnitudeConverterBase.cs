@@ -14,23 +14,21 @@
    
    
    
+using UnityEngine;
+using UnityEngine.Events;
+
 namespace SharedValues.Core
 {
-    public sealed class IntValueComparerListener : ValueComparerListener<int, SharedIntReference>
+    public abstract class VectorMagnitudeConverterBase<T, SVR> : ValueListener<T, SVR>
+    where SVR : SharedValueReference<T>
     {
-        protected override bool ComplexCompare(int newValue, int compareValue)
-        {
-            if((p_compareType & CompareType.greater) == CompareType.greater)
-            {
-                return newValue > compareValue;
-            }
-            if((p_compareType & CompareType.less) == CompareType.less)
-            {
-                return newValue < compareValue;
-            }
+        [SerializeField] private UnityEvent<float> onValueChangeMagnitude;
 
-            return false;
+        protected override void OnValueChanged(T value)
+        {
+            onValueChangeMagnitude?.Invoke(GetMagnitude(value));
         }
+
+        protected abstract float GetMagnitude(T vector);
     }
 }
-

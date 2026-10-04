@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Primatives/Bool", fileName = "SharedVal_Bool_Name")]
-    public class SharedBool : SharedStruct<bool>
+    public sealed class SharedBool : SharedStruct<bool>
     {
         protected override string GetTextureName()
         {
@@ -39,7 +39,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedBoolReference : SharedValueReference<bool>
+    public sealed class SharedBoolReference : SharedValueReference<bool>
     {
         public void Toggle()
         {

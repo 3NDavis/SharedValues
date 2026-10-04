@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core.Curves
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Curve", fileName = "SharedVal_Curve_Name")]
-    public class SharedCurveCointainer : SharedStruct<CurveContainer>
+    public sealed class SharedCurveCointainer : SharedStruct<CurveContainer>
     {
         protected override string GetTextureName()
         {
@@ -34,7 +34,7 @@ namespace SharedValues.Core.Curves
     }
 
     [Serializable]
-    public class SharedCurveCointainerReference : SharedValueReference<CurveContainer>
+    public sealed class SharedCurveCointainerReference : SharedValueReference<CurveContainer>
     {
         public float Evaluate(float t)
         {

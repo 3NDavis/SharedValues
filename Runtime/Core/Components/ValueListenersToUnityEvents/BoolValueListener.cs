@@ -19,7 +19,7 @@ using UnityEngine.Events;
 
 namespace SharedValues.Core
 {
-    public class BoolValueListener : ValueListenerToUnityEvent<bool, SharedBoolReference>
+    public sealed class BoolValueListener : ValueListenerToUnityEvent<bool, SharedBoolReference>
     {
         [Tooltip("Will broadcast only the oppropriate message for the condition. Otherwise, both are brodcasted")]
         [SerializeField] private bool broadcastConditionally;

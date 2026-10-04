@@ -14,23 +14,15 @@
    
    
    
+using UnityEngine;
+
 namespace SharedValues.Core
 {
-    public sealed class IntValueComparerListener : ValueComparerListener<int, SharedIntReference>
+    public sealed class Vector3MagnitudeConverter : VectorMagnitudeConverterBase<Vector3, SharedVector3Reference>
     {
-        protected override bool ComplexCompare(int newValue, int compareValue)
+        protected override float GetMagnitude(Vector3 vector)
         {
-            if((p_compareType & CompareType.greater) == CompareType.greater)
-            {
-                return newValue > compareValue;
-            }
-            if((p_compareType & CompareType.less) == CompareType.less)
-            {
-                return newValue < compareValue;
-            }
-
-            return false;
+            return vector.magnitude;
         }
     }
 }
-

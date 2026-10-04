@@ -20,7 +20,7 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Vector2", fileName = "SharedVal_V2_Name")]
-    public class SharedVector2 : SharedStruct<Vector2>
+    public sealed class SharedVector2 : SharedStruct<Vector2>
     {
         protected override string GetTextureName()
         {
@@ -29,7 +29,7 @@ namespace SharedValues.Core
     }
 
     [Serializable]
-    public class SharedVector2Reference : SharedValueReference<Vector2>
+    public sealed class SharedVector2Reference : SharedValueReference<Vector2>
     {
 
     }
