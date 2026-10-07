@@ -25,15 +25,12 @@ namespace SharedValues.Networked
     where TCollection : ICollection, IEnumerable
     where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>, ISharedCollection<TCollectionItem,TKey,TValue>
     {
-#region Local/Network
         // indexer declaration
         public TValue this[TKey key]
         {
             get => GetValue(key);
             set => SetValueWithoutNotify(key, value);
         }
-
-#endregion
 
         //this attribute should be put over all the ___Networked() functions
         //require ownership is false since that check is already done in SetValue();
