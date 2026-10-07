@@ -16,24 +16,14 @@
 
 #if FISHNETWORKED
 using FishNet.Object.Synchronizing;
-using SharedValues.Core.Enumerators;
+using SharedValues.Core.Collections;
 using System.Collections.Generic;
 
 namespace SharedValues.Networked
 {
     public abstract class SharedNetDictionary<TKey, TValue, TReference> : SharedNetCollection<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TKey, TValue, TReference>
-    where TReference : SharedDictionaryReference<TKey, TValue>
+    where TReference : SharedDictionaryReference<TKey, TValue>, ISharedCollection<Dictionary<TKey,TValue>,TKey,TValue>
     {
-        public sealed override TValue GetValue(TKey key)
-        {
-            return Value[key];
-        }
-
-        public sealed override bool TryGetValue(TKey key, out TValue value)
-        {
-            return Value.TryGetValue(key, out value);
-        }
-
         protected sealed override void AddNetworked(KeyValuePair<TKey, TValue> item)
         {
             AddNetworked(item.Key, item.Value);
@@ -49,13 +39,13 @@ namespace SharedValues.Networked
             switch (op)
             {
                 case SyncDictionaryOperation.Add:
-                    Add(key, value);
+                    LocalValue.Add(key, value);
                     break;
                 case SyncDictionaryOperation.Remove:
-                    RemoveAt(key);
+                    LocalValue.RemoveAt(key);
                     break;
                 case SyncDictionaryOperation.Set:
-                    SetValue(key, value);
+                    LocalValue[key] = value;
                     break;
                 case SyncDictionaryOperation.Clear:
                     LocalValue.ResetCollection();

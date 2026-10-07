@@ -15,71 +15,24 @@
 
 
 #if FISHNETWORKED
-using SharedValues.Core.Enumerators;
+using SharedValues.Core.Collections;
+using System;
 using System.Collections;
 
 namespace SharedValues.Networked
 {
     public abstract class SharedNetCollection<TCollection, TCollectionItem, TKey, TValue, TReference> : SharedNetValue<TCollection, TReference>, ISharedCollection<TCollectionItem, TKey, TValue>
     where TCollection : ICollection, IEnumerable
-    where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>
+    where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>, ISharedCollection<TCollectionItem,TKey,TValue>
     {
 #region Local/Network
         // indexer declaration
         public TValue this[TKey key]
         {
             get => GetValue(key);
-            set => SetValue(key, value);
+            set => SetValueWithoutNotify(key, value);
         }
 
-        public void ResetCollection()
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-
-            LocalValue.ResetCollection();
-            ResetNetworked();
-        }
-        public void Add(TCollectionItem item)
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-            
-            LocalValue.Add(item);
-            AddNetworked(item);
-        }
-        public void Add(TKey key, TValue value)
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-            
-            LocalValue.Add(key, value);
-            AddNetworked(key, value);
-        }
-        public void Remove(TCollectionItem item)
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-            
-            LocalValue.Remove(item);
-            Remove(item);
-        }
-        public void RemoveAt(TKey key)
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-
-            LocalValue.RemoveAt(key);
-            RemoveAtNetworked(key);
-        }
-        public void SetValue(TKey key, TValue value)
-        {
-            if(checkForOwnership & !IsOwner)
-                return;
-            
-            LocalValue.SetValue(key, value);
-            SetValueNetworked(key, value);
-        }
 #endregion
 
         //this attribute should be put over all the ___Networked() functions
@@ -94,9 +47,88 @@ namespace SharedValues.Networked
 
 #region  Local
         public int Count(){return LocalValue.Count();}
-        public abstract TValue GetValue(TKey key);
-        public abstract bool TryGetValue(TKey key, out TValue value);
-#endregion
+        public TValue GetValue(TKey key){return LocalValue[key];}
+        public bool TryGetValue(TKey key, out TValue value){return LocalValue.TryGetValue(key, out value);}
+
+        public void AddWithoutNotify(TKey key, TValue value)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+            
+            LocalValue.Add(key, value);
+            AddNetworked(key, value);
+        }
+
+        public void AddWithoutNotify(TCollectionItem collectionItem)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+            
+            LocalValue.Add(collectionItem);
+            AddNetworked(collectionItem);
+        }
+
+        public void RemoveAtWithoutNotify(TKey key)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+            
+            LocalValue.RemoveAt(key);
+            RemoveAtNetworked(key);
+        }
+
+        public void RemoveWithoutNotify(TCollectionItem collectionItem)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+            
+            LocalValue.RemoveAt(LocalValue.ConvertCollectionItemToKey(collectionItem));
+            RemoveNetworked(collectionItem);
+        }
+
+        public void SetValueWithoutNotify(TKey key, TValue value)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+
+            LocalValue[key] = value;
+            SetValueNetworked(key, value);
+        }
+
+        public void ResetCollection()
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+
+            LocalValue.ResetCollection();
+            ResetNetworked();
+        }
+
+        public TKey ConvertCollectionItemToKey(TCollectionItem collectionItem)
+        {
+            return LocalValue.ConvertCollectionItemToKey(collectionItem);
+        }
+
+        public TValue ConvertCollectionItemToValue(TCollectionItem collectionItem)
+        {
+            return LocalValue.ConvertCollectionItemToValue(collectionItem);
+        }
+
+        public void AddListener(Action<CollectionModificationType, TKey, TValue> action)
+        {
+            LocalValue.AddListener(action);
+        }
+
+        public void RemoveListener(Action<CollectionModificationType, TKey, TValue> action)
+        {
+            LocalValue.AddListener(action);
+        }
+
+        public void OnCollectionChange(CollectionModificationType modificationType, TKey key, TValue value)
+        {
+            
+        }
+        #endregion
     }
 }
 #endif

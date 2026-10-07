@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using SharedValues.Core.Enumerators;
+using SharedValues.Core.Collections;
 using SharedValues.Networked;
 
 namespace SharedValues.Samples

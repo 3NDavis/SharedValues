@@ -15,7 +15,7 @@
    
    
 using UnityEngine;
-using SharedValues.Core.Enumerators;
+using SharedValues.Core.Collections;
 
 namespace SharedValues.Upgradable
 {

@@ -55,7 +55,7 @@ namespace SharedValues.Core
         {
             for (int i = 0; i < valueReferences.Count; i++)
             {
-                valueReferencePairs.TryAdd(valueReferences[i]._SharedReference, valueReferences[i]);
+                valueReferencePairs.TryAdd(valueReferences[i].SharedValue, valueReferences[i]);
             }
         }
 

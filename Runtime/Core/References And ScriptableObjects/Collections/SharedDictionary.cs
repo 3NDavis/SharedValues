@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace SharedValues.Core.Enumerators
+namespace SharedValues.Core.Collections
 {
     public class SharedDictionary<TKey, TValue> : SharedCollection<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TKey, TValue>
     {
@@ -26,46 +26,9 @@ namespace SharedValues.Core.Enumerators
             return "Dictionary";
         }
 
-        public sealed override void ResetCollection()
-        {
-            if(Value == null)
-            {
-                Value = new Dictionary<TKey, TValue>();
-            }
-            else
-            {
-                Value.Clear();
-            }
-        }
-
-        public sealed override void Add(KeyValuePair<TKey, TValue> collectionItem)
-        {
-            Value.Add(collectionItem.Key, collectionItem.Value);
-        }
-
-        public sealed override void Add(TKey key, TValue value)
-        {
-            Value.Add(key, value);
-        }
-
-        public sealed override void Remove(KeyValuePair<TKey, TValue> value)
-        {
-            RemoveAt(value.Key);
-        }
-
-        public sealed override void RemoveAt(TKey key)
-        {
-            Value.Remove(key);
-        }
-
         public sealed override TValue GetValue(TKey key)
         {
             return Value[key];
-        }
-
-        public sealed override void SetValue(TKey index, TValue value)
-        {
-            this.Value[index] = value;
         }
 
         public sealed override bool TryGetValue(TKey index, out TValue value)
@@ -81,94 +44,113 @@ namespace SharedValues.Core.Enumerators
                 return false;
             }
         }
-    }
 
-
-    public class SharedDictionaryReference<TKey, TValue> : SharedCollectionReference<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TKey, TValue>
-    {
-        public sealed override void Add(KeyValuePair<TKey, TValue> collectionItem)
+        public sealed override void AddWithoutNotify(TKey key, TValue value)
         {
-            Value.TryAdd(collectionItem.Key, collectionItem.Value);
-            BroadcastToReference();
+            Value.Add(key, value);
         }
 
-        public sealed override void Add(TKey key, TValue value)
+        public sealed override void AddWithoutNotify(KeyValuePair<TKey, TValue> collectionItem)
         {
-            Value.TryAdd(key, value);
-            BroadcastToReference();
+            Value.Add(collectionItem.Key, collectionItem.Value);
         }
 
-        public sealed override void Remove(KeyValuePair<TKey, TValue> value)
+        public sealed override void RemoveAtWithoutNotify(TKey key)
         {
-            RemoveAt(value.Key);
+            Value.Remove(key);
         }
 
-        public override void RemoveAt(TKey key)
+        public sealed override void RemoveWithoutNotify(KeyValuePair<TKey, TValue> collectionItem)
         {
-            if (Value.ContainsKey(key))
-            {
-                Value.Remove(key);
-            }
-            BroadcastToReference();
+            Value.Remove(collectionItem.Key);
+        }
+
+        public sealed override void SetValueWithoutNotify(TKey index, TValue value)
+        {
+            this.Value[index] = value;
         }
 
         public sealed override void ResetCollection()
         {
             if(Value == null)
+            {
                 Value = new Dictionary<TKey, TValue>();
+            }
             else
+            {
                 Value.Clear();
-
-            BroadcastToReference();
+            }
         }
 
+        public sealed override TKey ConvertCollectionItemToKey(KeyValuePair<TKey, TValue> collectionItem)
+        {
+            return collectionItem.Key;
+        }
+
+        public sealed override TValue ConvertCollectionItemToValue(KeyValuePair<TKey, TValue> collectionItem)
+        {
+            return collectionItem.Value;
+        }
+    }
+
+
+    public class SharedDictionaryReference<TKey, TValue> : SharedCollectionReference<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TKey, TValue>
+    {
         public sealed override TValue GetValue(TKey key)
         {
             return Value[key];
         }
 
-        public sealed override void SetValue(TKey index, TValue value)
+        public sealed override bool TryGetValue(TKey index, out TValue value)
         {
-            if(Value.ContainsKey(index))
-                Value[index] = value;
-
-            BroadcastToReference();
-        }
-
-        public sealed override void AddWithoutNotify(KeyValuePair<TKey, TValue> value)
-        {
-            Value.TryAdd(value.Key, value.Value);
-
+            return Value.TryGetValue(index, out value);
         }
 
         public sealed override void AddWithoutNotify(TKey key, TValue value)
         {
-            Value.TryAdd(key, value);
-            BroadcastToReference();
+            Value.Add(key, value);
         }
 
-        public sealed override void RemoveWithoutNotify(KeyValuePair<TKey, TValue> value)
+        public sealed override void AddWithoutNotify(KeyValuePair<TKey, TValue> collectionItem)
         {
-            RemoveAtWithoutNotify(value.Key);
+            Value.Add(collectionItem.Key, collectionItem.Value);
         }
 
-        public override void RemoveAtWithoutNotify(TKey key)
+        public sealed override void RemoveAtWithoutNotify(TKey key)
         {
-            if (Value.ContainsKey(key))
+            Value.Remove(key);
+        }
+
+        public sealed override void RemoveWithoutNotify(KeyValuePair<TKey, TValue> collectionItem)
+        {
+            Value.Remove(collectionItem.Key);
+        }
+
+        public sealed override void SetValueWithoutNotify(TKey index, TValue value)
+        {
+            Value[index] = value;
+        }
+
+        public sealed override void ResetCollection()
+        {
+            if(Value == null)
             {
-                Value.Remove(key);
+                Value = new Dictionary<TKey, TValue>();
+            }
+            else
+            {
+                Value.Clear();
             }
         }
 
-        public sealed override void SetValueWithoutNotify(TKey index, KeyValuePair<TKey, TValue> value)
+        public sealed override TKey ConvertCollectionItemToKey(KeyValuePair<TKey, TValue> collectionItem)
         {
-            if(Value.ContainsKey(index))
-                Value[index] = value.Value;
+            return collectionItem.Key;
         }
 
-        public sealed override bool TryGetValue(TKey index, out TValue value)
+        public sealed override TValue ConvertCollectionItemToValue(KeyValuePair<TKey, TValue> collectionItem)
         {
-            return Value.TryGetValue(index, out value);
+            return collectionItem.Value;
         }
     }
 }

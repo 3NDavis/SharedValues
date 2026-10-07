@@ -16,58 +16,21 @@
    
 using System.Collections.Generic;
 
-namespace SharedValues.Core.Enumerators
+namespace SharedValues.Core.Collections
 {
-    public class SharedList<TCollectionItem> : SharedCollection<List<TCollectionItem>, TCollectionItem, int, TCollectionItem>
+    public class SharedList<TValue> : SharedCollection<List<TValue>, TValue, int, TValue>
     {
         protected override string GetTextureName()
         {
             return "List";
         }
 
-        public sealed override void ResetCollection()
-        {
-            if(Value == null)
-            {
-                Value = new List<TCollectionItem>();
-            }
-            else
-            {
-                Value.Clear();
-            }
-        }
-
-        public sealed override void Add(TCollectionItem collectionItem)
-        {
-           Value.Add(collectionItem);
-        }
-
-        public sealed override void Add(int key, TCollectionItem value)
-        {
-            Value.Add(value);
-        }
-
-        public sealed override void Remove(TCollectionItem collectionItem)
-        {
-            Value.Remove(collectionItem);
-        }
-
-        public override void RemoveAt(int key)
-        {
-            Value.RemoveAt(key);
-        }
-
-        public sealed override TCollectionItem GetValue(int key)
+        public sealed override TValue GetValue(int key)
         {
             return Value[key];
         }
 
-        public sealed override void SetValue(int index, TCollectionItem value)
-        {
-            Value[index] = value;
-        }
-
-        public sealed override bool TryGetValue(int index, out TCollectionItem value)
+        public sealed override bool TryGetValue(int index, out TValue value)
         {
             if(index >= this.Value.Count)
             {
@@ -78,87 +41,65 @@ namespace SharedValues.Core.Enumerators
             value = this.Value[index];
             return true;
         }
-    }
 
-    public class SharedListReference<TCollectionItem> : SharedCollectionReference<List<TCollectionItem>, TCollectionItem, int, TCollectionItem>
-    {
-        public sealed override void Add(TCollectionItem value)
-        {
-            AddWithoutNotify(value);
-            BroadcastToReference();
-        }
-
-        public sealed override void Add(int key, TCollectionItem value)
-        {
-            AddWithoutNotify(value);
-            BroadcastToReference();
-        }
-
-        public sealed override void AddWithoutNotify(TCollectionItem value)
+        public sealed override void AddWithoutNotify(int key, TValue value)
         {
             Value.Add(value);
         }
 
-        public sealed override void AddWithoutNotify(int key, TCollectionItem value)
+        public override void AddWithoutNotify(TValue collectionItem)
         {
-            Value.Add(value);
+            Value.Add(collectionItem);
         }
 
-        public sealed override TCollectionItem GetValue(int index)
-        {
-            return Value[index];
-        }
-
-        public sealed override void Remove(TCollectionItem value)
-        {
-            RemoveWithoutNotify(value);
-            BroadcastToReference();
-        }
-
-        public override void RemoveAt(int key)
+        public sealed override void RemoveAtWithoutNotify(int key)
         {
             Value.RemoveAt(key);
         }
 
-        public sealed override void RemoveWithoutNotify(TCollectionItem value)
+        public override void RemoveWithoutNotify(TValue collectionItem)
         {
-            Value.Remove(value);
+            Value.Remove(collectionItem);
         }
-
-        public override void RemoveAtWithoutNotify(int key)
+        
+        public sealed override void SetValueWithoutNotify(int index, TValue value)
         {
-            Value.RemoveAt(key);
+            Value[index] = value;
         }
 
         public sealed override void ResetCollection()
         {
             if(Value == null)
             {
-                Value = new List<TCollectionItem>();
+                Value = new List<TValue>();
             }
             else
             {
                 Value.Clear();
             }
-            BroadcastToReference();
         }
 
-        public sealed override void SetValue(int index, TCollectionItem value)
+        public sealed override int ConvertCollectionItemToKey(TValue collectionItem)
         {
-            SetValueWithoutNotify(index, value);
-
-            BroadcastToReference();
+            return Value.IndexOf(collectionItem);
         }
 
-        public sealed override void SetValueWithoutNotify(int index, TCollectionItem value)
+        public sealed override TValue ConvertCollectionItemToValue(TValue collectionItem)
         {
-            if(index >= Value.Count)
-                return;
-            
-            Value[index] = value;
+            return collectionItem;
         }
 
-        public sealed override bool TryGetValue(int index, out TCollectionItem value)
+
+    }
+
+    public class SharedListReference<TValue> : SharedCollectionReference<List<TValue>, TValue, int, TValue>
+    {
+        public sealed override TValue GetValue(int index)
+        {
+            return Value[index];
+        }
+
+        public sealed override bool TryGetValue(int index, out TValue value)
         {
             if(Value.Count >= index)
             {
@@ -168,6 +109,54 @@ namespace SharedValues.Core.Enumerators
 
             value = Value[index];
             return true;
+        }
+
+        public sealed override void AddWithoutNotify(int key, TValue value)
+        {
+            Value.Add(value);
+        }
+
+        public sealed override void AddWithoutNotify(TValue collectionItem)
+        {
+            Value.Add(collectionItem);
+        }
+
+        public sealed override void RemoveAtWithoutNotify(int key)
+        {
+            Value.RemoveAt(key);
+        }
+
+        public sealed override void RemoveWithoutNotify(TValue collectionItem)
+        {
+            Value.Remove(collectionItem);
+        }
+
+
+        public sealed override void SetValueWithoutNotify(int index, TValue value)
+        {
+            Value[index] = value;
+        }
+
+        public sealed override void ResetCollection()
+        {
+            if(Value == null)
+            {
+                Value = new List<TValue>();
+            }
+            else
+            {
+                Value.Clear();
+            }
+        }
+
+        public sealed override int ConvertCollectionItemToKey(TValue collectionItem)
+        {
+            return Value.IndexOf(collectionItem);
+        }
+
+        public sealed override TValue ConvertCollectionItemToValue(TValue collectionItem)
+        {
+            return collectionItem;
         }
     }
 }
