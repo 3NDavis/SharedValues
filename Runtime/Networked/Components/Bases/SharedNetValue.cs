@@ -18,25 +18,25 @@
 using FishNet.Object;
 using SharedValues.Core;
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace SharedValues.Networked
 {
-    public abstract class SharedNetValue<T, R> : NetworkBehaviour, IValueSetter<T>, IValueEventHandler<T>
-    where R : SharedValueReference<T>
+    public abstract class SharedNetValue<TValue, TReference> : NetworkBehaviour, IValueSetter<TValue>, IValueEventHandler<TValue>
+    where TReference : SharedValueReference<TValue>
     {
 #if UNITY_EDITOR
         [SerializeField] protected string Note;
         [SerializeField] private bool debugLog;
 #endif
-        [SerializeField] private bool checkForOwnership;
+        [field: SerializeField] protected bool checkForOwnership {get; private set;}
 
         [SerializeField] private bool setValueOnStart;
-        [SerializeField] private T startingValue;
-        [SerializeField] private R localValue;
+        [SerializeField] private TValue startingValue;
+        [SerializeField] private TReference localValue;
+        protected TReference LocalValue;
         
-        public T Value {get { return localValue.Value; } set { SetValue(value); }}
+        public TValue Value {get { return localValue.Value; } set { SetValue(value); }}
 
         public override void OnStartNetwork()
         {
@@ -48,7 +48,7 @@ namespace SharedValues.Networked
         }
         
         [Server(Logging = FishNet.Managing.Logging.LoggingType.Off)]
-        protected void SetValue(T value)
+        protected void SetValue(TValue value)
         {
             if(checkForOwnership & !IsOwner) return;
 
@@ -64,9 +64,9 @@ namespace SharedValues.Networked
         // This attribute needs to be above SetNetworkValue(T) after it has been spcified
         
         // require ownership is false since that check is already done in SetValue();
-        // [ServerRpc(RequireOwnership = false, RunLocally = true)] 
-        protected abstract void SetNetworkValue(T value);
-        public void SetLocalValue(T value)
+        // [ServerRpc(RequireOwnership = false, RunLocally = false)] 
+        protected abstract void SetNetworkValue(TValue value);
+        public void SetLocalValue(TValue value)
         {
             #if UNITY_EDITOR
             if(debugLog)
@@ -75,7 +75,7 @@ namespace SharedValues.Networked
             localValue.Value = value;
         }
 
-        protected void SetLocalValue(T prev, T next, bool asServer)
+        protected void SetLocalValue(TValue prev, TValue next, bool asServer)
         {
             SetLocalValue(next);
         }
@@ -84,7 +84,7 @@ namespace SharedValues.Networked
         /// Add listener to changes in the local value
         /// </summary>
         /// <param name="action"></param>
-        public void AddListener(Action<T> action)
+        public void AddListener(Action<TValue> action)
         {
             localValue.AddListener(action);
         }
@@ -93,7 +93,7 @@ namespace SharedValues.Networked
         /// Removes listener to changes in the local value
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveListener(Action<T> action)
+        public void RemoveListener(Action<TValue> action)
         {
             localValue.RemoveListener(action);
         }

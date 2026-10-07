@@ -32,7 +32,7 @@ namespace SharedValues.Core
         protected ReferenceType _ReferenceType => referenceType;
     }
 
-    public class SharedValueReference<T> : SharedValueReference
+    public class SharedValueReference<T> : SharedValueReference, IValueEventHandler<T>
     {
         [SerializeField] private T variableValue;
         private T VariableValue { get { return variableValue; } set { this.variableValue = value; onVariableValueChange?.Invoke(this.variableValue); } }

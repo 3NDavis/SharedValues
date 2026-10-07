@@ -24,10 +24,10 @@ namespace SharedValues.Networked
 {
     public class SharedNetBool : SharedNetValue<bool, SharedBoolReference>
     {
-        private readonly SyncVar<bool> networkValue = new SyncVar<bool>(new SyncTypeSettings(WritePermission.ClientUnsynchronized));
+        private readonly SyncVar<bool> networkValue = new SyncVar<bool>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
         //require ownership is false since that check is already done in SetValue();
-        [ServerRpc(RequireOwnership = false, RunLocally = true)] 
+        [ServerRpc(RequireOwnership = false, RunLocally = false)] 
         protected override void SetNetworkValue(bool value)
         {
             //this causes the subscription in OnEnable to trigger

@@ -27,7 +27,7 @@ namespace SharedValues.Networked
         private readonly SyncVar<Color> networkValue = new SyncVar<Color>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
         //require ownership is false since that check is already done in SetValue();
-        [ServerRpc(RequireOwnership = false, RunLocally = true)] 
+        [ServerRpc(RequireOwnership = false, RunLocally = false)] 
         protected override void SetNetworkValue(Color value)
         {
             //this causes the subscription in OnEnable to trigger

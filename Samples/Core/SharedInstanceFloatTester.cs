@@ -17,7 +17,7 @@
 using SharedValues.Core;
 using UnityEngine;
 
-namespace SharedValues.Tests
+namespace SharedValues.Samples
 {
     public class SharedInstanceFloatTester : MonoBehaviour
     {

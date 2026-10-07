@@ -48,9 +48,6 @@ namespace SharedValues.Core
             .Append(".png");
 
             string path = pathBuilder.ToString();
-            #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            Debug.Log($"\n{path}\nAssets/Shared Values/Editor/Core/Textures/Float.png");
-            #endif
 
             Texture2D icon = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
             EditorGUIUtility.SetIconForObject(this, icon);

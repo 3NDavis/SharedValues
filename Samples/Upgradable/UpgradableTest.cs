@@ -1,7 +1,7 @@
 using UnityEngine;
 using SharedValues.Upgradable;
 
-namespace SharedValues.Upgradable.VisualTreeAsset
+namespace SharedValues.Samples
 {
     public class UpgradableTest : MonoBehaviour
     {
