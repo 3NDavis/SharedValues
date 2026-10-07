@@ -32,6 +32,53 @@ namespace SharedValues.Networked
             set => SetValueWithoutNotify(key, value);
         }
 
+        public void Add(TCollectionItem collectionItem)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+                
+            Add(ConvertCollectionItemToKey(collectionItem), ConvertCollectionItemToValue(collectionItem));
+        }
+        public void Add(TKey key, TValue value)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+                
+            AddWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void Remove(TCollectionItem collectionItem)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+                
+            RemoveAt(ConvertCollectionItemToKey(collectionItem));
+        }
+        public void RemoveAt(TKey key)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+                
+            RemoveAtWithoutNotify(key);
+            OnCollectionChange(CollectionModificationType.Remove, key, default);
+        }
+        public void SetCollectionValue(TKey key, TValue value)
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+                
+            SetValueWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void ClearCollection()
+        {
+            if(checkForOwnership & !IsOwner)
+                return;
+
+            ResetCollection();
+            OnCollectionChange(CollectionModificationType.Clear, default, default);
+        }
+
         //this attribute should be put over all the ___Networked() functions
         //require ownership is false since that check is already done in SetValue();
         // [ServerRpc(RequireOwnership = false, RunLocally = false)] 

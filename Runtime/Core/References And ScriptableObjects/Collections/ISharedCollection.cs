@@ -37,34 +37,34 @@ namespace SharedValues.Core.Collections
 #endregion
 
 #region  Set
-        public void Add(TCollectionItem collectionItem)
-        {
-            Add(ConvertCollectionItemToKey(collectionItem), ConvertCollectionItemToValue(collectionItem));
-        }
-        public void Add(TKey key, TValue value)
-        {
-            AddWithoutNotify(key, value);
-            OnCollectionChange(CollectionModificationType.Add, key, value);
-        }
-        public void Remove(TCollectionItem collectionItem)
-        {
-            RemoveAt(ConvertCollectionItemToKey(collectionItem));
-        }
-        public void RemoveAt(TKey key)
-        {
-            RemoveAtWithoutNotify(key);
-            OnCollectionChange(CollectionModificationType.Remove, key, default);
-        }
-        public void SetCollectionValue(TKey key, TValue value)
-        {
-            SetValueWithoutNotify(key, value);
-            OnCollectionChange(CollectionModificationType.Add, key, value);
-        }
-        public void ClearCollection()
-        {
-            ResetCollection();
-            OnCollectionChange(CollectionModificationType.Clear, default, default);
-        }
+        public void Add(TCollectionItem collectionItem);
+        // {
+        //     Add(ConvertCollectionItemToKey(collectionItem), ConvertCollectionItemToValue(collectionItem));
+        // }
+        public void Add(TKey key, TValue value);
+        // {
+        //     AddWithoutNotify(key, value);
+        //     OnCollectionChange(CollectionModificationType.Add, key, value);
+        // }
+        public void Remove(TCollectionItem collectionItem);
+        // {
+        //     RemoveAt(ConvertCollectionItemToKey(collectionItem));
+        // }
+        public void RemoveAt(TKey key);
+        // {
+        //     RemoveAtWithoutNotify(key);
+        //     OnCollectionChange(CollectionModificationType.Remove, key, default);
+        // }
+        public void SetCollectionValue(TKey key, TValue value);
+        // {
+        //     SetValueWithoutNotify(key, value);
+        //     OnCollectionChange(CollectionModificationType.Add, key, value);
+        // }
+        public void ClearCollection();
+        // {
+        //     ResetCollection();
+        //     OnCollectionChange(CollectionModificationType.Clear, default, default);
+        // }
 #endregion
 
 #region  Broadcast

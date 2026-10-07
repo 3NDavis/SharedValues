@@ -39,6 +39,36 @@ namespace SharedValues.Core.Collections
         public int Count(){return Value.Count;}
         public abstract TValue GetValue(TKey key);
         public abstract bool TryGetValue(TKey key, out TValue value);
+
+        public void Add(TCollectionItem collectionItem)
+        {
+            Add(ConvertCollectionItemToKey(collectionItem), ConvertCollectionItemToValue(collectionItem));
+        }
+        public void Add(TKey key, TValue value)
+        {
+            AddWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void Remove(TCollectionItem collectionItem)
+        {
+            RemoveAt(ConvertCollectionItemToKey(collectionItem));
+        }
+        public void RemoveAt(TKey key)
+        {
+            RemoveAtWithoutNotify(key);
+            OnCollectionChange(CollectionModificationType.Remove, key, default);
+        }
+        public void SetCollectionValue(TKey key, TValue value)
+        {
+            SetValueWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void ClearCollection()
+        {
+            ResetCollection();
+            OnCollectionChange(CollectionModificationType.Clear, default, default);
+        }
+
         public abstract void AddWithoutNotify(TKey key, TValue value);
         public abstract void AddWithoutNotify(TCollectionItem collectionItem);
         public abstract void RemoveAtWithoutNotify(TKey key);
@@ -93,6 +123,36 @@ namespace SharedValues.Core.Collections
         public abstract TValue GetValue(TKey key);
         public abstract bool TryGetValue(TKey key, out TValue value);
         
+        public void Add(TCollectionItem collectionItem)
+        {
+            Add(ConvertCollectionItemToKey(collectionItem), ConvertCollectionItemToValue(collectionItem));
+        }
+        public void Add(TKey key, TValue value)
+        {
+            AddWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void Remove(TCollectionItem collectionItem)
+        {
+            RemoveAt(ConvertCollectionItemToKey(collectionItem));
+        }
+        public void RemoveAt(TKey key)
+        {
+            RemoveAtWithoutNotify(key);
+            OnCollectionChange(CollectionModificationType.Remove, key, default);
+        }
+        public void SetCollectionValue(TKey key, TValue value)
+        {
+            SetValueWithoutNotify(key, value);
+            OnCollectionChange(CollectionModificationType.Add, key, value);
+        }
+        public void ClearCollection()
+        {
+            ResetCollection();
+            OnCollectionChange(CollectionModificationType.Clear, default, default);
+        }
+
+
         public abstract void AddWithoutNotify(TKey key, TValue value);
         public abstract void AddWithoutNotify(TCollectionItem collectionItem);
         public abstract void RemoveAtWithoutNotify(TKey key);
