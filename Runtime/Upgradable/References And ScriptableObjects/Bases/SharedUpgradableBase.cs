@@ -20,9 +20,9 @@ namespace SharedValues.Upgradable
 {
     public abstract class SharedUpgradableSOBase : SharedSOBase
     {
-        protected override string GetFilePath()
+        protected override string GetSharedValueExtensionFileName()
         {
-            return k_sharedValueFilePath + "Upgradable\\";
+            return "Upgradable";
         }
 
         protected override string GetTextureName()

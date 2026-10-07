@@ -16,6 +16,7 @@
    
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 #endif
 using UnityEngine;
@@ -24,10 +25,6 @@ namespace SharedValues.Core
 {
     public class SharedSOBase : ScriptableObject
     {
-        protected const string k_sharedValueFilePath = "Assets\\Scripts\\Shared Values\\";
-        protected const string k_editorTextureExtension = "Editor\\Textures\\";
-        protected const string k_qMarkTexture = "qMark";
-
 #if UNITY_EDITOR
         void OnEnable()
         {
@@ -36,25 +33,38 @@ namespace SharedValues.Core
 
         public void SetIcon()
         {
-            string path = GetTexturePath();
+            string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
+
+            int fileExtensionIndex = scriptAssetPath.IndexOf("Shared Values/Runtime");
+            scriptAssetPath = scriptAssetPath.Remove(fileExtensionIndex - 1);
+
+            StringBuilder pathBuilder = new();
+            pathBuilder.Append(scriptAssetPath)
+            .Append("/Shared Values/Editor/")
+            .Append(GetSharedValueExtensionFileName())
+            .Append("/")
+            .Append("Textures/")
+            .Append(GetTextureName())
+            .Append(".png");
+
+            string path = pathBuilder.ToString();
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            Debug.Log($"\n{path}\nAssets/Shared Values/Editor/Core/Textures/Float.png");
+            #endif
+
             Texture2D icon = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
             EditorGUIUtility.SetIconForObject(this, icon);
         }
-
-        public string GetTexturePath()
-        {
-            return GetFilePath() + k_editorTextureExtension + GetTextureName() + ".png";
-        }
 #endif
 
-        protected virtual string GetFilePath()
+        protected virtual string GetSharedValueExtensionFileName()
         {
-            return k_sharedValueFilePath + "Core\\";
+            return "Core";
         }
 
         protected virtual string GetTextureName()
         {
-            return k_qMarkTexture;
+            return "qMark";
         }
     }
 

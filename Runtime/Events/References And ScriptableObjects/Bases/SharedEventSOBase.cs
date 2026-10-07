@@ -15,16 +15,14 @@
    
    
 using SharedValues.Core;
-using System;
-using UnityEngine;
 
 namespace SharedValues.Events
 {
     public abstract class SharedEventSOBase : SharedSOBase
     {
-        protected override string GetFilePath()
+        protected override string GetSharedValueExtensionFileName()
         {
-            return k_sharedValueFilePath + "Events\\";
+            return "Events";
         }
     }
 }

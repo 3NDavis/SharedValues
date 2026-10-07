@@ -24,9 +24,9 @@ namespace SharedValues.Averages
     public abstract class AverageValue<T, S> : SharedSOBase , ISerializationCallbackReceiver
     where T : SharedValueReference<S> where S : struct
     {
-        protected override string GetFilePath()
+        protected override string GetSharedValueExtensionFileName()
         {
-            return k_sharedValueFilePath + "Averages\\";
+            return "Averages";
         }
 
         private S average;

@@ -15,6 +15,7 @@
    
    
 using System;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace SharedValues.Core
@@ -25,11 +26,6 @@ namespace SharedValues.Core
         public abstract object objValue{get;}
 #endif
         public abstract void BroadcastValueChange();
-
-        protected override string GetFilePath()
-        {
-            return k_sharedValueFilePath + "Core\\";
-        }
     }
 
     public abstract class SharedValue<T> : SharedValue, IValueSpecialSetter<T>, IValueEventHandler<T>
@@ -50,8 +46,8 @@ namespace SharedValues.Core
 
         /// <summary>
         /// Allows the shared value to be used in the place of a value.
-        /// Ex sharedInt += 1 instead of sharedInt.Value += 1
         /// </summary>
+        /// Ex sharedInt += 1 instead of sharedInt.Value += 1
         /// <param name="sharedValue"></param>
 		public static implicit operator T( SharedValue<T> sharedValue )
 		{
