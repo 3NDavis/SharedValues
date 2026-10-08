@@ -26,11 +26,6 @@ namespace SharedValues.Core
     public class SharedSOBase : ScriptableObject
     {
 #if UNITY_EDITOR
-        void OnEnable()
-        {
-            SetIcon();
-        }
-
         public void SetIcon()
         {
             // string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
