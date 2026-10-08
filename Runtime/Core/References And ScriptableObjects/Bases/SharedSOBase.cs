@@ -33,11 +33,12 @@ namespace SharedValues.Core
 
         public void SetIcon()
         {
-            string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
+            // string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
 
-            int fileExtensionIndex = scriptAssetPath.IndexOf("Shared Values/Runtime");
-            scriptAssetPath = scriptAssetPath.Remove(fileExtensionIndex - 1);
+            // int fileExtensionIndex = scriptAssetPath.IndexOf("Shared Values/Runtime");
+            // scriptAssetPath = scriptAssetPath.Remove(fileExtensionIndex - 1);
 
+            string scriptAssetPath ="Packages";
             StringBuilder pathBuilder = new();
             pathBuilder.Append(scriptAssetPath)
             .Append("/Shared Values/Editor/")
