@@ -25,6 +25,50 @@ namespace SharedValues.Networked
     where TCollection : ICollection, IEnumerable
     where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>, ISharedCollection<TCollectionItem,TKey,TValue>
     {
+        protected override void OnEnable()
+        {
+#if UNITY_EDITOR
+            LocalValue.AddListener(UpdateCollection);
+#else
+            if (listenToLocalValue)
+            {
+                LocalValue.AddListener(UpdateCollection);
+            }
+#endif
+        }
+        protected override void OnDisable()
+        {
+            LocalValue.RemoveListener(UpdateCollection);
+        }
+
+        private void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
+        {
+#if UNITY_EDITOR
+            if(localInteractionMethod != LocalInteractionMethod.listen) 
+                return;
+#endif
+
+            if(checkForOwnership & !IsOwner) 
+                return;
+
+            switch (type)
+            {
+                case CollectionModificationType.Clear:
+                    ResetNetworked();
+                    break;
+                case CollectionModificationType.Add:
+                    AddNetworked(key, value);
+                    break;
+                case CollectionModificationType.Remove:
+                    RemoveAtNetworked(key);
+                    break;
+                case CollectionModificationType.Set:
+                    SetValueNetworked(key, value);
+                    break;
+            }
+        }
+
+
         // indexer declaration
         public TValue this[TKey key]
         {

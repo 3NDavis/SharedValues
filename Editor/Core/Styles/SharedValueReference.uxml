@@ -9,7 +9,7 @@
                 <ui:EnumField label="" binding-path="referenceType" name="ReferenceType"/>
                 <ui:VisualElement enabled="true" data-source-path="" view-data-key="" name="Variables" style="border-left-width: 14px; border-top-width: 2px; visibility: visible; flex-direction: column; flex-shrink: 1; display: flex; flex-grow: 1; overflow: visible;">
                     <uie:PropertyField binding-path="variableValue" label="Variable Value" name="Value"/>
-                    <uie:PropertyField binding-path="sharedReference" label="Shared Value" view-data-key="" data-source-path="" name="SharedValue"/>
+                    <uie:PropertyField binding-path="sharedValue" label="Shared Value" view-data-key="" data-source-path="" name="SharedValue"/>
                     <uie:PropertyField binding-path="instanceGroup" label="Instancer" view-data-key="Instancer" data-source-path="" name="Instancer"/>
                 </ui:VisualElement>
             </ui:VisualElement>

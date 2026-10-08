@@ -33,13 +33,15 @@ namespace SharedValues.Networked
             //this causes the subscription in OnEnable to trigger
             networkValue.Value = value;
         }
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             networkValue.OnChange += SetLocalValue;
         }
 
-        void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             networkValue.OnChange -= SetLocalValue;
         }
     }

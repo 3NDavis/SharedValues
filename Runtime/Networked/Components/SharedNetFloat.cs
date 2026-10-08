@@ -33,13 +33,15 @@ namespace SharedValues.Networked
             networkValue.Value = value;
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             networkValue.OnChange += SetLocalValue;
         }
 
-        void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             networkValue.OnChange -= SetLocalValue;
         }
     }

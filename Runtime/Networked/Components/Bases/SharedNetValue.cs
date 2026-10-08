@@ -31,26 +31,56 @@ namespace SharedValues.Networked
 #endif
         [field: SerializeField] protected bool checkForOwnership {get; private set;}
 
-        [SerializeField] private bool setValueOnStart;
-        [SerializeField] private TValue startingValue;
+        [field: SerializeField] protected LocalInteractionMethod localInteractionMethod {get; private set;}
+        protected enum LocalInteractionMethod
+        {
+            listen,
+            broadcast,
+        }
+
         [SerializeField] private TReference localValue;
         protected TReference LocalValue;
         
         public TValue Value {get { return localValue.Value; } set { SetValue(value); }}
 
-        public override void OnStartNetwork()
+
+        protected virtual void OnEnable()
         {
-            base.OnStartNetwork();
-            if (setValueOnStart)
+#if UNITY_EDITOR
+            localValue.AddListener(UpdateNetValue);
+#else
+            if (listenToLocalValue)
             {
-                SetValue(startingValue);
+                localValue.AddListener(UpdateNetValue);
             }
+#endif
         }
-        
+        protected virtual void OnDisable()
+        {
+            localValue.RemoveListener(UpdateNetValue);
+        }
+
+        private void UpdateNetValue(TValue value)
+        {
+#if UNITY_EDITOR
+            if(localInteractionMethod != LocalInteractionMethod.listen) 
+                return;
+#endif
+            if(value.Equals(localValue.Value)) 
+                return;
+
+            if(checkForOwnership & !IsOwner) 
+                return;
+                
+
+            SetValue(value);
+        }
+
         [Server(Logging = FishNet.Managing.Logging.LoggingType.Off)]
         protected void SetValue(TValue value)
         {
             if(checkForOwnership & !IsOwner) return;
+            if(value.Equals(localValue.Value)) return;
 
 #if UNITY_EDITOR
             if(debugLog)

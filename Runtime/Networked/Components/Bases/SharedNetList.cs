@@ -22,7 +22,7 @@ using System.Collections.Generic;
 namespace SharedValues.Networked
 {
     public abstract class SharedNetList<TValue, TReference> : SharedNetCollection<List<TValue>, TValue, int, TValue, TReference>
-    where TReference: SharedListReference<TValue>, ISharedCollection<List<TValue>, int, TValue>
+    where TReference: SharedListReference<TValue>
     {
         protected sealed override void AddNetworked(int key, TValue item)
         {
