@@ -1,0 +1,27 @@
+{
+    "name": "SharedValues.Samples",
+    "rootNamespace": "SharedValues.Samples",
+    "references": [
+        "GUID:0fdaeab5b1d741f4d8cbf7e2e7d4ceb4",
+        "GUID:01ece9cd4f0ffbd45a3c404966477c88",
+        "GUID:3dea97251e68fee48a35d61169f24524",
+        "GUID:ce7293b5afc9eb948aeeebd6bb9bb7d3",
+        "GUID:90a28ead8a78862458b302bc8abd04ce",
+        "GUID:7c88a4a7926ee5145ad2dfa06f454c67"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.firstgeargames.fishnet",
+            "expression": "",
+            "define": "FISHNETWORKED"
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -25,29 +25,22 @@ namespace SharedValues.Networked
     where TCollection : ICollection, IEnumerable
     where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>, ISharedCollection<TCollectionItem,TKey,TValue>
     {
-        protected override void OnEnable()
+        protected virtual void OnEnable()
         {
-#if UNITY_EDITOR
             LocalValue.AddListener(UpdateCollection);
-#else
-            if (listenToLocalValue)
-            {
-                LocalValue.AddListener(UpdateCollection);
-            }
-#endif
         }
-        protected override void OnDisable()
+        protected virtual void OnDisable()
         {
             LocalValue.RemoveListener(UpdateCollection);
         }
 
+        public void UpdateCollection(CollectionChange<TKey, TValue> collectionChange)
+        {
+            UpdateCollection(collectionChange.modificationType, collectionChange.key, collectionChange.value);
+        }
+
         private void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
         {
-#if UNITY_EDITOR
-            if(localInteractionMethod != LocalInteractionMethod.listen) 
-                return;
-#endif
-
             if(checkForOwnership & !IsOwner) 
                 return;
 

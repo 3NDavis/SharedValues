@@ -14,16 +14,18 @@
 
 
 
+using SharedValues.Core.Collections;
 
-using UnityEngine;
-using SharedValues.Upgradable;
-
-namespace SharedValues.Samples
+namespace SharedValues.Events.Collections
 {
-    public class UpgradableTest : MonoBehaviour
+    public class SharedCollectionChangeEvent<TKey, TValue> : SharedEvent<CollectionChange<TKey, TValue>>
     {
-        [SerializeField] private UpgradableSharedFloat upgradeFloat;
-        [SerializeField] private UpgradableSharedInt upgradeInt;
-        [SerializeField] private UpgradableSharedVector upgradeVector2;
+
+    }
+
+    [System.Serializable]
+    public class SharedCollectionChangeEventReference<TKey, TValue> : SharedEventReference<CollectionChange<TKey, TValue>>
+    {
+        
     }
 }

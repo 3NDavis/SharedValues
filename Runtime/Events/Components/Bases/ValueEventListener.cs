@@ -19,8 +19,8 @@ using UnityEngine.Events;
 
 namespace SharedValues.Events
 {
-    public class ValueEventListener<T, R> : MonoBehaviour
-    where R : SharedEventReference<T>
+    public class ValueEventListener<TType, TSharedReference> : MonoBehaviour
+    where TSharedReference : SharedEventReference<TType>
     {
         private enum UnsubscribeTime
         {
@@ -31,9 +31,9 @@ namespace SharedValues.Events
 
         [SerializeField] private UnsubscribeTime unsubscribeTime;
 
-        [SerializeField] private R eventToListenTo;
+        [SerializeField] private TSharedReference eventToListenTo;
 
-        [SerializeField] UnityEvent<T> onEventHeard;
+        [SerializeField] UnityEvent<TType> onEventHeard;
 
 
         void OnEnable()
@@ -42,7 +42,7 @@ namespace SharedValues.Events
             eventToListenTo.AddListener(OnEventHeard);
         }
 
-        protected virtual void OnEventHeard(T value)
+        protected virtual void OnEventHeard(TType value)
         {
             onEventHeard?.Invoke(value);
         }

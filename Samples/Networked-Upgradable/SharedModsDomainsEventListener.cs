@@ -14,16 +14,14 @@
 
 
 
-
-using UnityEngine;
+using SharedValues.Core.Collections;
+using SharedValues.Events;
 using SharedValues.Upgradable;
 
 namespace SharedValues.Samples
 {
-    public class UpgradableTest : MonoBehaviour
+    public class SharedModsDomainsEventListener : ValueEventListener<CollectionChange<ValueModifierFloat, float>, SharedModsDomainsEventReference>
     {
-        [SerializeField] private UpgradableSharedFloat upgradeFloat;
-        [SerializeField] private UpgradableSharedInt upgradeInt;
-        [SerializeField] private UpgradableSharedVector upgradeVector2;
+        
     }
 }

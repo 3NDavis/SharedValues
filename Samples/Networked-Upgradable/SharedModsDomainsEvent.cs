@@ -14,16 +14,21 @@
 
 
 
-
-using UnityEngine;
+using SharedValues.Events.Collections;
 using SharedValues.Upgradable;
+using UnityEngine;
 
 namespace SharedValues.Samples
 {
-    public class UpgradableTest : MonoBehaviour
+    [CreateAssetMenu(menuName = "Shared Values/Events/Collections/Mods Domains", fileName = "SharedEvt_Collection_ModsDomainsChange_Name")]
+    public class SharedModsDomainsEvent : SharedCollectionChangeEvent<ValueModifierFloat, float>
     {
-        [SerializeField] private UpgradableSharedFloat upgradeFloat;
-        [SerializeField] private UpgradableSharedInt upgradeInt;
-        [SerializeField] private UpgradableSharedVector upgradeVector2;
+        
+    }
+
+    [System.Serializable]
+    public class SharedModsDomainsEventReference : SharedCollectionChangeEventReference<ValueModifierFloat, float>
+    {
+        
     }
 }

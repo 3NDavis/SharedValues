@@ -37,15 +37,13 @@ namespace SharedValues.Networked
             #endif
         }
 
-        protected override void OnEnable()
+        protected virtual void OnEnable()
         {
-            base.OnEnable();
             networkValue.OnChange += SetLocalValue;
         }
 
-        protected override void OnDisable()
+        protected virtual void OnDisable()
         {
-            base.OnDisable();
             networkValue.OnChange -= SetLocalValue;
         }
     }

@@ -65,11 +65,11 @@ namespace SharedValues.Events
         {
             switch(_ReferenceType)
             {
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     evt.evt += action;
                     break;
 
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     InstanceGroup.GetInstance(evt).evt += action;
                     break;
             }
@@ -79,11 +79,11 @@ namespace SharedValues.Events
         {
             switch(_ReferenceType)
             {
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     evt.evt -= action;
                     break;
 
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     InstanceGroup.GetInstance(evt).evt -= action;
                     break;
             }
@@ -93,10 +93,10 @@ namespace SharedValues.Events
         {
             switch (_ReferenceType)
             {
-                case ReferenceType.superGlobal:
+                case ReferenceType.global:
                     evt.BroadcastEvent();
                     break;
-                case ReferenceType.groupedInstance:
+                case ReferenceType.instanced:
                     InstanceGroup.GetInstance(evt).BroadcastEvent();
                     break;
 
