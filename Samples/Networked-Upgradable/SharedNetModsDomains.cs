@@ -14,6 +14,7 @@
 
 
 
+using System.Collections;
 using System.Collections.Generic;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -27,9 +28,9 @@ namespace SharedValues.Samples
         private readonly SyncDictionary<ValueModifierFloat, float> networkValue 
             = new SyncDictionary<ValueModifierFloat, float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
-        void Awake()
+        void Start()
         {
-            LocalValue.ResetCollection();
+            Invoke(nameof(LocalValue.ResetCollection), 0.033f);
         }
 
         private void OnEnable()
