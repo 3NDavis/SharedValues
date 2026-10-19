@@ -25,21 +25,12 @@ namespace SharedValues.Networked
     where TCollection : ICollection, IEnumerable
     where TReference : SharedCollectionReference<TCollection, TCollectionItem, TKey, TValue>, ISharedCollection<TCollectionItem,TKey,TValue>
     {
-        protected virtual void OnEnable()
-        {
-            LocalValue.AddListener(UpdateCollection);
-        }
-        protected virtual void OnDisable()
-        {
-            LocalValue.RemoveListener(UpdateCollection);
-        }
-
         public void UpdateCollection(CollectionChange<TKey, TValue> collectionChange)
         {
             UpdateCollection(collectionChange.modificationType, collectionChange.key, collectionChange.value);
         }
 
-        private void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
+        public void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
         {
             if(checkForOwnership & !IsOwner) 
                 return;
