@@ -38,16 +38,16 @@ namespace SharedValues.Networked
             switch (type)
             {
                 case CollectionModificationType.Clear:
-                    ResetNetworked();
+                    Reset();
                     break;
                 case CollectionModificationType.Add:
-                    AddNetworked(key, value);
+                    Add(key, value);
                     break;
                 case CollectionModificationType.Remove:
-                    RemoveAtNetworked(key);
+                    RemoveAt(key);
                     break;
                 case CollectionModificationType.Set:
-                    SetValueNetworked(key, value);
+                    SetCollectionValue(key, value);
                     break;
             }
         }
