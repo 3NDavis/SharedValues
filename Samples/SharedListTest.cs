@@ -27,15 +27,13 @@ namespace SharedValues.Samples
         private readonly SyncList<float> networkValue 
             = new SyncList<float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             networkValue.OnChange += SetLocalValue;
         }
 
-        protected override void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
             networkValue.OnChange -= SetLocalValue;
         }
 
