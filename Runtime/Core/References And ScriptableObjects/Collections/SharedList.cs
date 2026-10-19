@@ -25,7 +25,7 @@ namespace SharedValues.Core.Collections
             return "List";
         }
 
-        void OnEnable()
+        void Awake()
         {
             Value = new();
         }

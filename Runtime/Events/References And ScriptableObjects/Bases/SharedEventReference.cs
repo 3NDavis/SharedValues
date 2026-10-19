@@ -38,7 +38,10 @@ namespace SharedValues.Events
     public abstract class SharedEventReference<T> : SharedEventReference
     {
         [SerializeField] private SharedEvent<T> evt;
+
+        #if UNITY_EDITOR
         [SerializeField] private T lastValueBroadcasted;
+        #endif
 
         public bool HasEvent()
         {
@@ -75,6 +78,10 @@ namespace SharedValues.Events
 
         public void BroadcastEvent(T value)
         {
+#if UNITY_EDITOR
+            lastValueBroadcasted = value;
+#endif
+
             switch (_ReferenceType)
             {
                 case ReferenceType.global:
@@ -109,7 +116,7 @@ namespace SharedValues.Events
             }
         }
 
-        public void RemvoeListener(Action<T1, T2> action)
+        public void RemoveListener(Action<T1, T2> action)
         {
             switch(_ReferenceType)
             {
@@ -159,7 +166,7 @@ namespace SharedValues.Events
             }
         }
 
-        public void RemvoeListener(Action<T1, T2, T3> action)
+        public void RemoveListener(Action<T1, T2, T3> action)
         {
             switch(_ReferenceType)
             {
