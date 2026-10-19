@@ -32,7 +32,7 @@ namespace SharedValues.Networked
         [field: SerializeField] protected bool checkForOwnership {get; private set;}
 
         [SerializeField] private TReference localValue;
-        protected TReference LocalValue;
+        protected TReference LocalValue => localValue;
         
         public TValue Value {get { return localValue.Value; } set { SetValue(value); }}
 
