@@ -27,7 +27,7 @@ namespace SharedValues.Networked
     {
 #if UNITY_EDITOR
         [SerializeField] protected string Note;
-        [SerializeField] private bool debugLog;
+        [SerializeField] protected bool debugLog;
 #endif
         [field: SerializeField] protected bool checkForOwnership {get; private set;}
 

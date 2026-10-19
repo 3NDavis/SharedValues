@@ -18,6 +18,7 @@
 using SharedValues.Core.Collections;
 using System;
 using System.Collections;
+using UnityEngine;
 
 namespace SharedValues.Networked
 {
@@ -126,7 +127,7 @@ namespace SharedValues.Networked
         {
             if(checkForOwnership & !IsOwner)
                 return;
-            
+
             LocalValue.Add(key, value);
             AddNetworked(key, value);
         }
@@ -198,7 +199,14 @@ namespace SharedValues.Networked
 
         public void OnCollectionChange(CollectionModificationType modificationType, TKey key, TValue value)
         {
-            
+            #if UNITY_EDITOR
+            if(debugLog)
+            {
+                #if UNITY_EDITOR || DEVELOPMENT_BUILD
+                Debug.Log($"{modificationType} the collection {Note} with the key: {key} and the value {value}s");
+                #endif
+            }
+            #endif
         }
         #endregion
     }
