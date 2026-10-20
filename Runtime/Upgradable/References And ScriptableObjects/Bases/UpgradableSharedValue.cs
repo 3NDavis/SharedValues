@@ -34,7 +34,7 @@ namespace SharedValues.Upgradable
 
         [SerializeField] V modifiers;
 
-        public T GetValue(Dictionary<ValueModifierFloat, float> modificationsDomains)
+        public T GetValue(Dictionary<string, float> modificationsDomains)
         {
             postModificationValue = modifiers.ApplyModifications(baseValue.Value, modificationsDomains);
             return postModificationValue;

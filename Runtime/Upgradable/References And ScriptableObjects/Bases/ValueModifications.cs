@@ -32,13 +32,9 @@ namespace SharedValues.Upgradable
         /// </summary>
         /// <param name="baseValue">the value to begin with for the modifications</param>
         /// <returns>The post modifications value</returns>
-        public T ApplyModifications(T baseValue, Dictionary<ValueModifierFloat, float> modificationsDomains)
+        public T ApplyModifications(T baseValue, Dictionary<string, float> modificationsDomains)
         {
             T trackedValue = baseValue;
-
-            // #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            // Debug.Log("Should Check if any modifications have changed in order to not do calculations resulting in the same value");
-            // #endif
 
             if(modificationsDomains == null)
                 return baseValue;
