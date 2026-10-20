@@ -31,7 +31,7 @@ namespace SharedValues.Networked
             UpdateCollection(collectionChange.modificationType, collectionChange.key, collectionChange.value);
         }
 
-        protected void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
+        public void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
         {
             #if UNITY_EDITOR
             if(debugLog)
