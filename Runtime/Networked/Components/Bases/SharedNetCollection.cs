@@ -33,6 +33,11 @@ namespace SharedValues.Networked
 
         public void UpdateCollection(CollectionModificationType type, TKey key, TValue value)
         {
+            #if UNITY_EDITOR
+            if(debugLog)
+            Debug.Log($"trying to modify {name} by {type}ing");
+            #endif
+
             if(checkForOwnership & !IsOwner) 
                 return;
 
@@ -97,7 +102,7 @@ namespace SharedValues.Networked
                 return;
                 
             SetValueWithoutNotify(key, value);
-            OnCollectionChange(CollectionModificationType.Add, key, value);
+            OnCollectionChange(CollectionModificationType.Set, key, value);
         }
         public void ClearCollection()
         {
