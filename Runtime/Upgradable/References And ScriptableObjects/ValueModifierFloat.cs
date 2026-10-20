@@ -31,6 +31,11 @@ namespace SharedValues.Upgradable
             return "mFloat";
         }
 
+        public static implicit operator string( ValueModifierFloat modifier )
+		{
+			return modifier.name;
+		}
+
         [NonSerialized] private float lastDomainUsed;
         [NonSerialized] private float lastValueIn;
         [NonSerialized] private float lastValueOut;

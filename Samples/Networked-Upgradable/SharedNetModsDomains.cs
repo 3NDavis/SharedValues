@@ -22,14 +22,14 @@ using SharedValues.Upgradable;
 
 namespace SharedValues.Samples
 {
-    public class SharedNetModsDomains : SharedNetDictionary<ValueModifierFloat, float, SharedModsDomainsReference>
+    public class SharedNetModsDomains : SharedNetDictionary<string, float, SharedModsDomainsReference>
     {
-        private readonly SyncDictionary<ValueModifierFloat, float> networkValue 
-            = new SyncDictionary<ValueModifierFloat, float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
+        private readonly SyncDictionary<string, float> networkValue 
+            = new SyncDictionary<string, float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
         void Start()
         {
-            Invoke(nameof(LocalValue.ResetCollection), 0.033f);
+            LocalValue.ResetCollection();
         }
 
         private void OnEnable()
@@ -44,21 +44,21 @@ namespace SharedValues.Samples
         
         //require ownership is false since that check is already done in SetValue();
         [ServerRpc(RequireOwnership = false, RunLocally = false)] 
-        protected override void AddNetworked(ValueModifierFloat key, float value)
+        protected override void AddNetworked(string key, float value)
         {
             networkValue.Add(key, value);
         }
 
         //require ownership is false since that check is already done in SetValue();
         [ServerRpc(RequireOwnership = false, RunLocally = false)] 
-        protected override void RemoveAtNetworked(ValueModifierFloat key)
+        protected override void RemoveAtNetworked(string key)
         {
             networkValue.Remove(key);
         }
 
         //require ownership is false since that check is already done in SetValue();
         [ServerRpc(RequireOwnership = false, RunLocally = false)] 
-        protected override void SetValueNetworked(ValueModifierFloat key, float value)
+        protected override void SetValueNetworked(string key, float value)
         {
             networkValue[key] = value;
         }
@@ -72,7 +72,7 @@ namespace SharedValues.Samples
 
         //require ownership is false since that check is already done in SetValue();
         [ServerRpc(RequireOwnership = false, RunLocally = false)] 
-        protected override void SetNetworkValue(Dictionary<ValueModifierFloat, float> collection)
+        protected override void SetNetworkValue(Dictionary<string, float> collection)
         {
             networkValue.Collection = collection;
         }

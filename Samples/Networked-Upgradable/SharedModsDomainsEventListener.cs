@@ -20,7 +20,7 @@ using SharedValues.Upgradable;
 
 namespace SharedValues.Samples
 {
-    public class SharedModsDomainsEventListener : ValueEventListener<CollectionChange<ValueModifierFloat, float>, SharedModsDomainsEventReference>
+    public class SharedModsDomainsEventListener : ValueEventListener<CollectionChange<string, float>, SharedModsDomainsEventReference>
     {
         
     }

@@ -21,13 +21,13 @@ using UnityEngine;
 namespace SharedValues.Samples
 {
     [CreateAssetMenu(menuName = "Shared Values/Events/Collections/Mods Domains", fileName = "SharedEvt_Collection_ModsDomainsChange_Name")]
-    public class SharedModsDomainsEvent : SharedCollectionChangeEvent<ValueModifierFloat, float>
+    public class SharedModsDomainsEvent : SharedCollectionChangeEvent<string, float>
     {
         
     }
 
     [System.Serializable]
-    public class SharedModsDomainsEventReference : SharedCollectionChangeEventReference<ValueModifierFloat, float>
+    public class SharedModsDomainsEventReference : SharedCollectionChangeEventReference<string, float>
     {
         
     }

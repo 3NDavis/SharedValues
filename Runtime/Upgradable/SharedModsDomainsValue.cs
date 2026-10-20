@@ -20,13 +20,13 @@ using SharedValues.Core.Collections;
 namespace SharedValues.Upgradable
 {
     [CreateAssetMenu(menuName = "Shared Values/Upgradable/ModsDomains", fileName = "SharedDictionary_ModDomains_Name")]
-    public class SharedModsDomains : SharedDictionary<ValueModifierFloat, float>
+    public class SharedModsDomains : SharedDictionary<string, float>
     {
 
     }
 
     [System.Serializable]
-    public class SharedModsDomainsReference : SharedDictionaryReference<ValueModifierFloat, float>
+    public class SharedModsDomainsReference : SharedDictionaryReference<string, float>
     {
         
     }
