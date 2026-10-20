@@ -15,7 +15,6 @@
 
 
 using SharedValues.Events.Collections;
-using SharedValues.Upgradable;
 using UnityEngine;
 
 namespace SharedValues.Samples

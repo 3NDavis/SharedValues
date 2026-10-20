@@ -16,7 +16,6 @@
 
 using SharedValues.Core.Collections;
 using SharedValues.Events;
-using SharedValues.Upgradable;
 
 namespace SharedValues.Samples
 {

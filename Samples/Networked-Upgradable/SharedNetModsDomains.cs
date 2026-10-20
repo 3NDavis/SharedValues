@@ -27,11 +27,6 @@ namespace SharedValues.Samples
         private readonly SyncDictionary<string, float> networkValue 
             = new SyncDictionary<string, float>(new SyncTypeSettings(WritePermission.ClientUnsynchronized, ReadPermission.ExcludeOwner));
 
-        void Start()
-        {
-            LocalValue.ResetCollection();
-        }
-
         private void OnEnable()
         {
             networkValue.OnChange += SetLocalValue;

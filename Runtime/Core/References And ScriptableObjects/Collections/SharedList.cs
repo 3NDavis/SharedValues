@@ -25,11 +25,6 @@ namespace SharedValues.Core.Collections
             return "List";
         }
 
-        void Awake()
-        {
-            Value = new();
-        }
-
         public sealed override TValue GetValue(int key)
         {
             return Value[key];

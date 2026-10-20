@@ -30,6 +30,11 @@ namespace SharedValues.Core.Collections
     public abstract class SharedCollection<TCollection, TCollectionItem, TKey, TValue> : SharedValue<TCollection>, ISharedCollection<TCollectionItem, TKey, TValue>
     where TCollection : ICollection, IEnumerable
     {
+        void OnEnable()
+        {
+            ResetCollection();
+        }
+
         // indexer declaration
         public TValue this[TKey key]
         {

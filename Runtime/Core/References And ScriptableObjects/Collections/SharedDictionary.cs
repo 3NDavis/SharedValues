@@ -26,11 +26,6 @@ namespace SharedValues.Core.Collections
             return "Dictionary";
         }
 
-        void Awake()
-        {
-            Value = new();
-        }
-
         public sealed override TValue GetValue(TKey key)
         {
             return Value[key];
