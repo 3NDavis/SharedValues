@@ -133,7 +133,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
 
-            LocalValue.Add(key, value);
+            // LocalValue.Add(key, value);
             AddNetworked(key, value);
         }
 
@@ -142,7 +142,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
             
-            LocalValue.Add(collectionItem);
+            // LocalValue.Add(collectionItem);
             AddNetworked(collectionItem);
         }
 
@@ -151,7 +151,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
             
-            LocalValue.RemoveAt(key);
+            // LocalValue.RemoveAt(key);
             RemoveAtNetworked(key);
         }
 
@@ -160,7 +160,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
             
-            LocalValue.RemoveAt(LocalValue.ConvertCollectionItemToKey(collectionItem));
+            // LocalValue.RemoveAt(LocalValue.ConvertCollectionItemToKey(collectionItem));
             RemoveNetworked(collectionItem);
         }
 
@@ -169,7 +169,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
 
-            LocalValue[key] = value;
+            // LocalValue[key] = value;
             SetValueNetworked(key, value);
         }
 
@@ -178,7 +178,7 @@ namespace SharedValues.Networked
             if(checkForOwnership & !IsOwner)
                 return;
 
-            LocalValue.ResetCollection();
+            // LocalValue.ResetCollection();
             ResetNetworked();
         }
 
