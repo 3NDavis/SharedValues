@@ -201,12 +201,10 @@ namespace SharedValues.Core.Collections
             {
                 case ReferenceType.global:
                     SharedCollection.OnCollectionChange(modificationType, key, value);
-                    SharedValue.BroadcastValueChange();
                     break;
                 case ReferenceType.instanced:
                     var castSharedVal = InstanceGroup.GetInstance(SharedCollection);
                     castSharedVal.OnCollectionChange(modificationType, key, value);
-                    castSharedVal.BroadcastValueChange();
                     break;
             }
         }
