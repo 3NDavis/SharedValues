@@ -14,6 +14,7 @@
 
 
 
+#if FISHNET
 using System.Collections.Generic;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -81,3 +82,4 @@ namespace SharedValues.Samples
 
     }
 }
+#endif
