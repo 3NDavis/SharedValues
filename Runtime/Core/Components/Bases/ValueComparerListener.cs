@@ -25,7 +25,7 @@ namespace SharedValues.Core
     /// </summary>
     /// <typeparam name="T">The type of SharedValue</typeparam>
     /// <typeparam name="SVR">The SharedValueReference of type <typeparamref name="T"/></typeparam>
-    public abstract class ValueComparerListener<T, SVR> : ValueListener<T, SVR>
+    public abstract class ValueComparerListener<T, SVR> : MonoBehaviour
     where T : struct, IComparable where SVR : SharedValueReference<T>
     {
         [SerializeField] private SVR valueToCompareTo;
@@ -48,7 +48,7 @@ namespace SharedValues.Core
         [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
         [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
         
-        protected override void OnValueChanged(T newValue)
+        public void CompareToStoredValue(T newValue)
         {
             bool met = Compare(newValue);
             if (broadcastConditionally)
@@ -70,14 +70,6 @@ namespace SharedValues.Core
         }
 
         /// <summary>
-        /// Perform a comparison between the valueToListenTo and the valueToCompareTo and broadcasts the result 
-        /// </summary>
-        public void BroadcastIsConditionMet()
-        {
-            OnValueChanged(valueToListenTo.Value);
-        }
-
-        /// <summary>
         /// Compares the <paramref name="newValue"/> to the valueToCompareTo using the compareType
         /// </summary>
         /// <returns>The result of the comparison</returns>
@@ -85,13 +77,18 @@ namespace SharedValues.Core
         {
             if((compareType & CompareType.equals) == CompareType.equals)
             {
-                return newValue.Equals(valueToCompareTo.Value);
+                if(newValue.Equals(valueToCompareTo.Value))
+                    return true;
             }
             if((compareType & CompareType.notEquals) == CompareType.notEquals)
             {
-                return !newValue.Equals(valueToCompareTo.Value);
+                if(!newValue.Equals(valueToCompareTo.Value))
+                    return true;
             }
-            return ComplexCompare(newValue, valueToCompareTo.Value);
+            if(ComplexCompare(newValue, valueToCompareTo.Value))
+                return true;
+            
+            return false;
         }
 
         /// <summary>
@@ -103,9 +100,8 @@ namespace SharedValues.Core
 #if UNITY_EDITOR
         //this updates the inspector only value for the shared value
         //since its inspector only, it shouldn't be compiled in builds
-        protected override void Update()
+        protected virtual void Update()
         {
-            base.Update();
             var b = valueToCompareTo.Value;
         }
 #endif

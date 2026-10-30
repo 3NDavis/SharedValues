@@ -22,11 +22,13 @@ namespace SharedValues.Core
         {
             if((p_compareType & CompareType.greater) == CompareType.greater)
             {
-                return newValue > compareValue;
+                if(newValue > compareValue)
+                    return true;
             }
             if((p_compareType & CompareType.less) == CompareType.less)
             {
-                return newValue < compareValue;
+                if(newValue < compareValue)
+                    return true;
             }
 
             return false;
