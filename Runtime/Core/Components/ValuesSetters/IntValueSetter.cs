@@ -14,11 +14,7 @@
    
    
    
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace SharedValues.Core
 {
-    public class VectorValueSetter : ValueSetter<Vector2>{}
+    public class IntValueSetter : ValuesSetter<int, SharedInt, SharedIntReference>{}
 }

@@ -14,11 +14,7 @@
    
    
    
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace SharedValues.Core
 {
-    public class IntValueSetter : ValueSetter<int>{}
+    public class FloatValueSetter : ValuesSetter<float, SharedFloat, SharedFloatReference>{}
 }

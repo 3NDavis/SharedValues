@@ -20,7 +20,8 @@ using UnityEngine;
 namespace SharedValues.Core
 {
     [System.Serializable]
-    public class SetValuePair<T>
+    public class SetValuePair<T, SV>
+    where SV : SharedValue<T>
     {
         public SharedValue<T> valueReference;
         public T valueToSetTo;
@@ -29,19 +30,23 @@ namespace SharedValues.Core
 
     public static class ValueSetter
     {
-        public static void UseValueSetter<VS>(GameObject attatchment, SetValuePair<VS>[] valuePairs)
+        public static void UseValueSetter<T, SV, SVR>(GameObject attatchment, SetValuePair<T, SV>[] valuePairs)
+        where SVR : SharedValueReference<T> 
+        where SV : SharedValue<T>
         {
-            if (attatchment.TryGetComponent<ValueSetter<VS>>(out var valueSetter))
+            if (attatchment.TryGetComponent<ValuesSetter<T, SV, SVR>>(out var valueSetter))
             {
                 valueSetter.SetValueReferences(valuePairs);
             }
         }
     }
 
-    public class ValueSetter<T> : MonoBehaviour
+    public class ValuesSetter<T, SV, SVR> : MonoBehaviour
+    where SVR : SharedValueReference<T> 
+    where SV : SharedValue<T>
     {
-        [SerializeField] List<SharedValueReference<T>> valueReferences;
-        Dictionary<SharedValue<T>, SharedValueReference<T>> valueReferencePairs;
+        [SerializeField] List<SVR> valueReferences;
+        Dictionary<SharedValue<T>, SVR> valueReferencePairs;
 
         void Awake()
         {
@@ -59,11 +64,8 @@ namespace SharedValues.Core
             }
         }
 
-        public void SetValueReferences(params SetValuePair<T>[] valuePairs)
+        public void SetValueReferences(params SetValuePair<T, SV>[] valuePairs)
         {
-            if(valueReferencePairs == null)
-                InitializeDictionary();
-
             if(valuePairs == null)
                 return;
 

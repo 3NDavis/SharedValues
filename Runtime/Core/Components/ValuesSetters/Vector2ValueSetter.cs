@@ -14,11 +14,9 @@
    
    
    
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SharedValues.Core
 {
-    public class FloatValueSetter : ValueSetter<float>{}
+    public class VectorValueSetter : ValuesSetter<Vector2, SharedVector2, SharedVector2Reference>{}
 }
