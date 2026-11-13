@@ -27,6 +27,11 @@ namespace SharedValues.Core
         public void MergeInstancer(ScriptableObjectInstancer instancer);
     }
 
+    public interface ISetInstancer
+    {
+        public void SetInstancer(ScriptableObjectInstancer instancer);
+    }
+
     /// <summary>
     /// A scriptable object instatiation and connection manager
     /// </summary>

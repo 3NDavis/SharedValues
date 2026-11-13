@@ -21,7 +21,7 @@ using System;
 
 namespace SharedValues.Events
 {
-    public abstract class SharedEventReference
+    public abstract class SharedEventReference : ISetInstancer
     {
         protected enum ReferenceType
         {
@@ -33,6 +33,7 @@ namespace SharedValues.Events
         protected ReferenceType _ReferenceType => referenceType;
         [SerializeField] private ScriptableObjectInstancer instanceGroup;
         protected ScriptableObjectInstancer InstanceGroup => instanceGroup;
+        public void SetInstancer(ScriptableObjectInstancer instancer){instanceGroup = instancer;}
     }
 
     public abstract class SharedEventReference<T> : SharedEventReference

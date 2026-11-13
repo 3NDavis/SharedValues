@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    public abstract class SharedValueReference
+    public abstract class SharedValueReference : ISetInstancer
     {
         protected enum ReferenceType
         {
@@ -30,6 +30,10 @@ namespace SharedValues.Core
 
         [SerializeField] private ReferenceType referenceType;
         protected ReferenceType _ReferenceType => referenceType;
+
+        [SerializeField] private ScriptableObjectInstancer instanceGroup;
+        protected ScriptableObjectInstancer InstanceGroup => instanceGroup;
+        public void SetInstancer(ScriptableObjectInstancer instancer){instanceGroup = instancer;}
     }
 
     public class SharedValueReference<T> : SharedValueReference, IValueEventHandler<T>
@@ -41,8 +45,6 @@ namespace SharedValues.Core
         [SerializeField] private SharedValue<T> sharedValue;
         protected internal SharedValue<T> SharedValue => sharedValue;
 
-        [SerializeField] private ScriptableObjectInstancer instanceGroup;
-        protected ScriptableObjectInstancer InstanceGroup => instanceGroup;
 
         /// <summary>
         /// Allows the shared value to be used in the place of a value.
@@ -71,7 +73,7 @@ namespace SharedValues.Core
                     sharedValue.SetValueWithoutNotify(value);
                     break;
                 case ReferenceType.instanced:
-                    SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedValue);
+                    SharedValue<T> castSharedVal = (SharedValue<T>)InstanceGroup.GetInstance(sharedValue);
                     castSharedVal.SetValueWithoutNotify(value);
                     break;
 
@@ -120,7 +122,7 @@ namespace SharedValues.Core
                     case ReferenceType.instanced:
                         if (Application.isPlaying)
                         {
-                            SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedValue);
+                            SharedValue<T> castSharedVal = (SharedValue<T>)InstanceGroup.GetInstance(sharedValue);
                     #if UNITY_EDITOR
                             actualValue = castSharedVal.Value;
                     #endif
@@ -140,6 +142,9 @@ namespace SharedValues.Core
             }
             set
             {
+#if UNITY_EDITOR
+                actualValue = value;
+#endif
                 switch (_ReferenceType)
                 {
                     case ReferenceType.value:
@@ -149,7 +154,7 @@ namespace SharedValues.Core
                         sharedValue.Value = value;
                         break;
                     case ReferenceType.instanced:
-                        SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedValue);
+                        SharedValue<T> castSharedVal = (SharedValue<T>)InstanceGroup.GetInstance(sharedValue);
                         castSharedVal.Value = value;
                         break;
 
@@ -174,10 +179,10 @@ namespace SharedValues.Core
                     break;
                 case ReferenceType.instanced:
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-                    //if(instanceGroup.sharedValueInstances == null)
-                    //  Debug.Log($"The {instanceGroup.gameObject.name} does not have a shared value instance, this is likely because you are trying to subscribe in OnEnable.");
+                    //if(InstanceGroup.sharedValueInstances == null)
+                    //  Debug.Log($"The {InstanceGroup.gameObject.name} does not have a shared value instance, this is likely because you are trying to subscribe in OnEnable.");
 #endif
-                    SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedValue);
+                    SharedValue<T> castSharedVal = (SharedValue<T>)InstanceGroup.GetInstance(sharedValue);
                     castSharedVal.onValueChange += action;
                     break;
 
@@ -198,7 +203,7 @@ namespace SharedValues.Core
                     sharedValue.onValueChange -= action;
                     break;
                 case ReferenceType.instanced:
-                    SharedValue<T> castSharedVal = (SharedValue<T>)instanceGroup.GetInstance(sharedValue);
+                    SharedValue<T> castSharedVal = (SharedValue<T>)InstanceGroup.GetInstance(sharedValue);
                     castSharedVal.onValueChange -= action;
                     break;
 

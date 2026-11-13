@@ -45,8 +45,8 @@ namespace SharedValues.Core
         [Tooltip("Will broadcast only the oppropriate message for the condition. Otherwise, both are brodcasted")]
         [SerializeField] private bool broadcastConditionally;
 
-        [SerializeField] private UnityEvent<bool> onValueChangedConditionMet;
-        [SerializeField] private UnityEvent<bool> onValueChangedConditionNotMet;
+        [SerializeField] private UnityEvent<bool> onCompareConditionMet;
+        [SerializeField] private UnityEvent<bool> onCompareConditionNotMet;
         
         public void CompareToStoredValue(T newValue)
         {
@@ -55,17 +55,17 @@ namespace SharedValues.Core
             {
                 if (met)
                 {
-                    onValueChangedConditionMet?.Invoke(met);
+                    onCompareConditionMet?.Invoke(met);
                 }
                 else
                 {
-                    onValueChangedConditionNotMet?.Invoke(!met);
+                    onCompareConditionNotMet?.Invoke(!met);
                 }
             }
             else
             {
-                onValueChangedConditionMet?.Invoke(met);
-                onValueChangedConditionNotMet?.Invoke(!met);
+                onCompareConditionMet?.Invoke(met);
+                onCompareConditionNotMet?.Invoke(!met);
             }
         }
 

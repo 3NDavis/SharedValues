@@ -23,7 +23,7 @@ namespace SharedValues.Core
     public class SetValuePair<T, SV>
     where SV : SharedValue<T>
     {
-        public SharedValue<T> valueReference;
+        public SV valueReference;
         public T valueToSetTo;
         
     }
