@@ -20,6 +20,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using SharedValues.Networked;
 using SharedValues.Upgradable;
+using UnityEngine;
 
 namespace SharedValues.Samples
 {
@@ -72,6 +73,32 @@ namespace SharedValues.Samples
         {
             networkValue.Collection = collection;
         }
+
+#if UNITY_EDITOR
+        [SerializeField] private List<StringFloatPair> netMods;
+        [SerializeField] private List<StringFloatPair> localMods;
+
+        [System.Serializable]
+        private class StringFloatPair
+        {
+            public string key;
+            public float domain;
+            public StringFloatPair(string key, float domain){this.key = key; this.domain = domain;}
+        }
+        void Update()
+        {
+            netMods.Clear();
+            localMods.Clear();
+            foreach(var key in networkValue.Keys)
+            {
+                netMods.Add(new StringFloatPair(key, networkValue[key]));
+            }
+            foreach(var key in LocalValue.Value.Keys)
+            {
+                localMods.Add(new StringFloatPair(key, LocalValue[key]));
+            }
+        }
+#endif
     }
 }
 #endif
