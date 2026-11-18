@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Color", fileName = "SharedVal_Color_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Color", fileName = "SharedVal_Color_Name")]
     public sealed class SharedColor : SharedStruct<Color>
     {
-        protected override string GetTextureName()
-        {
-            return "Color";
-        }
+        
     }
 
     [Serializable]

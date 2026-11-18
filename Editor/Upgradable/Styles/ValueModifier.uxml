@@ -4,8 +4,12 @@
             <ui:FloatField label="Min Domain" value="42.2" binding-path="minDomain"/>
             <ui:FloatField label="Max Domain" value="42.2" binding-path="maxDomain"/>
             <ui:FloatField label="Default Domain" value="42.2" binding-path="defaultDomainValue"/>
+            <ui:FloatField label="Step Value" value="42.2" binding-path="stepValue"/>
         </ui:VisualElement>
-        <ui:FloatField label="Step Value" value="42.2" binding-path="stepValue"/>
+        <ui:VisualElement name="boolMod" style="flex-grow: 1;">
+            <ui:FloatField label="True Domain" value="42.2" binding-path="sCurveSlope" name="TrueDomain"/>
+            <ui:FloatField label="False Domain" value="42.2" binding-path="sCurveSlope" name="FalseDomain"/>
+        </ui:VisualElement>
         <ui:EnumField label="Modification Type" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" binding-path="modificationType" name="modificationType"/>
         <ui:FloatField label="S/Z Curve Slope" value="42.2" binding-path="sCurveSlope" name="sCurveSlope"/>
         <uie:CurveField label="Custom Curve" value="{0,0,0,0,0,0,Free,Free,False,None};{5,8,0,0,0,0,Free,Free,False,None};{10,4,0,0,0,0,Free,Free,False,None}+(ClampForever,ClampForever)" binding-path="curve" name="animCurve"/>

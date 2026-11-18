@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Primatives/Int", fileName = "SharedVal_Int_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Int", fileName = "SharedVal_Int_Name")]
     public sealed class SharedInt : SharedStruct<int>
     {
-        protected override string GetTextureName()
-        {
-            return "Int";
-        }
+        
     }
 
     [Serializable]

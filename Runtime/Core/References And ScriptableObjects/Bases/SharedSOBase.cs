@@ -25,59 +25,49 @@ namespace SharedValues.Core
 {
     public class SharedSOBase : ScriptableObject
     {
-#if UNITY_EDITOR
-        public void SetIcon()
-        {
-            // string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
+// #if UNITY_EDITOR
+//         public void SetIcon()
+//         {
+//             // string scriptAssetPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
 
-            // int fileExtensionIndex = scriptAssetPath.IndexOf("Shared Values/Runtime");
-            // scriptAssetPath = scriptAssetPath.Remove(fileExtensionIndex - 1);
+//             // int fileExtensionIndex = scriptAssetPath.IndexOf("Shared Values/Runtime");
+//             // scriptAssetPath = scriptAssetPath.Remove(fileExtensionIndex - 1);
 
-            string scriptAssetPath ="Packages";
-            StringBuilder pathBuilder = new();
-            pathBuilder.Append(scriptAssetPath)
-            .Append("/Shared Values/Editor/")
-            .Append(GetSharedValueExtensionFileName())
-            .Append("/")
-            .Append("Textures/")
-            .Append(GetTextureName())
-            .Append(".png");
+//             string scriptAssetPath ="Packages";
+//             StringBuilder pathBuilder = new();
+//             pathBuilder.Append(scriptAssetPath)
+//             .Append("/Shared Values/Editor/")
+//             .Append(GetSharedValueExtensionFileName())
+//             .Append("/")
+//             .Append("Textures/")
+//             .Append(GetTextureName())
+//             .Append(".png");
 
-            string path = pathBuilder.ToString();
+//             string path = pathBuilder.ToString();
 
-            Texture2D icon = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
-            EditorGUIUtility.SetIconForObject(this, icon);
-        }
-#endif
-
-        protected virtual string GetSharedValueExtensionFileName()
-        {
-            return "Core";
-        }
-
-        protected virtual string GetTextureName()
-        {
-            return "qMark";
-        }
+//             Texture2D icon = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
+//             EditorGUIUtility.SetIconForObject(this, icon);
+//         }
+// #endif
     }
 
-    public static class SharedSOReserializer
-    {
-    #if UNITY_EDITOR
-            [MenuItem("SO Tools/Values/Reset Icons")]
-            public static void ReserializeActions()
-            {
-                var guids = AssetDatabase.FindAssets("t:SharedSOBase");
-                for (short i = 0; i < guids.Length; i++)
-                {
-                    string guid = guids[i];
+    // public static class SharedSOReserializer
+    // {
+    // #if UNITY_EDITOR
+    //         [MenuItem("SO Tools/Values/Reset Icons")]
+    //         public static void ReserializeActions()
+    //         {
+    //             var guids = AssetDatabase.FindAssets("t:SharedSOBase");
+    //             for (short i = 0; i < guids.Length; i++)
+    //             {
+    //                 string guid = guids[i];
 
-                    var path = AssetDatabase.GUIDToAssetPath(guid);
-                    SharedSOBase asset = (SharedSOBase)AssetDatabase.LoadAssetAtPath(path, typeof(SharedSOBase));
+    //                 var path = AssetDatabase.GUIDToAssetPath(guid);
+    //                 SharedSOBase asset = (SharedSOBase)AssetDatabase.LoadAssetAtPath(path, typeof(SharedSOBase));
                 
-                    asset.SetIcon();
-                }
-            }
-    #endif
-    }
+    //                 asset.SetIcon();
+    //             }
+    //         }
+    // #endif
+    // }
 }

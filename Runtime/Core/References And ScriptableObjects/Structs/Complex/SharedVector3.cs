@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Vector3", fileName = "SharedVal_V3_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Vector3", fileName = "SharedVal_V3_Name")]
     public sealed class SharedVector3 : SharedStruct<Vector3>
     {
-        protected override string GetTextureName()
-        {
-            return "V3";
-        }
+        
     }
 
     [Serializable]

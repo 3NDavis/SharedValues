@@ -32,6 +32,8 @@ namespace SharedValues.Upgradable.Editor
         SerializedProperty upgradeProperty;
 
         EnumField vectorModTypeField;
+        VisualElement boolDomainFields;
+        VisualElement nonBoolDomainFields;
 
         FloatField sCurveField;
         CurveField animCurveField;
@@ -56,6 +58,13 @@ namespace SharedValues.Upgradable.Editor
             vectorModTypeField.style.display = serializedObject.targetObject is ValueModifierVector2 ? 
                 DisplayStyle.Flex : DisplayStyle.None;
 
+            nonBoolDomainFields = uxmlContent.Q<VisualElement>("Domains");
+            nonBoolDomainFields.style.display = serializedObject.targetObject is ValueModifierBool ?
+                DisplayStyle.None : DisplayStyle.Flex;
+
+            boolDomainFields = uxmlContent.Q<VisualElement>("boolMod");
+            boolDomainFields.style.display = serializedObject.targetObject is ValueModifierBool ? 
+                DisplayStyle.Flex : DisplayStyle.None;
 
             ShowComplexValues();
 

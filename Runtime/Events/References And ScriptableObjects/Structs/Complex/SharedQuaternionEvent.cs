@@ -20,13 +20,10 @@ using UnityEngine;
 namespace SharedValues.Events
 {
     
-    [CreateAssetMenu(menuName = "Shared Values/Events/Complex/Quaternion", fileName = "SharedEvt_Qtrn_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Event/Quaternion", fileName = "SharedEvt_Qtrn_Name")]
     public class SharedQuaternionEvent : SharedEvent<Quaternion>
     {
-        protected override string GetTextureName()
-        {
-            return "Quat";
-        }
+
     }
 
 

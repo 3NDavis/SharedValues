@@ -19,14 +19,9 @@ using UnityEngine;
 
 namespace SharedValues.Events
 {
-    [CreateAssetMenu(menuName = "Shared Values/Events/Void", fileName = "SharedEvt_Void_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Event/Void", fileName = "SharedEvt_Void_Name")]
     public sealed class SharedVoidEvent : SharedEventSOBase
     {
-        protected override string GetTextureName()
-        {
-            return "Void";
-        }
-
         public Action evt;
         public void BroadcastEvent()
         {

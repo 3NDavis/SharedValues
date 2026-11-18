@@ -20,11 +20,6 @@ namespace SharedValues.Core.Collections
 {
     public class SharedList<TValue> : SharedCollection<List<TValue>, TValue, int, TValue>
     {
-        protected override string GetTextureName()
-        {
-            return "List";
-        }
-
         public sealed override TValue GetValue(int key)
         {
             return Value[key];

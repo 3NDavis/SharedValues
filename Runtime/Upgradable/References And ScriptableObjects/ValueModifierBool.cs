@@ -14,25 +14,24 @@
    
    
    
-using SharedValues.Core;
-using System;
 using UnityEngine;
 
 namespace SharedValues.Upgradable
 {
-    [Serializable]
-    public class UpgradableSharedVector : UpgradableSharedValue<Vector2, SharedVector2Reference, ValueModifierVector2, VectorValueModifications>
+    [CreateAssetMenu(menuName = "Shared Values/Upgradable/Value Modifer/Bool", fileName = "SharedValMod_Bool_Name")]
+    public class ValueModifierBool : ValueModifierFloat
     {
+        [SerializeField] private float trueDomain;
+        [SerializeField] private float falseDomain;
         
-    }
-
-    [Serializable]
-    public class VectorValueModifications : ValueModifications<Vector2, ValueModifierVector2>
-    {
-        protected override Vector2 ApplySpecificModification(Vector2 trackedValue, ValueModifierVector2 valueModifier, float modificationDomain)
+        public override float GetModifiedFloat(float baseValue, float modificationDomain)
         {
-            return valueModifier.GetModifiedVector2(trackedValue, modificationDomain);
+            float acutalDomain = trueDomain;
+            if(modificationDomain <= 0)
+            {
+                acutalDomain = falseDomain;
+            }
+            return base.GetModifiedFloat(baseValue, acutalDomain);
         }
     }
-
 }

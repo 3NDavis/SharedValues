@@ -26,11 +26,6 @@ namespace SharedValues.Upgradable
     [CreateAssetMenu(menuName = "Shared Values/Upgradable/Value Modifer/Float", fileName = "SharedValMod_Float_Name")]
     public class ValueModifierFloat : SharedUpgradableSOBase
     {
-        protected override string GetTextureName()
-        {
-            return "mFloat";
-        }
-
         public static implicit operator string( ValueModifierFloat modifier )
 		{
 			return modifier.name;
@@ -84,7 +79,7 @@ namespace SharedValues.Upgradable
 
 /// <param name="baseValue"></param>
 /// <returns>A Modified float based on the modification Type</returns>
-        public float GetModifiedFloat(float baseValue, float modificationDomain)
+        public virtual float GetModifiedFloat(float baseValue, float modificationDomain)
         {
             if (CheckLastDomain(baseValue, modificationDomain, out lastValueOut))
             {

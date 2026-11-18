@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/Quaternion", fileName = "SharedVal_Qtrn_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Quaternion", fileName = "SharedVal_Qtrn_Name")]
     public sealed class SharedQuaternion : SharedStruct<Quaternion>
     {
-        protected override string GetTextureName()
-        {
-            return "Quat";
-        }
+        
     }
 
     [Serializable]

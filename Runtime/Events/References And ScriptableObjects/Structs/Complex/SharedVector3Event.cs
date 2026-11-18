@@ -20,13 +20,10 @@ using UnityEngine;
 namespace SharedValues.Events
 {
     
-    [CreateAssetMenu(menuName = "Shared Values/Events/Complex/Vector3", fileName = "SharedEvt_V3_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Event/Vector3", fileName = "SharedEvt_V3_Name")]
     public class SharedVector3Event : SharedEvent<Vector3>
     {
-        protected override string GetTextureName()
-        {
-            return "V3";
-        }
+
     }
 
 

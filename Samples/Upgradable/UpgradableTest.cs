@@ -24,6 +24,6 @@ namespace SharedValues.Samples
     {
         [SerializeField] private UpgradableSharedFloat upgradeFloat;
         [SerializeField] private UpgradableSharedInt upgradeInt;
-        [SerializeField] private UpgradableSharedVector upgradeVector2;
+        [SerializeField] private UpgradableSharedVector2 upgradeVector2;
     }
 }

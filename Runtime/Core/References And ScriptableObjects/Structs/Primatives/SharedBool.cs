@@ -19,14 +19,9 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Primatives/Bool", fileName = "SharedVal_Bool_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Bool", fileName = "SharedVal_Bool_Name")]
     public sealed class SharedBool : SharedStruct<bool>
     {
-        protected override string GetTextureName()
-        {
-            return "Bool";
-        }
-
         public void Toggle()
         {
             Value = !Value;

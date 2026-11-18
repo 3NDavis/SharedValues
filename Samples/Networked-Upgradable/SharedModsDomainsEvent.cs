@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace SharedValues.Samples
 {
-    [CreateAssetMenu(menuName = "Shared Values/Events/Collections/Mods Domains", fileName = "SharedEvt_Collection_ModsDomainsChange_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Event/Collections/Mods Domains", fileName = "SharedEvt_Collection_ModsDomainsChange_Name")]
     public class SharedModsDomainsEvent : SharedCollectionChangeEvent<string, float>
     {
         

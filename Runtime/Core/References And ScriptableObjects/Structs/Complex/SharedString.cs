@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Complex/String", fileName = "SharedVal_String_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/String", fileName = "SharedVal_String_Name")]
     public sealed class SharedString : SharedValue<string> //yes a string is not a struct, I know
     {
-        protected override string GetTextureName()
-        {
-            return "String";
-        }
+        
     }
 
     [Serializable]

@@ -21,11 +21,6 @@ namespace SharedValues.Upgradable
     [CreateAssetMenu(menuName = "Shared Values/Upgradable/Value Modifer/Vector2", fileName = "SharedValMod_V2_Name")]
     public class ValueModifierVector2 : ValueModifierFloat
     {
-        protected override string GetTextureName()
-        {
-            return "mV2";
-        }
-        
         [SerializeField] Vector2Value vectorVariableToModify = Vector2Value.Magnitude;
 
 /// <param name="baseValue"></param>

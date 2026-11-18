@@ -20,12 +20,6 @@ namespace SharedValues.Core.Collections
 {
     public class SharedDictionary<TKey, TValue> : SharedCollection<Dictionary<TKey, TValue>, KeyValuePair<TKey, TValue>, TKey, TValue>
     {
-
-        protected override string GetTextureName()
-        {
-            return "Dictionary";
-        }
-
         public sealed override TValue GetValue(TKey key)
         {
             return Value[key];

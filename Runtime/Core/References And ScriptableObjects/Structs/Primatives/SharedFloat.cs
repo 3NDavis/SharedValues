@@ -19,13 +19,10 @@ using UnityEngine;
 
 namespace SharedValues.Core
 {
-    [CreateAssetMenu(menuName = "Shared Values/Variables/Primatives/Float", fileName = "SharedVal_Float_Name")]
+    [CreateAssetMenu(menuName = "Shared Values/Value/Float", fileName = "SharedVal_Float_Name")]
     public sealed class SharedFloat : SharedStruct<float>
     {
-        protected override string GetTextureName()
-        {
-            return "Float";
-        }
+        
     }
 
     [Serializable]

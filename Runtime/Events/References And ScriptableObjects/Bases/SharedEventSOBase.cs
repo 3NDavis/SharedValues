@@ -20,9 +20,6 @@ namespace SharedValues.Events
 {
     public abstract class SharedEventSOBase : SharedSOBase
     {
-        protected override string GetSharedValueExtensionFileName()
-        {
-            return "Events";
-        }
+
     }
 }

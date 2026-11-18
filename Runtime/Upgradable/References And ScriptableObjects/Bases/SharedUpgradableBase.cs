@@ -20,14 +20,6 @@ namespace SharedValues.Upgradable
 {
     public abstract class SharedUpgradableSOBase : SharedSOBase
     {
-        protected override string GetSharedValueExtensionFileName()
-        {
-            return "Upgradable";
-        }
 
-        protected override string GetTextureName()
-        {
-            return "mqMark";
-        }
     }
 }
