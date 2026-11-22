@@ -337,19 +337,17 @@ namespace SharedValues.Core
                         continue;
 
                     var instance = globalToInstanceMap[key];
-                    globalToInstanceMap.Remove(key);
                     Destroy(instance);
                 }
-
-                return;
             }
-
-            //destroy all instances when the instancer is destroyed
-            foreach(var key in globalToInstanceMap.Keys)
+            else
             {
-                var instance = globalToInstanceMap[key];
-                globalToInstanceMap.Remove(key);
-                Destroy(instance);
+                //destroy all instances when the instancer is destroyed
+                foreach(var key in globalToInstanceMap.Keys)
+                {
+                    var instance = globalToInstanceMap[key];
+                    Destroy(instance);
+                }
             }
 
             //reset collections
