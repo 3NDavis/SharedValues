@@ -16,9 +16,9 @@
    
 namespace SharedValues.Core
 {
-    public sealed class IntValueComparerListener : ValueComparerListener<int, SharedIntReference>
+    public sealed class FloatValueComparer : ValueComparer<float, SharedFloatReference>
     {
-        protected override bool ComplexCompare(int newValue, int compareValue)
+        protected override bool ComplexCompare(float newValue, float compareValue)
         {
             if((p_compareType & CompareType.greater) == CompareType.greater)
             {

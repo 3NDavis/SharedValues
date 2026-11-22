@@ -25,7 +25,7 @@ namespace SharedValues.Core
     /// </summary>
     /// <typeparam name="T">The type of SharedValue</typeparam>
     /// <typeparam name="SVR">The SharedValueReference of type <typeparamref name="T"/></typeparam>
-    public abstract class ValueComparerListener<T, SVR> : MonoBehaviour
+    public abstract class ValueComparer<T, SVR> : MonoBehaviour
     where T : struct, IComparable where SVR : SharedValueReference<T>
     {
         [SerializeField] private SVR valueToCompareTo;
