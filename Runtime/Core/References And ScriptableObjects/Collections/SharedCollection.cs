@@ -66,7 +66,7 @@ namespace SharedValues.Core.Collections
         public void SetCollectionValue(TKey key, TValue value)
         {
             SetValueWithoutNotify(key, value);
-            OnCollectionChange(CollectionModificationType.Add, key, value);
+            OnCollectionChange(CollectionModificationType.Set, key, value);
         }
         public void ClearCollection()
         {
