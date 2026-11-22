@@ -316,6 +316,20 @@ namespace SharedValues.Core
 
         private void OnDestroy()
         {
+            if (passthroughInstancer)
+            {
+                foreach(ScriptableObject key in globalToInstanceMap.Keys)
+                {
+                    if(passthroughInstancer.globalToInstanceMap.ContainsKey(key))
+                        continue;
+
+                    Destroy(globalToInstanceMap[key]);
+                }
+                globalToInstanceMap.Clear();
+
+                return;
+            }
+
             //destroy all instances when the instancer is destroyed
             foreach(var key in globalToInstanceMap.Keys)
             {
