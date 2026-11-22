@@ -54,6 +54,11 @@ namespace SharedValues.Core
                 this.name = so.name;
                 this.value = val;
             }
+            public SOValuePair(string name, string val)
+            {
+                this.name = name;
+                this.value = val;
+            }
             [HideInInspector]
             public string name;
             public string value;
@@ -75,8 +80,16 @@ namespace SharedValues.Core
         List<SOValuePair> GetPairs(List<ScriptableObject> SOvalues)
         {
             List<SOValuePair> pairs = new();
+
             for (int i = 0; i < SOvalues.Count; i++)
             {
+                if(SOvalues[i] == null)
+                {
+                    pairs.Add(new SOValuePair("Destroyed", "NA"));
+
+                    continue;
+                }
+
                 string value = "na";
                 if(SOvalues[i] is SharedValue)
                 {
@@ -323,9 +336,10 @@ namespace SharedValues.Core
                     if(passthroughInstancer.globalToInstanceMap.ContainsKey(key))
                         continue;
 
-                    Destroy(globalToInstanceMap[key]);
+                    var instance = globalToInstanceMap[key];
+                    globalToInstanceMap.Remove(key);
+                    Destroy(instance);
                 }
-                globalToInstanceMap.Clear();
 
                 return;
             }
@@ -333,7 +347,9 @@ namespace SharedValues.Core
             //destroy all instances when the instancer is destroyed
             foreach(var key in globalToInstanceMap.Keys)
             {
-                Destroy(globalToInstanceMap[key]);
+                var instance = globalToInstanceMap[key];
+                globalToInstanceMap.Remove(key);
+                Destroy(instance);
             }
 
             //reset collections
