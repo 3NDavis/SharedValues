@@ -46,11 +46,10 @@ namespace SharedValues.Core
     where SV : SharedValue<T>
     {
         [SerializeField] List<SVR> valueReferences;
-        Dictionary<SharedValue<T>, SVR> valueReferencePairs;
+        Dictionary<SharedValue<T>, SVR> valueReferencePairs = new();
 
         void Awake()
         {
-            valueReferences = new();
             valueReferencePairs = new(); 
 
             InitializeDictionary();
